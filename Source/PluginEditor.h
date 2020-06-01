@@ -28,6 +28,11 @@ public:
     void resized() override;
 
 private:
+    Rectangle<float> shadow_bounds_ {0.0f, 0.0f, 800.0f, 50.0f};
+
+    // Colour Palette
+    Colour main_blue_{ 0xff3056bf };
+    Colour sec_blue_{0xff203980};
 
     Ap_samplerAudioProcessor& processor;
 

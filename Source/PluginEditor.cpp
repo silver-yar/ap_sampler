@@ -30,12 +30,17 @@ Ap_samplerAudioProcessorEditor::~Ap_samplerAudioProcessorEditor()
 
 void Ap_samplerAudioProcessorEditor::paint (Graphics& g)
 {
-    g.fillAll(Colour(0x3056bf));
+    // Background Layout
+    g.fillAll(main_blue_);
+    g.setColour(sec_blue_);
+    g.fillRect(shadow_bounds_);
+
     // TODO: USE Flexbox to create layout for containers
 }
 
 void Ap_samplerAudioProcessorEditor::resized()
 {
+    shadow_bounds_.setWidth(getWidth());
 //    FlexBox flexBox;
 //
 //    flexBox.flexDirection = FlexBox::Direction::column;
