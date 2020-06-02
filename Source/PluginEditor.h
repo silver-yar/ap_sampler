@@ -12,7 +12,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
-#include "MainWindow.h"
+#include "InterfaceView.h"
 
 //==============================================================================
 /**
@@ -33,6 +33,9 @@ private:
     // Colour Palette
     Colour main_blue_{ 0xff3056bf };
     Colour sec_blue_{0xff203980};
+
+    // Child Components
+    InterfaceView interface_;
 
     Ap_samplerAudioProcessor& processor;
 

@@ -3,7 +3,9 @@
 <JUCERPROJECT id="bmLL9k" name="ap_sampler" projectType="audioplug" jucerVersion="5.4.7">
   <MAINGROUP id="WcPIAn" name="ap_sampler">
     <GROUP id="{624DAB67-3BAF-750A-6955-EAC26B1EADCA}" name="Source">
-      <FILE id="RLO2ry" name="MainWindow.h" compile="0" resource="0" file="Source/MainWindow.h"/>
+      <FILE id="t8jgd5" name="InterfaceView.cpp" compile="1" resource="0"
+            file="Source/InterfaceView.cpp"/>
+      <FILE id="oBHrAf" name="InterfaceView.h" compile="0" resource="0" file="Source/InterfaceView.h"/>
       <FILE id="RzQRYZ" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="hugKRs" name="PluginProcessor.h" compile="0" resource="0"
