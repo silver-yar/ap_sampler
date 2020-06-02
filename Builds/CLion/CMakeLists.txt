@@ -51,6 +51,10 @@ add_executable (STANDALONE_PLUGIN
 set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_audio_plugin_client/juce_audio_plugin_client_Standalone.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
 
 add_library (SHARED_CODE STATIC
+    "../../Source/ParamView.cpp"
+    "../../Source/ParamView.h"
+    "../../Source/SampleView.cpp"
+    "../../Source/SampleView.h"
     "../../Source/InterfaceView.cpp"
     "../../Source/InterfaceView.h"
     "../../Source/PluginProcessor.cpp"
@@ -1469,6 +1473,8 @@ add_library (SHARED_CODE STATIC
     "../../JuceLibraryCode/JuceHeader.h"
 )
 
+set_source_files_properties ("../../Source/ParamView.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/SampleView.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../Source/InterfaceView.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../Source/PluginProcessor.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../Source/PluginEditor.h" PROPERTIES HEADER_FILE_ONLY TRUE)
