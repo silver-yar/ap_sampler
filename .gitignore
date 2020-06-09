@@ -41,3 +41,6 @@
 *.iml
 out
 gen
+
+# Misc.
+*.pdf
