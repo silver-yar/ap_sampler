@@ -24,6 +24,11 @@ Ap_samplerAudioProcessor::Ap_samplerAudioProcessor()
                        )
 #endif
 {
+    formatManager_.registerBasicFormats();
+    for (int i = 0; i < numVoices_; i++)
+    {
+        sampler_.addVoice(new SamplerVoice());
+    }
 }
 
 Ap_samplerAudioProcessor::~Ap_samplerAudioProcessor()
@@ -95,8 +100,7 @@ void Ap_samplerAudioProcessor::changeProgramName (int index, const String& newNa
 //==============================================================================
 void Ap_samplerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+    sampler_.setCurrentPlaybackSampleRate(sampleRate);
 }
 
 void Ap_samplerAudioProcessor::releaseResources()
@@ -141,8 +145,23 @@ void Ap_samplerAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
+    MidiMessage m;
+    MidiBuffer::Iterator it { midiMessages };
+    int sample;
+
+    while (it.getNextEvent (m, sample))
+    {
+        if (m.isNoteOn())
+            isPlayed_ = true;
+        else if (m.isNoteOff())
+            isPlayed_ = false;
+    }
+
+    sampleCount_ = isPlayed_ ? sampleCount_ += numSamples : 0;
+
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
+        sampler_.renderNextBlock(buffer, midiMessages, 0, numSamples);
     }
 }
 
@@ -169,6 +188,41 @@ void Ap_samplerAudioProcessor::setStateInformation (const void* data, int sizeIn
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+}
+
+void Ap_samplerAudioProcessor::loadFile (const String& path)
+{
+    sampler_.clearSounds();
+
+    auto file = File (path);
+    fileName_ = file.getFileName();
+    std::unique_ptr<AudioFormatReader> formatReader{formatManager_.createReaderFor(file) };
+
+    auto sampleLength = static_cast<int>(formatReader->lengthInSamples);
+    waveform_.setSize(1, sampleLength);
+
+    if (formatReader)
+    {
+        BigInteger range;
+        range.setRange(0,128,true);
+
+        sampler_.addSound(new SamplerSound(
+                "Sample",
+                *formatReader,
+                range,
+                60,
+                0.1,
+                1.0,
+                60));
+        //updateSampleRate();
+    }
+
+    formatReader->read(&waveform_,
+                       0,
+                       sampleLength,
+                       0,
+                       true,
+                       false);
 }
 
 //==============================================================================

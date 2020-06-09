@@ -57,8 +57,20 @@ public:
 
     //==============================================================================
     MidiKeyboardState& getKeyboardState() { return keystate_; }
+    String& getFileName() { return fileName_; }
+    AudioBuffer<float>& getWaveForm() { return waveform_; };
+    std::atomic<int>& getSampleCount() { return sampleCount_; };
+
+    void loadFile (const String& path);
 private:
     //==============================================================================
+    Synthesiser sampler_;
+    const int numVoices_ { 3 };
+    std::atomic<bool> isPlayed_ {false }; // atomic because updated on process block
+    std::atomic<int> sampleCount_ {0 };
+    AudioBuffer<float> waveform_;
+    AudioFormatManager formatManager_;
+    String fileName_;
     MidiKeyboardState keystate_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Ap_samplerAudioProcessor)

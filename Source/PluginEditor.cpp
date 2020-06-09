@@ -14,7 +14,8 @@
 //==============================================================================
 Ap_samplerAudioProcessorEditor::Ap_samplerAudioProcessorEditor (Ap_samplerAudioProcessor& p)
     : AudioProcessorEditor (&p),
-      interfaceView_(p),
+      sampleView_ (p),
+      interfaceView_ (p),
       processor (p)
 {
     setResizable(true, true);
@@ -33,13 +34,13 @@ Ap_samplerAudioProcessorEditor::~Ap_samplerAudioProcessorEditor()
 //==============================================================================
 
 void Ap_samplerAudioProcessorEditor::resized() {
-    oFlexBox_.performLayout (getFlexBounds().toNearestInt());
+    oFlexBox_.performLayout (getFlexBounds().reduced(15).toNearestInt());
 }
 
 void Ap_samplerAudioProcessorEditor::paint (Graphics& g)
 {
-    g.fillAll (Colours::dodgerblue.darker(0.5f));
-    g.setColour (Colours::dodgerblue);
+    g.fillAll (blue2_);
+    g.setColour (blue1_);
     g.fillRect(getFlexBounds());
 }
 
@@ -60,10 +61,10 @@ void Ap_samplerAudioProcessorEditor::setupFlexBoxes()
 
 void Ap_samplerAudioProcessorEditor::setupFlexItems()
 {
-    addItem (iFlexBox_, sampleView_, 2, 10);
-    addItem (iFlexBox_, interfaceView_, 1, 10);
+    addItem (iFlexBox_, sampleView_, 2, 5);
+    addItem (iFlexBox_, interfaceView_, 1, 5);
     addFlex (oFlexBox_, iFlexBox_, 2);
-    addItem (oFlexBox_, paramView_, 1, 10);
+    addItem (oFlexBox_, paramView_, 1, 5);
 }
 
 void Ap_samplerAudioProcessorEditor::addItem(FlexBox& flexBox, Component& item, float grow, float margin)
@@ -77,6 +78,28 @@ void Ap_samplerAudioProcessorEditor::addItem(FlexBox& flexBox, Component& item, 
 void Ap_samplerAudioProcessorEditor::addFlex(FlexBox& parentFlexBox, FlexBox& childFlexBox, float grow)
 {
     parentFlexBox.items.add (FlexItem (childFlexBox).withFlex (grow, 0, 10));
+}
+
+bool Ap_samplerAudioProcessorEditor::isInterestedInFileDrag (const StringArray& files)
+{
+    for (const auto& file : files)
+    {
+        if (file.contains(".wav") || file.contains(".mp3") || file.contains(".aif"))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+void Ap_samplerAudioProcessorEditor::filesDropped (const StringArray& files, int x, int y)
+{
+    for (const auto& file : files)
+    {
+        if (isInterestedInFileDrag(file))
+        {
+            processor.loadFile(file);
+        }
+    }
 }
 
 

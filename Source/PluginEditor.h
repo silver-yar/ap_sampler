@@ -19,7 +19,8 @@
 //==============================================================================
 /**
 */
-class Ap_samplerAudioProcessorEditor  : public AudioProcessorEditor
+class Ap_samplerAudioProcessorEditor  : public AudioProcessorEditor,
+                                        public FileDragAndDropTarget
 {
 public:
     Ap_samplerAudioProcessorEditor (Ap_samplerAudioProcessor&);
@@ -31,27 +32,26 @@ public:
 
     //==============================================================================
     Rectangle<float> getFlexBounds() const;
+
     void setupFlexBoxes(); // Setup for the inner and outer flex boxes
     void setupFlexItems(); // Setup for the inner and outer flex items
     void addItem(FlexBox& flexBox, Component& item, float grow, float margin); // Add a component to a flex box
     static void addFlex(FlexBox& parentFlexBox, FlexBox& childFlexBox, float grow); // Add a flex box to a flex box
 
-private:
-//    Rectangle<float> shadow_bounds_ {0.0f, 0.0f, (float)getWidth(), 50.0f};
-//    Rectangle<float> front_bounds_ {0.0f, 50.0f, (float)getWidth(), 350};
-//    Rectangle<float> frontFace_;
-//    Rectangle<float> topFace_;
+    bool isInterestedInFileDrag (const StringArray& files) override;
+    void filesDropped (const StringArray& files, int x, int y) override;
 
+private:
     // Colour Palette
-    Colour main_blue_{ 0xff3056bf };
-    Colour sec_blue_{0xff203980};
+    Colour blue1_{ 0xff3056bf };
+    Colour blue2_{0xff203980};
 
     //FlexBoxes
-    FlexBox iFlexBox_, oFlexBox_;
+    FlexBox iFlexBox_, oFlexBox_; // Inner and outer flex boxes (respectively)
 
     // Child Components
-    InterfaceView interfaceView_;
     SampleView sampleView_;
+    InterfaceView interfaceView_;
     ParamView paramView_;
 
     Ap_samplerAudioProcessor& processor;

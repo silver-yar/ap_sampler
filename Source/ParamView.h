@@ -25,5 +25,7 @@ public:
     void resized() override;
 
 private:
+    Colour orange1_ { 0xfff79256 };
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ParamView)
 };

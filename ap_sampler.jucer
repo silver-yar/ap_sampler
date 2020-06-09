@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="bmLL9k" name="ap_sampler" projectType="audioplug" jucerVersion="5.4.7">
+<JUCERPROJECT id="bmLL9k" name="ap_sampler" projectType="audioplug" jucerVersion="5.4.7"
+              pluginChannelConfigs="{1,2}" pluginCharacteristicsValue="pluginWantsMidiIn">
   <MAINGROUP id="WcPIAn" name="ap_sampler">
     <GROUP id="{624DAB67-3BAF-750A-6955-EAC26B1EADCA}" name="Source">
       <FILE id="WDex5G" name="ParamView.cpp" compile="1" resource="0" file="Source/ParamView.cpp"/>
