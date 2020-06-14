@@ -10,13 +10,15 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "PirateColors.h"
 
 //==============================================================================
 Ap_samplerAudioProcessorEditor::Ap_samplerAudioProcessorEditor (Ap_samplerAudioProcessor& p)
     : AudioProcessorEditor (&p),
+      processor (p),
       sampleView_ (p),
-      interfaceView_ (p),
-      processor (p)
+      interfaceView_ (p)
+
 {
     setResizable(true, true);
     // TODO: Set max width and height using monitor size
@@ -39,9 +41,13 @@ void Ap_samplerAudioProcessorEditor::resized() {
 
 void Ap_samplerAudioProcessorEditor::paint (Graphics& g)
 {
-    g.fillAll (blue2_);
-    g.setColour (blue1_);
+    g.fillAll (PirateColors::blue2);
+    g.setColour (PirateColors::blue1);
     g.fillRect(getFlexBounds());
+//    g.setColour (Colours::white);
+//    g.setFont(40);
+//    g.drawText ("audio pirate", Rectangle<int>(getWidth(), getHeight() * .15f),
+//            Justification::centred, true);
 }
 
 Rectangle<float> Ap_samplerAudioProcessorEditor::getFlexBounds() const

@@ -42,19 +42,16 @@ public:
     void filesDropped (const StringArray& files, int x, int y) override;
 
 private:
-    // Colour Palette
-    Colour blue1_{ 0xff3056bf };
-    Colour blue2_{0xff203980};
+    // Objects
+    Ap_samplerAudioProcessor& processor;
 
-    //FlexBoxes
-    FlexBox iFlexBox_, oFlexBox_; // Inner and outer flex boxes (respectively)
-
-    // Child Components
+    // Components
     SampleView sampleView_;
     InterfaceView interfaceView_;
     ParamView paramView_;
 
-    Ap_samplerAudioProcessor& processor;
+    // Styling
+    FlexBox iFlexBox_, oFlexBox_; // Inner and outer flex boxes (respectively)
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Ap_samplerAudioProcessorEditor)
 };

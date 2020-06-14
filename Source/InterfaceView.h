@@ -26,8 +26,10 @@ public:
     void resized() override;
 
 private:
+    // Objects
     Ap_samplerAudioProcessor& processor;
 
+    // Components
     MidiKeyboardComponent keyboard_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (InterfaceView)

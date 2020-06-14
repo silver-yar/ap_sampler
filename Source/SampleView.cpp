@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "SampleView.h"
 #include "PluginProcessor.h"
+#include "PirateColors.h"
 
 //==============================================================================
 SampleView::SampleView(Ap_samplerAudioProcessor& p) : processor (p)
@@ -25,20 +26,36 @@ SampleView::~SampleView()
 
 void SampleView::paint (Graphics& g)
 {
-    g.fillAll (green1_);
-
-    g.setColour (Colours::white);
+    g.fillAll (PirateColors::green1);
     g.setFont (14.0f);
 
     drawWaveform(g);
 
-//    if (fileLoaded_) {
-//        drawWaveform(g);
-//    } else {
-//        g.drawText ("SampleView", getLocalBounds(),
-//                    Justification::centred, true);   // draw some placeholder text
-//    }
+    // TODO: Make this a method in a Style Class
+    // Draw Bezel
+    g.setColour(PirateColors::green1.brighter(0.6f));
+    g.drawLine(0,0,0,getHeight(), 16);
+    g.drawLine(getWidth(),getHeight(),0,getHeight(), 16);
+    g.drawLine(getWidth(),0,getWidth(),getHeight(), 16);
+    g.setColour(PirateColors::green1.darker(0.6f));
+    g.drawLine(0,0,getWidth(),0, 16);
 
+    // Left Corner
+    Path p;
+    p.startNewSubPath(0, 0);
+    p.lineTo(0, 8);
+    p.lineTo(8, 8);
+    p.closeSubPath();
+    g.setColour(PirateColors::green1.brighter(0.6f));
+    g.fillPath(p);
+
+    // Right Corner
+    p.startNewSubPath(getWidth(), 0);
+    p.lineTo(getWidth(), 8);
+    p.lineTo(getWidth() - 8, 8);
+    p.closeSubPath();
+    g.setColour(PirateColors::green1.brighter(0.6f));
+    g.fillPath(p);
 }
 
 void SampleView::resized()
@@ -53,8 +70,6 @@ void SampleView::drawWaveform(Graphics& g)
 
     if (waveform.getNumSamples() > 0)
     {
-        //g.fillAll (Colours::green);
-
         // Draw Waveform
         Path p;
         audioPoints_.clear();
@@ -68,7 +83,7 @@ void SampleView::drawWaveform(Graphics& g)
             audioPoints_.push_back (buffer[sample]);
         }
 
-        g.setColour (green2_);
+        g.setColour (PirateColors::green2);
         p.startNewSubPath (0, getHeight() / 2);
 
         //scale on y axis
@@ -84,16 +99,19 @@ void SampleView::drawWaveform(Graphics& g)
         auto playHeadPosition = jmap<int> (processor.getSampleCount(), 0,
                                            waveform.getNumSamples(), 0, getWidth());
         g.setColour (Colour(0xffffc000));
-        g.drawLine (playHeadPosition, 0, playHeadPosition, getHeight(), 8.0f);
+        g.drawLine (playHeadPosition, 0, playHeadPosition, getHeight(), 4.0f);
         g.setColour (Colour(0xffffc000).withAlpha(0.2f));
         g.fillRect (0, 0, playHeadPosition, getHeight());
 
 
         // Draw File Name
-        g.setColour (green2_);
+        g.setColour (PirateColors::green2);
         //g.setFont (def_f_size);
         auto textBounds = getLocalBounds().reduced (20, 10);
         g.drawFittedText (processor.getFileName(), textBounds, Justification::bottomRight, 1);
+    } else {
+        g.setColour (PirateColors::green2);
+        g.drawLine (0, getHeight() / 2, getWidth(), getHeight() / 2);
     }
 }
 

@@ -26,15 +26,12 @@ public:
     void paint (Graphics&) override;
     void resized() override;
 
-    void setFileLoaded (bool loaded) { fileLoaded_ = loaded; }
     void drawWaveform(Graphics&);
     void timerCallback() override;
 
 private:
-    // Colours
-    Colour green1_ {0xff94d17d};
-    Colour green2_ {0xff398020};
-    bool fileLoaded_ { false };
+
+    // Objects
     std::vector<float> audioPoints_;
     Ap_samplerAudioProcessor& processor;
 

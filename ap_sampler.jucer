@@ -4,6 +4,12 @@
               pluginChannelConfigs="{1,2}" pluginCharacteristicsValue="pluginWantsMidiIn">
   <MAINGROUP id="WcPIAn" name="ap_sampler">
     <GROUP id="{624DAB67-3BAF-750A-6955-EAC26B1EADCA}" name="Source">
+      <FILE id="gN6XfN" name="PirateColors.h" compile="0" resource="0" file="Source/PirateColors.h"/>
+      <FILE id="lOkKIi" name="InfoScreen.cpp" compile="1" resource="0" file="Source/InfoScreen.cpp"/>
+      <FILE id="BYbKvs" name="InfoScreen.h" compile="0" resource="0" file="Source/InfoScreen.h"/>
+      <FILE id="mkDRo0" name="PirateSlider.cpp" compile="1" resource="0"
+            file="Source/PirateSlider.cpp"/>
+      <FILE id="P0Anhk" name="PirateSlider.h" compile="0" resource="0" file="Source/PirateSlider.h"/>
       <FILE id="WDex5G" name="ParamView.cpp" compile="1" resource="0" file="Source/ParamView.cpp"/>
       <FILE id="hLqFKT" name="ParamView.h" compile="0" resource="0" file="Source/ParamView.h"/>
       <FILE id="htrPqn" name="SampleView.cpp" compile="1" resource="0" file="Source/SampleView.cpp"/>
@@ -41,6 +47,7 @@
         <MODULEPATH id="juce_gui_basics" path="../../../../sdk/JUCE5/modules"/>
         <MODULEPATH id="juce_gui_extra" path="../../../../sdk/JUCE5/modules"/>
         <MODULEPATH id="juce_opengl" path="../../../../sdk/JUCE5/modules"/>
+        <MODULEPATH id="juce_dsp" path="../../../../sdk/JUCE5/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
     <CLION targetFolder="Builds/CLion" clionXcodeEnabled="1">
@@ -59,6 +66,7 @@
         <MODULEPATH id="juce_gui_basics" path="../../../../sdk/JUCE5/modules"/>
         <MODULEPATH id="juce_gui_extra" path="../../../../sdk/JUCE5/modules"/>
         <MODULEPATH id="juce_opengl" path="../../../../sdk/JUCE5/modules"/>
+        <MODULEPATH id="juce_dsp" path="../../../../sdk/JUCE5/modules"/>
       </MODULEPATHS>
     </CLION>
   </EXPORTFORMATS>
@@ -73,6 +81,7 @@
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>

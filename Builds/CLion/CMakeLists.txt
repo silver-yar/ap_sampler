@@ -51,6 +51,11 @@ add_executable (STANDALONE_PLUGIN
 set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_audio_plugin_client/juce_audio_plugin_client_Standalone.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
 
 add_library (SHARED_CODE STATIC
+    "../../Source/PirateColors.h"
+    "../../Source/InfoScreen.cpp"
+    "../../Source/InfoScreen.h"
+    "../../Source/PirateSlider.cpp"
+    "../../Source/PirateSlider.h"
     "../../Source/ParamView.cpp"
     "../../Source/ParamView.h"
     "../../Source/SampleView.cpp"
@@ -865,6 +870,62 @@ add_library (SHARED_CODE STATIC
     "../../../../../../sdk/JUCE5/modules/juce_data_structures/juce_data_structures.cpp"
     "../../../../../../sdk/JUCE5/modules/juce_data_structures/juce_data_structures.mm"
     "../../../../../../sdk/JUCE5/modules/juce_data_structures/juce_data_structures.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/containers/juce_AudioBlock.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/containers/juce_AudioBlock_test.cpp"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/containers/juce_SIMDRegister.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/containers/juce_SIMDRegister_Impl.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/containers/juce_SIMDRegister_test.cpp"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/filter_design/juce_FilterDesign.cpp"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/filter_design/juce_FilterDesign.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/frequency/juce_Convolution.cpp"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/frequency/juce_Convolution.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/frequency/juce_FFT.cpp"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/frequency/juce_FFT.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/frequency/juce_FFT_test.cpp"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/frequency/juce_Windowing.cpp"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/frequency/juce_Windowing.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_FastMathApproximations.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_LogRampedValue.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_LogRampedValue_test.cpp"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_LookupTable.cpp"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_LookupTable.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_Matrix.cpp"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_Matrix.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_Matrix_test.cpp"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_Phase.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_Polynomial.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_SpecialFunctions.cpp"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_SpecialFunctions.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/native/juce_avx_SIMDNativeOps.cpp"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/native/juce_avx_SIMDNativeOps.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/native/juce_fallback_SIMDNativeOps.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/native/juce_neon_SIMDNativeOps.cpp"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/native/juce_neon_SIMDNativeOps.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/native/juce_sse_SIMDNativeOps.cpp"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/native/juce_sse_SIMDNativeOps.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_Bias.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_FIRFilter.cpp"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_FIRFilter.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_FIRFilter_test.cpp"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_Gain.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_IIRFilter.cpp"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_IIRFilter.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_IIRFilter_Impl.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_LadderFilter.cpp"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_LadderFilter.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_Oscillator.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_Oversampling.cpp"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_Oversampling.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_ProcessContext.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_ProcessorChain.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_ProcessorDuplicator.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_ProcessorWrapper.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_Reverb.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_StateVariableFilter.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_WaveShaper.h"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/juce_dsp.cpp"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/juce_dsp.mm"
+    "../../../../../../sdk/JUCE5/modules/juce_dsp/juce_dsp.h"
     "../../../../../../sdk/JUCE5/modules/juce_events/broadcasters/juce_ActionBroadcaster.cpp"
     "../../../../../../sdk/JUCE5/modules/juce_events/broadcasters/juce_ActionBroadcaster.h"
     "../../../../../../sdk/JUCE5/modules/juce_events/broadcasters/juce_ActionListener.h"
@@ -1465,6 +1526,7 @@ add_library (SHARED_CODE STATIC
     "../../JuceLibraryCode/include_juce_core.mm"
     "../../JuceLibraryCode/include_juce_cryptography.mm"
     "../../JuceLibraryCode/include_juce_data_structures.mm"
+    "../../JuceLibraryCode/include_juce_dsp.mm"
     "../../JuceLibraryCode/include_juce_events.mm"
     "../../JuceLibraryCode/include_juce_graphics.mm"
     "../../JuceLibraryCode/include_juce_gui_basics.mm"
@@ -1473,6 +1535,9 @@ add_library (SHARED_CODE STATIC
     "../../JuceLibraryCode/JuceHeader.h"
 )
 
+set_source_files_properties ("../../Source/PirateColors.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/InfoScreen.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/PirateSlider.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../Source/ParamView.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../Source/SampleView.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../Source/InterfaceView.h" PROPERTIES HEADER_FILE_ONLY TRUE)
@@ -2282,6 +2347,62 @@ set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_data_stru
 set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_data_structures/juce_data_structures.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_data_structures/juce_data_structures.mm" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_data_structures/juce_data_structures.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/containers/juce_AudioBlock.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/containers/juce_AudioBlock_test.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/containers/juce_SIMDRegister.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/containers/juce_SIMDRegister_Impl.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/containers/juce_SIMDRegister_test.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/filter_design/juce_FilterDesign.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/filter_design/juce_FilterDesign.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/frequency/juce_Convolution.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/frequency/juce_Convolution.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/frequency/juce_FFT.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/frequency/juce_FFT.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/frequency/juce_FFT_test.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/frequency/juce_Windowing.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/frequency/juce_Windowing.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_FastMathApproximations.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_LogRampedValue.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_LogRampedValue_test.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_LookupTable.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_LookupTable.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_Matrix.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_Matrix.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_Matrix_test.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_Phase.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_Polynomial.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_SpecialFunctions.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/maths/juce_SpecialFunctions.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/native/juce_avx_SIMDNativeOps.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/native/juce_avx_SIMDNativeOps.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/native/juce_fallback_SIMDNativeOps.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/native/juce_neon_SIMDNativeOps.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/native/juce_neon_SIMDNativeOps.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/native/juce_sse_SIMDNativeOps.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/native/juce_sse_SIMDNativeOps.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_Bias.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_FIRFilter.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_FIRFilter.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_FIRFilter_test.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_Gain.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_IIRFilter.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_IIRFilter.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_IIRFilter_Impl.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_LadderFilter.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_LadderFilter.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_Oscillator.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_Oversampling.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_Oversampling.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_ProcessContext.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_ProcessorChain.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_ProcessorDuplicator.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_ProcessorWrapper.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_Reverb.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_StateVariableFilter.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/processors/juce_WaveShaper.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/juce_dsp.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/juce_dsp.mm" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_dsp/juce_dsp.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_events/broadcasters/juce_ActionBroadcaster.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_events/broadcasters/juce_ActionBroadcaster.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../../../../sdk/JUCE5/modules/juce_events/broadcasters/juce_ActionListener.h" PROPERTIES HEADER_FILE_ONLY TRUE)
