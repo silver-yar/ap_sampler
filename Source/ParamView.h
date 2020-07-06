@@ -11,6 +11,8 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "PluginProcessor.h"
+#include "PirateSliderStyle.h"
 #include "PirateSlider.h"
 #include "InfoScreen.h"
 
@@ -20,7 +22,7 @@
 class ParamView    : public Component
 {
 public:
-    ParamView();
+    ParamView(Ap_samplerAudioProcessor&);
     ~ParamView();
 
     void paint (Graphics&) override;
@@ -29,22 +31,21 @@ public:
     //==============================================================================
     Rectangle<int> getFlexBounds() const;
 
-    void setupSlider(Slider& slider);
-    void setupFlexBoxes(); // Setup for the inner and outer flex boxes
-    void setupFlexItems(); // Setup for the inner and outer flex items
-    void addItem(FlexBox& flexBox, Component& item, float grow, float margin); // Add a component to a flex box
-    static void addFlex(FlexBox& parentFlexBox, FlexBox& childFlexBox, float grow); // Add a flex box to a f
+    void setupSlider (std::unique_ptr<Slider>& slider, std::unique_ptr<Label>& label, const String& name);
+    void attachSlider (std::unique_ptr<Slider>& slider, std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment>& attachment, const String& paramID);
 
 private:
+    // Styling
+    PirateSliderStyle pirateSliderStyle_;
+
     // Components
     InfoScreen infoScreen_;
     // TODO: Make Slider vector
-    Slider slider1_, slider2_, slider3_, slider4_;
-    Label label1_, label2_, label3_, label4_;
+    std::unique_ptr<Slider> slider1_, slider2_, slider3_, slider4_;
+    std::unique_ptr<Label> label1_, label2_, label3_, label4_;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> slider1Attachment_, slider2Attachment_, slider3Attachment_, slider4Attachment_;
 
-    // Styling
-    PirateSlider pirateSlider_;
-    FlexBox iFlexBox_, oFlexBox_, r1FlexBox_, r2FlexBox_; // Inner and outer flex boxes (respectively)
+    Ap_samplerAudioProcessor& processor;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ParamView)
 };

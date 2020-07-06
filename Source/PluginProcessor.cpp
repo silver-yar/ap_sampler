@@ -23,7 +23,9 @@ Ap_samplerAudioProcessor::Ap_samplerAudioProcessor()
                      #endif
                        )
 #endif
+: apvts(*this, nullptr, "Parameters", createParameters())
 {
+    apvts.state.addListener (this);
     formatManager_.registerBasicFormats();
     for (int i = 0; i < numVoices_; i++)
     {
@@ -101,6 +103,8 @@ void Ap_samplerAudioProcessor::changeProgramName (int index, const String& newNa
 void Ap_samplerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     sampler_.setCurrentPlaybackSampleRate(sampleRate);
+    update();
+    isActive_ = true;
 }
 
 void Ap_samplerAudioProcessor::releaseResources()
@@ -135,6 +139,9 @@ bool Ap_samplerAudioProcessor::isBusesLayoutSupported (const BusesLayout& layout
 
 void Ap_samplerAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
+    if (!isActive_) return;
+    if (mustUpdateProcessing_) update();
+
     ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
@@ -223,6 +230,84 @@ void Ap_samplerAudioProcessor::loadFile (const String& path)
                        0,
                        true,
                        false);
+}
+
+void Ap_samplerAudioProcessor::update() {
+    // Updates DSP when user changes parameters
+    mustUpdateProcessing_ = false;
+
+    adsrParams.attack = apvts.getRawParameterValue ("ATT") -> load();
+    adsrParams.decay = apvts.getRawParameterValue ("DEC") -> load();
+    adsrParams.sustain = apvts.getRawParameterValue ("SUS") -> load();
+    adsrParams.release = apvts.getRawParameterValue ("REL") -> load();
+
+    for (auto i = 0; i < sampler_.getNumSounds(); ++i)
+    {
+        if (auto sound = dynamic_cast<SamplerSound*>(sampler_.getSound(i).get()))
+            sound->setEnvelopeParameters (adsrParams);
+    }
+}
+
+void Ap_samplerAudioProcessor::reset() {
+
+}
+
+AudioProcessorValueTreeState::ParameterLayout Ap_samplerAudioProcessor::createParameters() {
+// Create parameter layout for apvts
+    std::vector<std::unique_ptr<RangedAudioParameter>> parameters;
+
+    auto valueToTextFunction = [](float val, int len) { return String(val, len); };
+    auto textToValueFunction = [](const String& text) { return text.getFloatValue(); };
+
+    // **Attack Parameter** - in Hz
+    parameters.emplace_back (std::make_unique<AudioParameterFloat>(
+            "ATT",
+            "Attack",
+            NormalisableRange<float>(0.0f, 5.0f, 0.01f),
+            0.0f,
+            "s",
+            AudioProcessorParameter::genericParameter,
+            valueToTextFunction,
+            textToValueFunction
+    ));
+
+    // **Decay Parameter** - in Hz
+    parameters.emplace_back (std::make_unique<AudioParameterFloat>(
+            "DEC",
+            "Decay",
+            NormalisableRange<float>(0.0f, 5.0f, 0.01f),
+            2.0f,
+            "s",
+            AudioProcessorParameter::genericParameter,
+            valueToTextFunction,
+            textToValueFunction
+    ));
+
+    // **Sustain Parameter** - in Hz
+    parameters.emplace_back (std::make_unique<AudioParameterFloat>(
+            "SUS",
+            "Sustain",
+            NormalisableRange<float>(0.0f, 1.0f, 0.01f),
+            1.0f,
+            "s",
+            AudioProcessorParameter::genericParameter,
+            valueToTextFunction,
+            textToValueFunction
+    ));
+
+    // **Release Parameter** - in Hz
+    parameters.emplace_back (std::make_unique<AudioParameterFloat>(
+            "REL",
+            "Release",
+            NormalisableRange<float>(0.0f, 5.0f, 0.01f),
+            0.0f,
+            "s",
+            AudioProcessorParameter::genericParameter,
+            valueToTextFunction,
+            textToValueFunction
+    ));
+
+    return { parameters.begin(), parameters.end() };
 }
 
 //==============================================================================

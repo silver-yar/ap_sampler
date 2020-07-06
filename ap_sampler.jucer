@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="bmLL9k" name="ap_sampler" projectType="audioplug" jucerVersion="5.4.7"
-              pluginChannelConfigs="{1,2}" pluginCharacteristicsValue="pluginWantsMidiIn">
+              pluginChannelConfigs="{1,2}" pluginCharacteristicsValue="pluginWantsMidiIn"
+              displaySplashScreen="1">
   <MAINGROUP id="WcPIAn" name="ap_sampler">
     <GROUP id="{624DAB67-3BAF-750A-6955-EAC26B1EADCA}" name="Source">
       <FILE id="gN6XfN" name="PirateColors.h" compile="0" resource="0" file="Source/PirateColors.h"/>
       <FILE id="lOkKIi" name="InfoScreen.cpp" compile="1" resource="0" file="Source/InfoScreen.cpp"/>
       <FILE id="BYbKvs" name="InfoScreen.h" compile="0" resource="0" file="Source/InfoScreen.h"/>
-      <FILE id="mkDRo0" name="PirateSlider.cpp" compile="1" resource="0"
-            file="Source/PirateSlider.cpp"/>
-      <FILE id="P0Anhk" name="PirateSlider.h" compile="0" resource="0" file="Source/PirateSlider.h"/>
+      <FILE id="mkDRo0" name="PirateSliderStyle.cpp" compile="1" resource="0"
+            file="Source/PirateSliderStyle.cpp"/>
+      <FILE id="P0Anhk" name="PirateSliderStyle.h" compile="0" resource="0"
+            file="Source/PirateSliderStyle.h"/>
       <FILE id="WDex5G" name="ParamView.cpp" compile="1" resource="0" file="Source/ParamView.cpp"/>
       <FILE id="hLqFKT" name="ParamView.h" compile="0" resource="0" file="Source/ParamView.h"/>
       <FILE id="htrPqn" name="SampleView.cpp" compile="1" resource="0" file="Source/SampleView.cpp"/>
@@ -89,7 +91,7 @@
     <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
   </MODULES>
   <LIVE_SETTINGS>
-    <OSX/>
+    <OSX buildEnabled="0"/>
   </LIVE_SETTINGS>
   <JUCEOPTIONS JUCE_VST3_CAN_REPLACE_VST2="0" JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
 </JUCERPROJECT>

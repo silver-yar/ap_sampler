@@ -15,7 +15,8 @@
 //==============================================================================
 /**
 */
-class Ap_samplerAudioProcessor  : public AudioProcessor
+class Ap_samplerAudioProcessor  : public AudioProcessor,
+                                  public ValueTree::Listener
 {
 public:
     //==============================================================================
@@ -60,18 +61,35 @@ public:
     String& getFileName() { return fileName_; }
     AudioBuffer<float>& getWaveForm() { return waveform_; };
     std::atomic<int>& getSampleCount() { return sampleCount_; };
-
     void loadFile (const String& path);
+    // Updates DSP when user changes parameters
+    void update();
+    // Overrides AudioProcessor reset, reset DSP parameters
+    void reset() override;
+    // Create parameter layout for apvts
+    AudioProcessorValueTreeState::ParameterLayout createParameters();
+
+    // ValueTree
+    AudioProcessorValueTreeState apvts;
+    ADSR::Parameters adsrParams;
+
 private:
     //==============================================================================
     Synthesiser sampler_;
     const int numVoices_ { 3 };
+    bool mustUpdateProcessing_ { false }, isActive_ { false };
     std::atomic<bool> isPlayed_ {false }; // atomic because updated on process block
     std::atomic<int> sampleCount_ {0 };
     AudioBuffer<float> waveform_;
     AudioFormatManager formatManager_;
     String fileName_;
     MidiKeyboardState keystate_;
+
+    // Callback for DSP parameter changes
+    void valueTreePropertyChanged (ValueTree& treeWhosePropertyChanged, const Identifier& property) override
+    {
+        mustUpdateProcessing_ = true;
+    };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Ap_samplerAudioProcessor)
 };

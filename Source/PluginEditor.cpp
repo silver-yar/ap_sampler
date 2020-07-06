@@ -17,7 +17,8 @@ Ap_samplerAudioProcessorEditor::Ap_samplerAudioProcessorEditor (Ap_samplerAudioP
     : AudioProcessorEditor (&p),
       processor (p),
       sampleView_ (p),
-      interfaceView_ (p)
+      interfaceView_ (p),
+      paramView_ (p)
 
 {
     setResizable(true, true);
