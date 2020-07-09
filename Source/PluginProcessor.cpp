@@ -104,6 +104,7 @@ void Ap_samplerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
 {
     sampler_.setCurrentPlaybackSampleRate(sampleRate);
     update();
+    reset();
     isActive_ = true;
 }
 
@@ -232,14 +233,29 @@ void Ap_samplerAudioProcessor::loadFile (const String& path)
                        false);
 }
 
+void Ap_samplerAudioProcessor::prepare(double sampleRate, int samplesPerBlock) {
+
+}
+
 void Ap_samplerAudioProcessor::update() {
     // Updates DSP when user changes parameters
     mustUpdateProcessing_ = false;
+    auto numChannels = 2;
 
     adsrParams.attack = apvts.getRawParameterValue ("ATT") -> load();
     adsrParams.decay = apvts.getRawParameterValue ("DEC") -> load();
     adsrParams.sustain = apvts.getRawParameterValue ("SUS") -> load();
     adsrParams.release = apvts.getRawParameterValue ("REL") -> load();
+
+    auto lowFreq = apvts.getRawParameterValue ("LPF") -> load();
+    auto bandFreq = apvts.getRawParameterValue ("BPF") -> load();
+    auto highFreq = apvts.getRawParameterValue ("HPF") -> load();
+
+    for (int channel = 0; channel < numChannels; ++channel) {
+        lowPass_[channel].setCoefficients (IIRCoefficients::makeLowPass (getSampleRate(), lowFreq));
+        bandPass_[channel].setCoefficients (IIRCoefficients::makeBandPass (getSampleRate(), bandFreq));
+        highPass_[channel].setCoefficients (IIRCoefficients::makeHighPass (getSampleRate(), highFreq));
+    }
 
     for (auto i = 0; i < sampler_.getNumSounds(); ++i)
     {
@@ -249,7 +265,13 @@ void Ap_samplerAudioProcessor::update() {
 }
 
 void Ap_samplerAudioProcessor::reset() {
+    auto numChannels = 2;
 
+    for (int channel = 0; channel < numChannels; ++channel) {
+        lowPass_[channel].reset();
+        bandPass_[channel].reset();
+        highPass_[channel].reset();
+    }
 }
 
 AudioProcessorValueTreeState::ParameterLayout Ap_samplerAudioProcessor::createParameters() {
@@ -259,7 +281,7 @@ AudioProcessorValueTreeState::ParameterLayout Ap_samplerAudioProcessor::createPa
     auto valueToTextFunction = [](float val, int len) { return String(val, len); };
     auto textToValueFunction = [](const String& text) { return text.getFloatValue(); };
 
-    // **Attack Parameter** - in Hz
+    // **Attack Parameter** - in s
     parameters.emplace_back (std::make_unique<AudioParameterFloat>(
             "ATT",
             "Attack",
@@ -271,7 +293,7 @@ AudioProcessorValueTreeState::ParameterLayout Ap_samplerAudioProcessor::createPa
             textToValueFunction
     ));
 
-    // **Decay Parameter** - in Hz
+    // **Decay Parameter** - in s
     parameters.emplace_back (std::make_unique<AudioParameterFloat>(
             "DEC",
             "Decay",
@@ -283,25 +305,61 @@ AudioProcessorValueTreeState::ParameterLayout Ap_samplerAudioProcessor::createPa
             textToValueFunction
     ));
 
-    // **Sustain Parameter** - in Hz
+    // **Sustain Parameter** - in dB
     parameters.emplace_back (std::make_unique<AudioParameterFloat>(
             "SUS",
             "Sustain",
-            NormalisableRange<float>(0.0f, 1.0f, 0.01f),
-            1.0f,
-            "s",
+            NormalisableRange<float>(-60.0f, 0.0f, 0.01f),
+            0.0f,
+            "dB",
             AudioProcessorParameter::genericParameter,
             valueToTextFunction,
             textToValueFunction
     ));
 
-    // **Release Parameter** - in Hz
+    // **Release Parameter** - in s
     parameters.emplace_back (std::make_unique<AudioParameterFloat>(
             "REL",
             "Release",
             NormalisableRange<float>(0.0f, 5.0f, 0.01f),
             0.0f,
             "s",
+            AudioProcessorParameter::genericParameter,
+            valueToTextFunction,
+            textToValueFunction
+    ));
+
+    // **Low Pass Parameter** - in Hz
+    parameters.emplace_back (std::make_unique<AudioParameterFloat>(
+            "LPF",
+            "Low Pass Filter",
+            NormalisableRange<float>(20.0f, 20000.0f, 10.0f, 0.2f),
+            20000.0f,
+            "Hz",
+            AudioProcessorParameter::genericParameter,
+            valueToTextFunction,
+            textToValueFunction
+    ));
+
+    // **Band Pass Parameter** - in Hz
+    parameters.emplace_back (std::make_unique<AudioParameterFloat>(
+            "BPF",
+            "Band Pass Filter",
+            NormalisableRange<float>(20.0f, 20000.0f, 10.0f, 0.2f),
+            20000.0f,
+            "Hz",
+            AudioProcessorParameter::genericParameter,
+            valueToTextFunction,
+            textToValueFunction
+    ));
+
+    // **High Pass Parameter** - in Hz
+    parameters.emplace_back (std::make_unique<AudioParameterFloat>(
+            "HPF",
+            "High Pass Filter",
+            NormalisableRange<float>(20.0f, 20000.0f, 10.0f, 0.2f),
+            20.0f,
+            "Hz",
             AudioProcessorParameter::genericParameter,
             valueToTextFunction,
             textToValueFunction

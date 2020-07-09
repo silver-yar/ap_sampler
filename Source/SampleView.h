@@ -26,13 +26,17 @@ public:
     void paint (Graphics&) override;
     void resized() override;
 
-    void drawWaveform(Graphics&);
+    void drawWaveform (Graphics&);
+    void drawFileName (Graphics&);
+    void drawADSR (Graphics&);
+    void drawFilter (Graphics&);
     void timerCallback() override;
 
 private:
 
     // Objects
     std::vector<float> audioPoints_;
+    std::vector<float> adsrPoints_;
     Ap_samplerAudioProcessor& processor;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SampleView)

@@ -169,11 +169,11 @@ set_source_files_properties ("../../../../../../sdk/JUCE/modules/juce_audio_plug
 set_source_files_properties ("../../../../../../sdk/JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_Standalone.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
 
 add_library (SHARED_CODE STATIC
+    "../../Source/PirateStyle.cpp"
+    "../../Source/PirateStyle.h"
     "../../Source/PirateColors.h"
     "../../Source/InfoScreen.cpp"
     "../../Source/InfoScreen.h"
-    "../../Source/PirateSliderStyle.cpp"
-    "../../Source/PirateSliderStyle.h"
     "../../Source/ParamView.cpp"
     "../../Source/ParamView.h"
     "../../Source/SampleView.cpp"
@@ -1744,9 +1744,9 @@ add_library (SHARED_CODE STATIC
     "../../JuceLibraryCode/JucePluginDefines.h"
 )
 
+set_source_files_properties ("../../Source/PirateStyle.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../Source/PirateColors.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../Source/InfoScreen.h" PROPERTIES HEADER_FILE_ONLY TRUE)
-set_source_files_properties ("../../Source/PirateSliderStyle.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../Source/ParamView.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../Source/SampleView.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../Source/InterfaceView.h" PROPERTIES HEADER_FILE_ONLY TRUE)

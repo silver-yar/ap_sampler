@@ -12,8 +12,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
-#include "PirateSliderStyle.h"
-#include "PirateSlider.h"
+#include "PirateStyle.h"
 #include "InfoScreen.h"
 
 //==============================================================================
@@ -29,21 +28,23 @@ public:
     void resized() override;
 
     //==============================================================================
-    Rectangle<int> getFlexBounds() const;
-
     void setupSlider (std::unique_ptr<Slider>& slider, std::unique_ptr<Label>& label, const String& name);
     void attachSlider (std::unique_ptr<Slider>& slider, std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment>& attachment, const String& paramID);
 
 private:
     // Styling
-    PirateSliderStyle pirateSliderStyle_;
+    PirateStyle pirateSliderStyle_;
 
     // Components
     InfoScreen infoScreen_;
     // TODO: Make Slider vector
-    std::unique_ptr<Slider> slider1_, slider2_, slider3_, slider4_;
-    std::unique_ptr<Label> label1_, label2_, label3_, label4_;
-    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> slider1Attachment_, slider2Attachment_, slider3Attachment_, slider4Attachment_;
+    std::unique_ptr<Slider> attackSlider_, decaySlider_, sustainSlider_, releaseSlider_,
+                                lowPassSlider_, bandPassSlider_, highPassSlider_;
+    std::unique_ptr<Label> attackLabel_, decayLabel_, sustainLabel_, releaseLabel_,
+                                lowPassLabel_, bandPassLabel_, highPassLabel_;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> attackAttachment_, decayAttachment_,
+                                sustainAttachment_, releaseAttachment_, lowPassAttachment_, bandPassAttachment_,
+                                highPassAttachment_;
 
     Ap_samplerAudioProcessor& processor;
 

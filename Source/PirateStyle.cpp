@@ -9,7 +9,7 @@
 */
 
 #include <JuceHeader.h>
-#include "PirateSliderStyle.h"
+#include "PirateStyle.h"
 #include "PirateColors.h"
 
 static inline void clipToEllipse (Graphics& g, Rectangle<float>& bounds)
@@ -47,7 +47,7 @@ static inline void fillEllipse (Graphics& g, const Rectangle<float>& bounds, con
     g.fillEllipse (bounds);
 }
 
-const PirateSliderStyle::knobImages& PirateSliderStyle::getKnobImages (int diameter)
+const PirateStyle::knobImages& PirateStyle::getKnobImages (int diameter)
 {
     auto search = knobsBgs.find (diameter);
     if (search != knobsBgs.end()) return search->second;
@@ -135,8 +135,8 @@ const PirateSliderStyle::knobImages& PirateSliderStyle::getKnobImages (int diame
     return knobsBgs.find (diameter)->second;
 }
 
-void PirateSliderStyle::drawRotarySlider (Graphics& g, int x, int y, int width, int height, float sliderPos,
-                                     const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider)
+void PirateStyle::drawRotarySlider (Graphics& g, int x, int y, int width, int height, float sliderPos,
+                                    const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider)
 {
     int diameter = (width > height)? height : width;
     if (diameter < 16) return;
@@ -220,7 +220,7 @@ void PirateSliderStyle::drawRotarySlider (Graphics& g, int x, int y, int width, 
     if (!isTiny) g.drawImageAt (images.foregroundImage, x, y);
 }
 
-void PirateSliderStyle::drawLabel(Graphics& g, Label& label)
+void PirateStyle::drawLabel(Graphics& g, Label& label)
 {
     //auto bounds = Rectangle<int>(20, 10);
     auto bounds = Rectangle<int>(0, 0, label.getWidth(), label.getHeight());
@@ -235,7 +235,7 @@ void PirateSliderStyle::drawLabel(Graphics& g, Label& label)
     g.drawText(label.getText(), bounds, Justification::centred, true);
 }
 
-void PirateSliderStyle::drawBezel(Graphics& g, float width, float height, float lineThickness) {
+void PirateStyle::drawBezel(Graphics& g, float width, float height, float lineThickness) {
     // Draw Bezel
     g.setColour(PirateColors::green1.brighter(0.6f));
     g.drawLine(0,0,0, height, lineThickness);

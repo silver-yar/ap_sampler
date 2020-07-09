@@ -19,7 +19,6 @@ Ap_samplerAudioProcessorEditor::Ap_samplerAudioProcessorEditor (Ap_samplerAudioP
       sampleView_ (p),
       interfaceView_ (p),
       paramView_ (p)
-
 {
     setResizable(true, true);
     // TODO: Set max width and height using monitor size

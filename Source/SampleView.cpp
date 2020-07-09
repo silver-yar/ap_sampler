@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "SampleView.h"
 #include "PluginProcessor.h"
+#include "PirateStyle.h"
 #include "PirateColors.h"
 
 //==============================================================================
@@ -29,33 +30,13 @@ void SampleView::paint (Graphics& g)
     g.fillAll (PirateColors::green1);
     g.setFont (14.0f);
 
-    drawWaveform(g);
+    drawWaveform (g);
+    drawFileName (g);
+    if (processor.getWaveForm().getNumSamples() > 0 && !processor.hideAdsr)
+        drawADSR (g);
 
-    // TODO: Make this a method in a Style Class
-    // Draw Bezel
-    g.setColour(PirateColors::green1.brighter(0.6f));
-    g.drawLine(0,0,0,getHeight(), 16);
-    g.drawLine(getWidth(),getHeight(),0,getHeight(), 16);
-    g.drawLine(getWidth(),0,getWidth(),getHeight(), 16);
-    g.setColour(PirateColors::green1.darker(0.6f));
-    g.drawLine(0,0,getWidth(),0, 16);
 
-    // Left Corner
-    Path p;
-    p.startNewSubPath(0, 0);
-    p.lineTo(0, 8);
-    p.lineTo(8, 8);
-    p.closeSubPath();
-    g.setColour(PirateColors::green1.brighter(0.6f));
-    g.fillPath(p);
-
-    // Right Corner
-    p.startNewSubPath(getWidth(), 0);
-    p.lineTo(getWidth(), 8);
-    p.lineTo(getWidth() - 8, 8);
-    p.closeSubPath();
-    g.setColour(PirateColors::green1.brighter(0.6f));
-    g.fillPath(p);
+    PirateStyle::drawBezel (g, getWidth(), getHeight(), 16);
 }
 
 void SampleView::resized()
@@ -103,19 +84,81 @@ void SampleView::drawWaveform(Graphics& g)
         g.setColour (Colour(0xffffc000).withAlpha(0.2f));
         g.fillRect (0, 0, playHeadPosition, getHeight());
 
-
-        // Draw File Name
-        g.setColour (PirateColors::green2);
-        //g.setFont (def_f_size);
-        auto textBounds = getLocalBounds().reduced (20, 10);
-        g.drawFittedText (processor.getFileName(), textBounds, Justification::bottomRight, 1);
     } else {
         g.setColour (PirateColors::green2);
         g.drawLine (0, getHeight() / 2, getWidth(), getHeight() / 2);
     }
 }
 
+void SampleView::drawFileName(Graphics& g)
+{
+    // Draw File Name
+    auto fileName = processor.getFileName();
+    g.setColour (PirateColors::green2);
+    //g.setFont (def_f_size);
+    auto textBounds = getLocalBounds().reduced (20, 10);
+    g.drawFittedText (fileName.isNotEmpty() ? fileName : "Drag a sample here to load...",
+                      textBounds, Justification::bottomRight, 1);
+}
+
 void SampleView::timerCallback()
 {
     repaint();
+}
+
+void SampleView::drawADSR(Graphics& g) {
+    auto params = processor.adsrParams;
+    auto pointSize = 8.0f;
+    auto width = getWidth();
+    auto height = getHeight();
+    auto startWidth = 16;
+    auto startHeight = height - startWidth;
+    auto envHeight = height / 2 - (height * 0.2f);
+    auto firstStop = width / 3;
+    auto secondStop = (width * 2) / 3 ;
+
+    // Push adsr param values to vector
+    adsrPoints_.clear();
+    adsrPoints_.emplace_back (params.attack);
+    adsrPoints_.emplace_back (params.decay);
+    adsrPoints_.emplace_back (params.sustain);
+    adsrPoints_.emplace_back (params.release);
+
+    // Draw ADSR Envelope
+    Path p;
+
+    auto start = Point<float> (startWidth, startHeight);
+    auto attack = jmap<float> (adsrPoints_[0], 0.0f, 5.0f, startWidth, firstStop);
+    auto decay = jmap<float> (adsrPoints_[1], 0.0f, 5.0f, startWidth, firstStop);
+    auto sustain = jmap<float> (adsrPoints_[2], -60.0f, 0.0f, startHeight, envHeight);
+    auto release = jmap<float> (adsrPoints_[3], 0.0f, 5.0f, secondStop, width - 16.0f);
+    auto control = jmap<float> (adsrPoints_[3], 0.0f, 5.0f, 20.0f, 5.0f);
+
+
+    g.setColour (Colours::red.withAlpha(0.5f));
+
+    p.startNewSubPath (start);
+    p.lineTo (Point<float> (attack, envHeight));
+    p.lineTo (Point<float> (attack + 5, sustain));
+    p.lineTo (Point<float> (decay + attack, sustain));
+    p.lineTo (Point<float> (secondStop, sustain));
+    p.quadraticTo(Point<float> (release == secondStop ? release : release - (release / control), startHeight - 32.0f),
+            Point<float> (release, startHeight));
+    // Draw Attack Point
+    p.addRoundedRectangle (attack - (pointSize / 2), sustain - (pointSize / 2),
+                           pointSize, pointSize, 2.0f);
+    // Draw Decay Point
+    p.addRoundedRectangle (decay + attack - (pointSize / 2), sustain - (pointSize / 2),
+                           pointSize, pointSize, 2.0f);
+    // Draw Sustain Point
+    p.addRoundedRectangle (secondStop - (pointSize / 2), sustain - (pointSize / 2),
+                           pointSize, pointSize, 2.0f);
+    // Draw Control Point
+    p.addEllipse (release == secondStop ? release - (pointSize / 2) : release - (release / control) - (pointSize / 2),
+            startHeight - 32.0f, pointSize, pointSize);
+    // Draw Release Point
+    p.addRoundedRectangle (release - (pointSize / 2), startHeight - (pointSize / 2), pointSize, pointSize, 2.0f);
+    p.closeSubPath();
+
+    g.strokePath (p, PathStrokeType (2));
 }

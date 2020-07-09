@@ -30,7 +30,7 @@ private:
     Ap_samplerAudioProcessor& processor;
 
     // Components
-    MidiKeyboardComponent keyboard_;
+    std::unique_ptr<MidiKeyboardComponent> midiKeyboard_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (InterfaceView)
 };

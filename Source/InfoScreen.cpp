@@ -9,15 +9,19 @@
 */
 
 #include <JuceHeader.h>
+#include "PluginProcessor.h"
 #include "InfoScreen.h"
 #include "PirateColors.h"
+#include "PirateStyle.h"
 
 //==============================================================================
-InfoScreen::InfoScreen()
+InfoScreen::InfoScreen(Ap_samplerAudioProcessor& p) : processor (p)
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
-
+    hideButton_ = std::make_unique<ToggleButton> ("Hide");
+    hideButton_ -> setColour (ToggleButton::textColourId, PirateColors::green2);
+    hideButton_ -> setColour (ToggleButton::tickColourId, PirateColors::green2);
+    addAndMakeVisible (hideButton_.get());
+    hideButton_ -> addListener (this);
 }
 
 InfoScreen::~InfoScreen()
@@ -28,41 +32,45 @@ void InfoScreen::paint (Graphics& g)
 {
     g.fillAll (PirateColors::green1);   // clear the background
 
-    // TODO: Make this a method in a Style Class
+    // Draw Group Name
+    drawGroupName (g);
+
     // Draw Bezel
-    g.setColour(PirateColors::green1.brighter(0.6f));
-    g.drawLine(0,0,0,getHeight(), 8);
-    g.drawLine(getWidth(),getHeight(),0,getHeight(), 8);
-    g.drawLine(getWidth(),0,getWidth(),getHeight(), 8);
-    g.setColour(PirateColors::green1.darker(0.6f));
-    g.drawLine(0,0,getWidth(),0, 8);
-
-    // Left Corner
-    Path p;
-    p.startNewSubPath(0, 0);
-    p.lineTo(0, 4);
-    p.lineTo(4, 4);
-    p.closeSubPath();
-    g.setColour(PirateColors::green1.brighter(0.6f));
-    g.fillPath(p);
-
-    // Right Corner
-    p.startNewSubPath(getWidth(), 0);
-    p.lineTo(getWidth(), 4);
-    p.lineTo(getWidth() - 4, 4);
-    p.closeSubPath();
-    g.setColour(PirateColors::green1.brighter(0.6f));
-    g.fillPath(p);
-
-    g.setColour (PirateColors::green2);
-    g.setFont (20.0f);
-    g.drawText (grpName_, getLocalBounds().reduced(20),
-                Justification::topLeft, true);   // draw some placeholder text
+    PirateStyle::drawBezel (g, getWidth(), getHeight(), 8);
 }
 
 void InfoScreen::resized()
 {
-    // This method is where you should set the bounds of any child
-    // components that your component contains..
+    auto bounds = getLocalBounds();
+    bounds.removeFromLeft (getWidth() * 2 / 3);
+    bounds.reduce (0, 20);
 
+    hideButton_ -> setBounds(bounds);
+
+}
+
+void InfoScreen::drawGroupName(Graphics& g) {
+    g.setColour (PirateColors::green2);
+    g.setFont (20.0f);
+    g.drawText (processor.groupName[processor.groupIndex], getLocalBounds().reduced(20),
+                Justification::topLeft, true);   // draw some placeholder text
+}
+
+void InfoScreen::mouseDown(const MouseEvent &e) {
+    auto bounds = getLocalBounds();
+    bounds.removeFromRight (getWidth() / 2);
+
+    if (bounds.contains (e.getMouseDownPosition())) {
+        if (processor.groupIndex < 2)
+            processor.groupIndex += 1;
+        else
+            processor.groupIndex = 0;
+        getParentComponent() -> repaint();
+    }
+}
+
+void InfoScreen::buttonClicked(Button *button) {
+    if (button == hideButton_.get()) {
+        processor.hideAdsr = hideButton_ -> getToggleState();
+    }
 }

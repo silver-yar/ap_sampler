@@ -9,17 +9,27 @@
 */
 
 #include <JuceHeader.h>
+#include "PirateColors.h"
 #include "InterfaceView.h"
 
 //==============================================================================
 InterfaceView::InterfaceView(Ap_samplerAudioProcessor& p) :
-    processor(p),
-    keyboard_ (p.getKeyboardState(), MidiKeyboardComponent::horizontalKeyboard)
+    processor(p)
 {
-    keyboard_.setLowestVisibleKey(59); // Note #59 = B2
-    keyboard_.setKeyPressBaseOctave(5); // Octave #5 = C3
-    keyboard_.setKeyWidth(30.0f);
-    addAndMakeVisible(keyboard_);
+    midiKeyboard_ = std::make_unique<MidiKeyboardComponent> (processor.getKeyboardState(), 
+            MidiKeyboardComponent::horizontalKeyboard);
+
+    midiKeyboard_ -> setLowestVisibleKey(59); // Note #59 = B2
+    midiKeyboard_ -> setKeyPressBaseOctave(5); // Octave #5 = C3
+    midiKeyboard_ -> setKeyWidth(30.0f);
+    midiKeyboard_ -> setWantsKeyboardFocus (true);
+
+    // Keyboard Colors
+    midiKeyboard_ -> setColour (MidiKeyboardComponent::mouseOverKeyOverlayColourId,
+            PirateColors::orange1.withAlpha (0.5f));
+    midiKeyboard_ -> setColour (MidiKeyboardComponent::keyDownOverlayColourId, PirateColors::orange1);
+
+    addAndMakeVisible(midiKeyboard_.get());
 }
 
 InterfaceView::~InterfaceView()
@@ -33,5 +43,5 @@ void InterfaceView::paint (Graphics& g)
 
 void InterfaceView::resized()
 {
-    keyboard_.setBounds(getLocalBounds());
+    midiKeyboard_ -> setBounds(getLocalBounds());
 }

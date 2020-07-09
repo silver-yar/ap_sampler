@@ -13,32 +13,42 @@
 #include "PirateColors.h"
 
 //==============================================================================
-ParamView::ParamView(Ap_samplerAudioProcessor& p) : processor (p)
+ParamView::ParamView(Ap_samplerAudioProcessor& p) : infoScreen_(p), processor (p)
 {
     addAndMakeVisible (infoScreen_);
-    setupSlider (slider1_, label1_, "Attack");
-    setupSlider (slider2_, label2_, "Decay");
-    setupSlider (slider3_, label3_, "Sustain");
-    setupSlider (slider4_, label4_, "Release");
-    attachSlider (slider1_, slider1Attachment_, "ATT");
-    attachSlider (slider2_, slider2Attachment_, "DEC");
-    attachSlider (slider3_, slider3Attachment_, "SUS");
-    attachSlider (slider4_, slider4Attachment_, "REL");
-//    label1_.setText("Attack", NotificationType::dontSendNotification);
-//    label1_.setLookAndFeel(&pirateSliderStyle_);
-//    label1_.attachToComponent(&slider1_, false);
+    setupSlider (attackSlider_, attackLabel_, "Attack");
+    setupSlider (decaySlider_, decayLabel_, "Decay");
+    setupSlider (sustainSlider_, sustainLabel_, "Sustain");
+    setupSlider (releaseSlider_, releaseLabel_, "Release");
+    setupSlider (lowPassSlider_, lowPassLabel_, "Low Pass");
+    setupSlider (bandPassSlider_, bandPassLabel_, "Band Pass");
+    setupSlider (highPassSlider_, highPassLabel_, "High Pass");
+    attachSlider (attackSlider_, attackAttachment_, "ATT");
+    attachSlider (decaySlider_, decayAttachment_, "DEC");
+    attachSlider (sustainSlider_, sustainAttachment_, "SUS");
+    attachSlider (releaseSlider_, releaseAttachment_, "REL");
+    attachSlider (lowPassSlider_, lowPassAttachment_, "LPF");
+    attachSlider (bandPassSlider_, bandPassAttachment_, "BPF");
+    attachSlider (highPassSlider_, highPassAttachment_, "HPF");
 }
 
 ParamView::~ParamView()
 {
-    slider1_->setLookAndFeel(nullptr);
-    slider2_->setLookAndFeel(nullptr);
-    slider3_->setLookAndFeel(nullptr);
-    slider4_->setLookAndFeel(nullptr);
-    label1_->setLookAndFeel(nullptr);
-    label2_->setLookAndFeel(nullptr);
-    label3_->setLookAndFeel(nullptr);
-    label4_->setLookAndFeel(nullptr);
+    attackSlider_-> setLookAndFeel(nullptr);
+    decaySlider_-> setLookAndFeel(nullptr);
+    sustainSlider_-> setLookAndFeel(nullptr);
+    releaseSlider_-> setLookAndFeel(nullptr);
+    lowPassSlider_ -> setLookAndFeel(nullptr);
+    bandPassSlider_ -> setLookAndFeel(nullptr);
+    highPassSlider_ -> setLookAndFeel(nullptr);
+
+    attackLabel_->setLookAndFeel(nullptr);
+    decayLabel_->setLookAndFeel(nullptr);
+    sustainLabel_->setLookAndFeel(nullptr);
+    releaseLabel_->setLookAndFeel(nullptr);
+    lowPassLabel_ -> setLookAndFeel(nullptr);
+    bandPassLabel_ -> setLookAndFeel(nullptr);
+    highPassLabel_ -> setLookAndFeel(nullptr);
 }
 
 void ParamView::resized()
@@ -54,10 +64,11 @@ void ParamView::resized()
     using Track = Grid::TrackInfo;
     using Fr = Grid::Fr;
 
-    grid.items.add (GridItem (slider1_.get()));
-    grid.items.add (GridItem (slider2_.get()));
-    grid.items.add (GridItem (slider3_.get()));
-    grid.items.add (GridItem (slider4_.get()));
+    grid.items.add (GridItem (attackSlider_.get()));
+    grid.items.add (GridItem (decaySlider_.get()));
+    grid.items.add (GridItem (sustainSlider_.get()));
+    grid.items.add (GridItem (releaseSlider_.get()));
+
 
     grid.templateColumns = {
             Track (Fr (1)),
@@ -73,7 +84,6 @@ void ParamView::resized()
     grid.rowGap = Grid::Px (50);
 
     grid.performLayout (bounds);
-    //oFlexBox_.performLayout (getFlexBounds());
 }
 
 void ParamView::paint (Graphics& g)
@@ -84,6 +94,10 @@ void ParamView::paint (Graphics& g)
 void ParamView::setupSlider(std::unique_ptr<Slider>& slider, std::unique_ptr<Label>& label, const String& name)
 {
     slider = std::make_unique<Slider> (Slider::SliderStyle::RotaryVerticalDrag, Slider::TextBoxBelow);
+    if (name == "Sustain")
+        slider -> setTextValueSuffix (" dB");
+    else
+        slider -> setTextValueSuffix (" s");
     addAndMakeVisible (slider.get());
     label = std::make_unique<Label> ("", name);
     addAndMakeVisible (label.get());
@@ -91,7 +105,6 @@ void ParamView::setupSlider(std::unique_ptr<Slider>& slider, std::unique_ptr<Lab
     label->setJustificationType (Justification::centred);
     slider->setLookAndFeel(&pirateSliderStyle_);
     label->setLookAndFeel (&pirateSliderStyle_);
-    //addAndMakeVisible(slider);
 }
 
 void ParamView::attachSlider(std::unique_ptr<Slider> &slider,

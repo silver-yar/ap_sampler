@@ -12,10 +12,10 @@
 
 #include <JuceHeader.h>
 
-class PirateSliderStyle : public LookAndFeel_V4
+class PirateStyle : public LookAndFeel_V4
 {
 public:
-    PirateSliderStyle() = default;
+    PirateStyle() = default;
 
     void drawRotarySlider (Graphics&, int x, int y, int width, int height,
                            float sliderPosProportional, float rotaryStartAngle,
@@ -46,5 +46,5 @@ private:
 
     const knobImages& getKnobImages (int diameter);
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PirateSliderStyle)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PirateStyle)
 };

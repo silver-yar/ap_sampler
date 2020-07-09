@@ -57,11 +57,15 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
     //==============================================================================
+    // Getters
     MidiKeyboardState& getKeyboardState() { return keystate_; }
     String& getFileName() { return fileName_; }
     AudioBuffer<float>& getWaveForm() { return waveform_; };
     std::atomic<int>& getSampleCount() { return sampleCount_; };
+
     void loadFile (const String& path);
+    // Passes the sample rate and buffer size to DSP
+    void prepare (double sampleRate, int samplesPerBlock);
     // Updates DSP when user changes parameters
     void update();
     // Overrides AudioProcessor reset, reset DSP parameters
@@ -73,17 +77,26 @@ public:
     AudioProcessorValueTreeState apvts;
     ADSR::Parameters adsrParams;
 
+    bool hideAdsr { false };
+    String groupName [3] { "adsr_", "filter_", "misc_" };
+    int groupIndex { 0 };
+
 private:
     //==============================================================================
     Synthesiser sampler_;
     const int numVoices_ { 3 };
     bool mustUpdateProcessing_ { false }, isActive_ { false };
     std::atomic<bool> isPlayed_ {false }; // atomic because updated on process block
-    std::atomic<int> sampleCount_ {0 };
+    std::atomic<int> sampleCount_ { 0 };
     AudioBuffer<float> waveform_;
     AudioFormatManager formatManager_;
-    String fileName_;
+    String fileName_ { "" };
     MidiKeyboardState keystate_;
+
+    // Filter Params
+    IIRFilter lowPass_ [2];
+    IIRFilter bandPass_ [2];
+    IIRFilter highPass_ [2];
 
     // Callback for DSP parameter changes
     void valueTreePropertyChanged (ValueTree& treeWhosePropertyChanged, const Identifier& property) override
