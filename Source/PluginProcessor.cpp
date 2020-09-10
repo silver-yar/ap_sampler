@@ -219,8 +219,8 @@ void Ap_samplerAudioProcessor::loadFile (const String& path)
                 *formatReader,
                 range,
                 60,
-                0.1,
-                1.0,
+                0.0,
+                0.0,
                 60));
         //updateSampleRate();
     }

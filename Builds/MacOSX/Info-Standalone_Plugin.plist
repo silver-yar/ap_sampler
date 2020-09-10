@@ -8,7 +8,7 @@
     <key>CFBundleIconFile</key>
     <string></string>
     <key>CFBundleIdentifier</key>
-    <string>com.yourcompany.ap_sampler</string>
+    <string>com.audiopirate.ap_sampler</string>
     <key>CFBundleName</key>
     <string>ap_sampler</string>
     <key>CFBundleDisplayName</key>

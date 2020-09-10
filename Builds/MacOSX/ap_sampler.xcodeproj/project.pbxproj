@@ -940,7 +940,7 @@
 				LIBRARY_STYLE = Bundle;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_LDFLAGS = "-bundle -lap_sampler";
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.ap_sampler;
+				PRODUCT_BUNDLE_IDENTIFIER = com.audiopirate.ap_sampler;
 				PRODUCT_NAME = "ap_sampler";
 				USE_HEADERMAP = NO;
 				WRAPPER_EXTENSION = vst3;
@@ -992,7 +992,7 @@
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_LDFLAGS = "-bundle -lap_sampler";
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.ap_sampler;
+				PRODUCT_BUNDLE_IDENTIFIER = com.audiopirate.ap_sampler;
 				PRODUCT_NAME = "ap_sampler";
 				USE_HEADERMAP = NO;
 				WRAPPER_EXTENSION = vst3;
@@ -1044,7 +1044,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_LDFLAGS = "-bundle -lap_sampler";
 				OTHER_REZFLAGS = "-d ppc_$ppc -d i386_$i386 -d ppc64_$ppc64 -d x86_64_$x86_64 -I /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers -I \"$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/AUBase\" -I \"$(DEVELOPER_DIR)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AudioUnit.framework/Headers\"";
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.ap_sampler;
+				PRODUCT_BUNDLE_IDENTIFIER = com.audiopirate.ap_sampler;
 				PRODUCT_NAME = "ap_sampler";
 				USE_HEADERMAP = NO;
 				WRAPPER_EXTENSION = component;
@@ -1097,7 +1097,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_LDFLAGS = "-bundle -lap_sampler";
 				OTHER_REZFLAGS = "-d ppc_$ppc -d i386_$i386 -d ppc64_$ppc64 -d x86_64_$x86_64 -I /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers -I \"$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/AUBase\" -I \"$(DEVELOPER_DIR)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AudioUnit.framework/Headers\"";
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.ap_sampler;
+				PRODUCT_BUNDLE_IDENTIFIER = com.audiopirate.ap_sampler;
 				PRODUCT_NAME = "ap_sampler";
 				USE_HEADERMAP = NO;
 				WRAPPER_EXTENSION = component;
@@ -1143,7 +1143,7 @@
 				INFOPLIST_PREPROCESS = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_LDFLAGS = "-lap_sampler";
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.ap_sampler;
+				PRODUCT_BUNDLE_IDENTIFIER = com.audiopirate.ap_sampler;
 				PRODUCT_NAME = "ap_sampler";
 				USE_HEADERMAP = NO;
 			};
@@ -1189,7 +1189,7 @@
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_LDFLAGS = "-lap_sampler";
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.ap_sampler;
+				PRODUCT_BUNDLE_IDENTIFIER = com.audiopirate.ap_sampler;
 				PRODUCT_NAME = "ap_sampler";
 				USE_HEADERMAP = NO;
 			};
@@ -1233,7 +1233,7 @@
 				);
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.ap_sampler;
+				PRODUCT_BUNDLE_IDENTIFIER = com.audiopirate.ap_sampler;
 				PRODUCT_NAME = "ap_sampler";
 				SKIP_INSTALL = YES;
 				USE_HEADERMAP = NO;
@@ -1279,7 +1279,7 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.ap_sampler;
+				PRODUCT_BUNDLE_IDENTIFIER = com.audiopirate.ap_sampler;
 				PRODUCT_NAME = "ap_sampler";
 				SKIP_INSTALL = YES;
 				USE_HEADERMAP = NO;
@@ -1664,7 +1664,7 @@
 		9078961B15FFF9FBA4CF2784 = {
 			isa = PBXProject;
 			buildConfigurationList = CEFFA8A11AAAA42625FB311B;
-			attributes = { LastUpgradeCheck = 1100; ORGANIZATIONNAME = ""; TargetAttributes = { 1DDF866CC15DDC952783C87E = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; };26CDD7E58C64427BA9C24B6D = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; };D4FA89EA3C77BF11D5B9D6EC = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; };6C4EFD3009701B89CB0CC9DB = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; };723287AF113CAC7BFEECB8F5 = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; }; }; };
+			attributes = { LastUpgradeCheck = 1100; ORGANIZATIONNAME = "audio pirate"; TargetAttributes = { 1DDF866CC15DDC952783C87E = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; };26CDD7E58C64427BA9C24B6D = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; };D4FA89EA3C77BF11D5B9D6EC = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; };6C4EFD3009701B89CB0CC9DB = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; };723287AF113CAC7BFEECB8F5 = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; }; }; };
 			compatibilityVersion = "Xcode 3.2";
 			hasScannedForEncodings = 0;
 			mainGroup = B7620F7B089C1F75D7BD2C63;

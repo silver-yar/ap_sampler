@@ -135,7 +135,7 @@ void SampleView::drawADSR(Graphics& g) {
     auto control = jmap<float> (adsrPoints_[3], 0.0f, 5.0f, 20.0f, 5.0f);
 
 
-    g.setColour (Colours::red.withAlpha(0.5f));
+    g.setColour (PirateColors::orange1.withAlpha(0.8f));
 
     p.startNewSubPath (start);
     p.lineTo (Point<float> (attack, envHeight));
@@ -145,7 +145,7 @@ void SampleView::drawADSR(Graphics& g) {
     p.quadraticTo(Point<float> (release == secondStop ? release : release - (release / control), startHeight - 32.0f),
             Point<float> (release, startHeight));
     // Draw Attack Point
-    p.addRoundedRectangle (attack - (pointSize / 2), sustain - (pointSize / 2),
+    p.addRoundedRectangle (attack - (pointSize / 2), envHeight - (pointSize / 2),
                            pointSize, pointSize, 2.0f);
     // Draw Decay Point
     p.addRoundedRectangle (decay + attack - (pointSize / 2), sustain - (pointSize / 2),
@@ -161,4 +161,17 @@ void SampleView::drawADSR(Graphics& g) {
     p.closeSubPath();
 
     g.strokePath (p, PathStrokeType (2));
+    g.setColour (PirateColors::orange1.withAlpha (0.3f));
+    g.fillPath (p);
+}
+
+void SampleView::mouseDown(const MouseEvent &e) {
+    // TODO: Only show file chooser in standalone / causes crash
+    auto bounds = getLocalBounds();
+
+    if (bounds.contains (e.getMouseDownPosition()) && processor.getWaveForm().getNumSamples() == 0) {
+        fileChooser_.browseForFileToOpen();
+        auto path = fileChooser_.getResult().getFullPathName();
+        processor.loadFile (path);
+    }
 }
