@@ -16,7 +16,6 @@
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
 
 # Fortran module files
 *.mod
@@ -31,7 +30,6 @@
 # Executables
 *.exe
 *.out
-*.app
 
 ### Example user template template
 ### Example user template
@@ -44,7 +42,6 @@ gen
 
 # Misc.
 *.pdf
-/Builds/
 Builds/Android/.gradle/6.1.1/vcsMetadata-1/
 Builds/Android/app/.cxx/cmake/debug_Debug/arm64-v8a/CMakeFiles/CMakeTmp/
 Builds/Android/app/.cxx/cmake/debug_Debug/armeabi-v7a/CMakeFiles/CMakeTmp/
@@ -98,3 +95,4 @@ Plugin/CMakeFiles/VST3.dir/Users/
 Plugin/ap_sampler.component/Contents/MacOS/
 Plugin/ap_sampler.component/Contents/Resources/
 Plugin/ap_sampler.vst3/Contents/MacOS/
+!/Builds/
