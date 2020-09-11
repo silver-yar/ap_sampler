@@ -1,1 +1,155 @@
 # Created by .ignore support plugin (hsz.mobi)
+### CMake template
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+
+### macOS template
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+### C++ template
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+.gitignore
+Builds/Android/.gradle/6.1.1/vcsMetadata-1/
+Builds/Android/.idea/
+Builds/Android/app/.cxx/cmake/debug_Debug/arm64-v8a/CMakeFiles/CMakeTmp/
+Builds/Android/app/.cxx/cmake/debug_Debug/arm64-v8a/CMakeFiles/cpufeatures.dir/
+Builds/Android/app/.cxx/cmake/debug_Debug/arm64-v8a/CMakeFiles/juce_jni.dir/
+Builds/Android/app/.cxx/cmake/debug_Debug/arm64-v8a/libcpufeatures.a
+Builds/Android/app/.cxx/cmake/debug_Debug/arm64-v8a/oboe/CMakeFiles/
+Builds/Android/app/.cxx/cmake/debug_Debug/armeabi-v7a/CMakeFiles/CMakeTmp/
+Builds/Android/app/.cxx/cmake/debug_Debug/armeabi-v7a/CMakeFiles/cpufeatures.dir/
+Builds/Android/app/.cxx/cmake/debug_Debug/armeabi-v7a/CMakeFiles/juce_jni.dir/
+Builds/Android/app/.cxx/cmake/debug_Debug/armeabi-v7a/oboe/CMakeFiles/
+Builds/Android/app/.cxx/cmake/debug_Debug/x86/CMakeFiles/CMakeTmp/
+Builds/Android/app/.cxx/cmake/debug_Debug/x86/CMakeFiles/cpufeatures.dir/
+Builds/Android/app/.cxx/cmake/debug_Debug/x86/CMakeFiles/juce_jni.dir/
+Builds/Android/app/.cxx/cmake/debug_Debug/x86/oboe/CMakeFiles/
+Builds/Android/app/.cxx/cmake/debug_Debug/x86_64/CMakeFiles/CMakeTmp/
+Builds/Android/app/.cxx/cmake/debug_Debug/x86_64/CMakeFiles/cpufeatures.dir/
+Builds/Android/app/.cxx/cmake/debug_Debug/x86_64/CMakeFiles/juce_jni.dir/
+Builds/Android/app/.cxx/cmake/debug_Debug/x86_64/oboe/CMakeFiles/
+Builds/Android/app/.cxx/cmake/release_Release/arm64-v8a/CMakeFiles/CMakeTmp/
+Builds/Android/app/.cxx/cmake/release_Release/arm64-v8a/CMakeFiles/cpufeatures.dir/
+Builds/Android/app/.cxx/cmake/release_Release/arm64-v8a/CMakeFiles/juce_jni.dir/
+Builds/Android/app/.cxx/cmake/release_Release/arm64-v8a/oboe/CMakeFiles/
+Builds/Android/app/.cxx/cmake/release_Release/armeabi-v7a/CMakeFiles/CMakeTmp/
+Builds/Android/app/.cxx/cmake/release_Release/armeabi-v7a/CMakeFiles/cpufeatures.dir/
+Builds/Android/app/.cxx/cmake/release_Release/armeabi-v7a/CMakeFiles/juce_jni.dir/
+Builds/Android/app/.cxx/cmake/release_Release/armeabi-v7a/oboe/CMakeFiles/
+Builds/Android/app/.cxx/cmake/release_Release/x86/CMakeFiles/CMakeTmp/
+Builds/Android/app/.cxx/cmake/release_Release/x86/CMakeFiles/cpufeatures.dir/
+Builds/Android/app/.cxx/cmake/release_Release/x86/CMakeFiles/juce_jni.dir/
+Builds/Android/app/.cxx/cmake/release_Release/x86/oboe/CMakeFiles/
+Builds/Android/app/.cxx/cmake/release_Release/x86_64/CMakeFiles/CMakeTmp/
+Builds/Android/app/.cxx/cmake/release_Release/x86_64/CMakeFiles/cpufeatures.dir/
+Builds/Android/app/.cxx/cmake/release_Release/x86_64/CMakeFiles/juce_jni.dir/
+Builds/Android/app/.cxx/cmake/release_Release/x86_64/oboe/CMakeFiles/
+Builds/Android/app/libs/
+Builds/Android/app/src/debug/res/raw/
+Builds/Android/app/src/release/res/raw/
+Builds/CLion/.idea/.gitignore
+Builds/CLion/.idea/.name
+Builds/CLion/.idea/CLion.iml
+Builds/CLion/.idea/dictionaries/
+Builds/CLion/.idea/misc.xml
+Builds/CLion/.idea/modules.xml
+Builds/CLion/.idea/vcs.xml
+Builds/CLion/cmake-build-debug/CMakeFiles/3.16.5/CompilerIdC/a.out
+Builds/CLion/cmake-build-debug/CMakeFiles/3.16.5/CompilerIdC/tmp/
+Builds/CLion/cmake-build-debug/CMakeFiles/3.16.5/CompilerIdCXX/a.out
+Builds/CLion/cmake-build-debug/CMakeFiles/3.16.5/CompilerIdCXX/tmp/
+Builds/CLion/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdC/a.out
+Builds/CLion/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdC/tmp/
+Builds/CLion/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdCXX/a.out
+Builds/CLion/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdCXX/tmp/
+Builds/CLion/cmake-build-debug/CMakeFiles/AU.dir/Users/
+Builds/CLion/cmake-build-debug/CMakeFiles/CMakeTmp/
+Builds/CLion/cmake-build-debug/CMakeFiles/SHARED_CODE.dir/Users/
+Builds/CLion/cmake-build-debug/CMakeFiles/STANDALONE_PLUGIN.dir/Users/
+Builds/CLion/cmake-build-debug/CMakeFiles/VST3.dir/Users/
+Builds/CLion/cmake-build-debug/ap_sampler 2.vst3/Contents/MacOS/
+Builds/CLion/cmake-build-debug/ap_sampler 5.vst3/Contents/MacOS/
+Builds/CLion/cmake-build-debug/ap_sampler.component/Contents/MacOS/
+Builds/CLion/cmake-build-debug/ap_sampler.component/Contents/Resources/
+Builds/CLion/cmake-build-debug/libap_sampler 128.a
+Builds/CLion/cmake-build-debug/libap_sampler 129.a
+Builds/CLion/cmake-build-debug/libap_sampler 130.a
+Plugin/CMakeFiles/3.17.3/CompilerIdC/a.out
+Plugin/CMakeFiles/3.17.3/CompilerIdC/tmp/
+Plugin/CMakeFiles/3.17.3/CompilerIdCXX/a.out
+Plugin/CMakeFiles/3.17.3/CompilerIdCXX/tmp/
+Plugin/CMakeFiles/AU.dir/Users/
+Plugin/CMakeFiles/CMakeTmp/
+Plugin/CMakeFiles/SHARED_CODE.dir/Users/
+Plugin/CMakeFiles/STANDALONE_PLUGIN.dir/Users/
+Plugin/CMakeFiles/VST3.dir/Users/
+Plugin/ap_sampler.component/Contents/MacOS/
+Plugin/ap_sampler.component/Contents/Resources/
+Plugin/ap_sampler.vst3/Contents/MacOS/
+Plugin/libap_sampler.a
