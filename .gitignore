@@ -44,46 +44,4 @@ gen
 
 # Misc.
 *.pdf
-Builds/Android/.gradle/6.1.1/vcsMetadata-1/
-Builds/Android/app/.cxx/cmake/debug_Debug/arm64-v8a/CMakeFiles/CMakeTmp/
-Builds/Android/app/.cxx/cmake/debug_Debug/armeabi-v7a/CMakeFiles/CMakeTmp/
-Builds/Android/app/.cxx/cmake/debug_Debug/armeabi-v7a/CMakeFiles/cpufeatures.dir/
-Builds/Android/app/.cxx/cmake/debug_Debug/armeabi-v7a/CMakeFiles/juce_jni.dir/
-Builds/Android/app/.cxx/cmake/debug_Debug/armeabi-v7a/oboe/CMakeFiles/
-Builds/Android/app/.cxx/cmake/debug_Debug/x86/CMakeFiles/CMakeTmp/
-Builds/Android/app/.cxx/cmake/debug_Debug/x86/CMakeFiles/cpufeatures.dir/
-Builds/Android/app/.cxx/cmake/debug_Debug/x86/CMakeFiles/juce_jni.dir/
-Builds/Android/app/.cxx/cmake/debug_Debug/x86/oboe/CMakeFiles/
-Builds/Android/app/.cxx/cmake/debug_Debug/x86_64/CMakeFiles/CMakeTmp/
-Builds/Android/app/.cxx/cmake/debug_Debug/x86_64/CMakeFiles/cpufeatures.dir/
-Builds/Android/app/.cxx/cmake/debug_Debug/x86_64/CMakeFiles/juce_jni.dir/
-Builds/Android/app/.cxx/cmake/debug_Debug/x86_64/oboe/CMakeFiles/
-Builds/Android/app/.cxx/cmake/release_Release/arm64-v8a/CMakeFiles/CMakeTmp/
-Builds/Android/app/.cxx/cmake/release_Release/arm64-v8a/CMakeFiles/cpufeatures.dir/
-Builds/Android/app/.cxx/cmake/release_Release/arm64-v8a/CMakeFiles/juce_jni.dir/
-Builds/Android/app/.cxx/cmake/release_Release/arm64-v8a/oboe/CMakeFiles/
-Builds/Android/app/.cxx/cmake/release_Release/armeabi-v7a/CMakeFiles/CMakeTmp/
-Builds/Android/app/.cxx/cmake/release_Release/armeabi-v7a/CMakeFiles/cpufeatures.dir/
-Builds/Android/app/.cxx/cmake/release_Release/armeabi-v7a/CMakeFiles/juce_jni.dir/
-Builds/Android/app/.cxx/cmake/release_Release/armeabi-v7a/oboe/CMakeFiles/
-Builds/Android/app/.cxx/cmake/release_Release/x86/CMakeFiles/CMakeTmp/
-Builds/Android/app/.cxx/cmake/release_Release/x86/CMakeFiles/cpufeatures.dir/
-Builds/Android/app/.cxx/cmake/release_Release/x86/CMakeFiles/juce_jni.dir/
-Builds/Android/app/.cxx/cmake/release_Release/x86/oboe/CMakeFiles/
-Builds/Android/app/.cxx/cmake/release_Release/x86_64/CMakeFiles/CMakeTmp/
-Builds/Android/app/.cxx/cmake/release_Release/x86_64/CMakeFiles/cpufeatures.dir/
-Builds/Android/app/.cxx/cmake/release_Release/x86_64/CMakeFiles/juce_jni.dir/
-Builds/Android/app/.cxx/cmake/release_Release/x86_64/oboe/CMakeFiles/
-Builds/Android/app/libs/
-Builds/Android/app/src/debug/res/raw/
-Builds/Android/app/src/release/res/raw/
-Builds/CLion/cmake-build-debug/CMakeFiles/3.16.5/CompilerIdC/tmp/
-Builds/CLion/cmake-build-debug/CMakeFiles/3.16.5/CompilerIdCXX/tmp/
-Builds/CLion/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdC/tmp/
-Builds/CLion/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdCXX/tmp/
-Builds/CLion/cmake-build-debug/CMakeFiles/AU.dir/Users/
-Builds/CLion/cmake-build-debug/CMakeFiles/CMakeTmp/
-Builds/CLion/cmake-build-debug/ap_sampler 2.vst3/Contents/MacOS/
-Builds/CLion/cmake-build-debug/ap_sampler 5.vst3/Contents/MacOS/
-Builds/CLion/cmake-build-debug/ap_sampler.component/Contents/MacOS/
-Builds/CLion/cmake-build-debug/ap_sampler.component/Contents/Resources/
+Builds
