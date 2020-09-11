@@ -95,4 +95,6 @@ Plugin/CMakeFiles/VST3.dir/Users/
 Plugin/ap_sampler.component/Contents/MacOS/
 Plugin/ap_sampler.component/Contents/Resources/
 Plugin/ap_sampler.vst3/Contents/MacOS/
-!/Builds/
+!/Builds/Android/
+!/Builds/MacOSX/
+!/Builds/CLion/
