@@ -75,7 +75,7 @@ Temporary Items
 *.app
 
 .gitignore
-/Builds/
+Builds/
 Plugin/CMakeFiles/3.17.3/CompilerIdC/a.out
 Plugin/CMakeFiles/3.17.3/CompilerIdC/tmp/
 Plugin/CMakeFiles/3.17.3/CompilerIdCXX/a.out
