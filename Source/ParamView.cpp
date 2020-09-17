@@ -16,8 +16,6 @@
 ParamView::ParamView(Ap_samplerAudioProcessor& p) : infoScreen_(p), processor (p)
 {
     addAndMakeVisible (infoScreen_);
-    addAndMakeVisible (testSlider_);
-    testAttachment_ = std::make_unique<AudioProcessorValueTreeState::SliderAttachment> (processor.apvts, "ATT", testSlider_);
     setupSlider (attackSlider_, attackLabel_, "Attack");
     setupSlider (decaySlider_, decayLabel_, "Decay");
     setupSlider (sustainSlider_, sustainLabel_, "Sustain");
