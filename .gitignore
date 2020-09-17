@@ -1,4 +1,8 @@
 # Created by .ignore support plugin (hsz.mobi)
+# Builds & JUCE
+**/Builds
+**/JuceLibraryCode
+
 ### CMake template
 CMakeLists.txt.user
 CMakeCache.txt
@@ -75,7 +79,6 @@ Temporary Items
 *.app
 
 .gitignore
-Builds/
 Plugin/CMakeFiles/3.17.3/CompilerIdC/a.out
 Plugin/CMakeFiles/3.17.3/CompilerIdC/tmp/
 Plugin/CMakeFiles/3.17.3/CompilerIdCXX/a.out

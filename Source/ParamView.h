@@ -37,6 +37,8 @@ private:
 
     // Components
     InfoScreen infoScreen_;
+
+    Slider testSlider_;
     // TODO: Make Slider vector
     std::unique_ptr<Slider> attackSlider_, decaySlider_, sustainSlider_, releaseSlider_,
                                 lowPassSlider_, bandPassSlider_, highPassSlider_;
@@ -44,7 +46,7 @@ private:
                                 lowPassLabel_, bandPassLabel_, highPassLabel_;
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> attackAttachment_, decayAttachment_,
                                 sustainAttachment_, releaseAttachment_, lowPassAttachment_, bandPassAttachment_,
-                                highPassAttachment_;
+                                highPassAttachment_, testAttachment_;
 
     Ap_samplerAudioProcessor& processor;
 
