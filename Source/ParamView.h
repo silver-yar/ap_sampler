@@ -18,6 +18,18 @@
 //==============================================================================
 /*
 */
+class ParamBlock : public Component
+{
+public:
+    ParamBlock() = default;;
+    ~ParamBlock() override {};
+
+    void layoutSliders (Array<Slider*>& sliders, Rectangle<int>& bounds);
+
+    bool shouldHide { false };
+private:
+};
+
 class ParamView    : public Component
 {
 public:
@@ -28,7 +40,7 @@ public:
     void resized() override;
 
     //==============================================================================
-    void setupSlider (std::unique_ptr<Slider>& slider, std::unique_ptr<Label>& label, const String& name);
+    void setupSlider (Component& parent, std::unique_ptr<Slider>& slider, std::unique_ptr<Label>& label, const String& name);
     void attachSlider (std::unique_ptr<Slider>& slider, std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment>& attachment, const String& paramID);
 
 private:
@@ -37,6 +49,8 @@ private:
 
     // Components
     InfoScreen infoScreen_;
+    ParamBlock adsrParams_;
+    ParamBlock filterParams_;
 
     // TODO: Make Slider vector
     std::unique_ptr<Slider> attackSlider_, decaySlider_, sustainSlider_, releaseSlider_,

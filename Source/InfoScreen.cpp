@@ -60,12 +60,13 @@ void InfoScreen::mouseDown(const MouseEvent &e) {
     auto bounds = getLocalBounds();
     bounds.removeFromRight (getWidth() / 2);
 
-    if (bounds.contains (e.getMouseDownPosition())) {
-        if (processor.groupIndex < 2)
-            processor.groupIndex += 1;
-        else
-            processor.groupIndex = 0;
-        getParentComponent() -> repaint();
+    if (bounds.contains (e.getMouseDownPosition()) && onNameClicked != nullptr) {
+        onNameClicked();
+//        if (processor.groupIndex < 2)
+//            processor.groupIndex += 1;
+//        else
+//            processor.groupIndex = 0;
+//        getParentComponent() -> repaint();
     }
 }
 

@@ -30,6 +30,7 @@ public:
     void mouseDown (const MouseEvent& e) override;
     void buttonClicked (Button* button) override;
     void drawGroupName (Graphics&);
+    std::function<void()> onNameClicked = nullptr;
 
 private:
     //String grpName_ [3] { "adsr_", "filter_", "misc_" };
