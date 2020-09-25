@@ -52,8 +52,8 @@ void InfoScreen::resized()
 void InfoScreen::drawGroupName(Graphics& g) {
     g.setColour (PirateColors::green2);
     g.setFont (20.0f);
-    g.drawText (processor.groupName[processor.groupIndex], getLocalBounds().reduced(20),
-                Justification::topLeft, true);   // draw some placeholder text
+    g.drawText (grpName_[groupIndex_], getLocalBounds().reduced(20),
+                Justification::centredLeft, true);   // draw some placeholder text
 }
 
 void InfoScreen::mouseDown(const MouseEvent &e) {
@@ -62,11 +62,10 @@ void InfoScreen::mouseDown(const MouseEvent &e) {
 
     if (bounds.contains (e.getMouseDownPosition()) && onNameClicked != nullptr) {
         onNameClicked();
-//        if (processor.groupIndex < 2)
-//            processor.groupIndex += 1;
-//        else
-//            processor.groupIndex = 0;
-//        getParentComponent() -> repaint();
+        if (groupIndex_ == 0)
+            groupIndex_ = 1;
+        else
+            groupIndex_ = 0;
     }
 }
 

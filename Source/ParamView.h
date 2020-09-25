@@ -24,10 +24,16 @@ public:
     ParamBlock() = default;;
     ~ParamBlock() override {};
 
+    void paint (Graphics& g) override
+    {
+        g.fillAll(Colours::limegreen);
+    }
+
     void layoutSliders (Array<Slider*>& sliders, Rectangle<int>& bounds);
 
     bool shouldHide { false };
 private:
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ParamBlock)
 };
 
 class ParamView    : public Component
@@ -40,8 +46,10 @@ public:
     void resized() override;
 
     //==============================================================================
-    void setupSlider (Component& parent, std::unique_ptr<Slider>& slider, std::unique_ptr<Label>& label, const String& name);
-    void attachSlider (std::unique_ptr<Slider>& slider, std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment>& attachment, const String& paramID);
+    void setupSlider (Component& parent, std::unique_ptr<Slider>& slider, std::unique_ptr<Label>& label,
+                      const String& name, const String& suffix = "s");
+    void attachSlider (std::unique_ptr<Slider>& slider, std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment>& attachment,
+                       const String& paramID);
 
 private:
     // Styling
@@ -52,7 +60,6 @@ private:
     ParamBlock adsrParams_;
     ParamBlock filterParams_;
 
-    // TODO: Make Slider vector
     std::unique_ptr<Slider> attackSlider_, decaySlider_, sustainSlider_, releaseSlider_,
                                 lowPassSlider_, bandPassSlider_, highPassSlider_;
     std::unique_ptr<Label> attackLabel_, decayLabel_, sustainLabel_, releaseLabel_,

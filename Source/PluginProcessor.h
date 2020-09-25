@@ -79,8 +79,8 @@ public:
 
     bool hideAdsr { false };
     // TODO: Change to enum
-    String groupName [3] { "adsr_", "filter_", "misc_" };
-    int groupIndex { 0 };
+//    String groupName [3] { "adsr_", "filter_", "misc_" };
+//    int groupIndex { 0 };
 
 private:
     //==============================================================================

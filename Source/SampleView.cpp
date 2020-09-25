@@ -167,11 +167,11 @@ void SampleView::drawADSR(Graphics& g) {
 
 void SampleView::mouseDown(const MouseEvent &e) {
     // TODO: Only show file chooser in standalone / causes crash
-    auto bounds = getLocalBounds();
-
-    if (bounds.contains (e.getMouseDownPosition()) && processor.getWaveForm().getNumSamples() == 0) {
-        fileChooser_.browseForFileToOpen();
-        auto path = fileChooser_.getResult().getFullPathName();
-        processor.loadFile (path);
-    }
+//    auto bounds = getLocalBounds();
+//
+//    if (bounds.contains (e.getMouseDownPosition()) && processor.getWaveForm().getNumSamples() == 0) {
+//        fileChooser_.browseForFileToOpen();
+//        auto path = fileChooser_.getResult().getFullPathName();
+//        processor.loadFile (path);
+//    }
 }

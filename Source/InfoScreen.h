@@ -33,8 +33,12 @@ public:
     std::function<void()> onNameClicked = nullptr;
 
 private:
-    //String grpName_ [3] { "adsr_", "filter_", "misc_" };
-    //int groupIndex_ { 0 };
+    enum GroupName {
+        adsr,
+        filter
+    };
+    String grpName_ [2] { "adsr_", "filter_"};
+    int groupIndex_ { 0 };
     std::unique_ptr<ToggleButton> hideButton_;
 
     Ap_samplerAudioProcessor& processor;

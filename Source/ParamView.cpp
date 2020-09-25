@@ -22,10 +22,6 @@ void ParamBlock::layoutSliders (Array<Slider*>& sliders, Rectangle<int>& bounds)
     for (const auto &slider : sliders)
     {
         grid.items.add(GridItem (slider));
-        if (shouldHide)
-            slider->setVisible (false);
-        else
-            slider->setVisible (true);
     }
 
     grid.templateColumns = {
@@ -41,12 +37,23 @@ void ParamBlock::layoutSliders (Array<Slider*>& sliders, Rectangle<int>& bounds)
     grid.columnGap = Grid::Px (10);
     grid.rowGap = Grid::Px (50);
 
+    grid.alignItems = Grid::AlignItems::center;
+
     grid.performLayout (bounds);
+
+    if (shouldHide)
+        setVisible (false);
+    else
+        setVisible (true);
 }
 //==============================================================================
 ParamView::ParamView(Ap_samplerAudioProcessor& p) : infoScreen_(p), processor (p)
 {
-    infoScreen_.onNameClicked = []() {
+    infoScreen_.onNameClicked = [this]() {
+        this->adsrParams_.shouldHide = !this->adsrParams_.shouldHide;
+        this->filterParams_.shouldHide = !this->filterParams_.shouldHide;
+        repaint();
+        resized();
         DBG("name clicked.");
     };
     addAndMakeVisible (infoScreen_);
@@ -54,13 +61,14 @@ ParamView::ParamView(Ap_samplerAudioProcessor& p) : infoScreen_(p), processor (p
     addAndMakeVisible (adsrParams_);
     setupSlider (adsrParams_, attackSlider_, attackLabel_, "Attack");
     setupSlider (adsrParams_, decaySlider_, decayLabel_, "Decay");
-    setupSlider (adsrParams_, sustainSlider_, sustainLabel_, "Sustain");
+    setupSlider (adsrParams_, sustainSlider_, sustainLabel_, "Sustain","dB");
     setupSlider (adsrParams_, releaseSlider_, releaseLabel_, "Release");
 
     addAndMakeVisible (filterParams_);
-    setupSlider (filterParams_, lowPassSlider_, lowPassLabel_, "Low Pass");
-    setupSlider (filterParams_, bandPassSlider_, bandPassLabel_, "Band Pass");
-    setupSlider (filterParams_, highPassSlider_, highPassLabel_, "High Pass");
+    setupSlider (filterParams_, lowPassSlider_, lowPassLabel_, "Low Pass","Hz");
+    setupSlider (filterParams_, bandPassSlider_, bandPassLabel_, "Band Pass","Hz");
+    setupSlider (filterParams_, highPassSlider_, highPassLabel_, "High Pass","Hz");
+    filterParams_.shouldHide = true;
 
     attachSlider (attackSlider_, attackAttachment_, "ATT");
     attachSlider (decaySlider_, decayAttachment_, "DEC");
@@ -95,11 +103,11 @@ void ParamView::resized()
     auto bounds = getLocalBounds();
     auto rectTop = bounds.removeFromTop (100);
     bounds.reduce (20, 10);
-    adsrParams_.setBounds (bounds);
-    filterParams_.setBounds (bounds);
-    rectTop.reduce (20, 20);
+    rectTop.reduce (20, 10);
 
     infoScreen_.setBounds (rectTop);
+    adsrParams_.setBounds (bounds);
+    filterParams_.setBounds (bounds);
 
 //    const auto layoutSliders = [](const auto &sliders, const auto &bounds) {
 //        Grid grid;
@@ -130,32 +138,23 @@ void ParamView::resized()
 
     Array<Slider*> adsrSliders
         ({attackSlider_.get(), decaySlider_.get(), sustainSlider_.get(), releaseSlider_.get()});
-    //adsrParams_.shouldHide = true;
     adsrParams_.layoutSliders (adsrSliders, bounds);
 
     Array<Slider*> filterSliders
             ({lowPassSlider_.get(), bandPassSlider_.get(), highPassSlider_.get()});
-    filterParams_.shouldHide = true;
     filterParams_.layoutSliders (filterSliders, bounds);
 }
 
 void ParamView::paint (Graphics& g)
 {
     g.fillAll (PirateColors::orange1);   // clear the background
-    auto bounds = getLocalBounds();
-    bounds.removeFromTop (100);
-    bounds.reduce (20, 10);
-    g.setColour (Colours::limegreen);
-    g.fillRect (bounds);
 }
 
-void ParamView::setupSlider(Component& parent, std::unique_ptr<Slider>& slider, std::unique_ptr<Label>& label, const String& name)
+void ParamView::setupSlider(Component& parent, std::unique_ptr<Slider>& slider,
+                            std::unique_ptr<Label>& label, const String& name, const String& suffix)
 {
     slider = std::make_unique<Slider> (Slider::SliderStyle::RotaryVerticalDrag, Slider::TextBoxBelow);
-    if (name == "Sustain")
-        slider -> setTextValueSuffix (" dB");
-    else
-        slider -> setTextValueSuffix (" s");
+    slider->setTextValueSuffix (" " + suffix);
     parent.addAndMakeVisible (slider.get());
     label = std::make_unique<Label> ("", name);
     parent.addAndMakeVisible (label.get());
