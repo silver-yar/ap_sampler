@@ -11,10 +11,13 @@
 #include <JuceHeader.h>
 #include "ParamView.h"
 #include "PirateColors.h"
+#include "LabelSlider.h"
 
 //==============================================================================
-void ParamBlock::layoutSliders (Array<Slider*>& sliders, Rectangle<int>& bounds)
+void ParamBlock::layoutSliders (Array<LabelSlider*>& sliders)
 {
+    auto bounds = getLocalBounds();
+
     Grid grid;
     using Track = Grid::TrackInfo;
     using Fr = Grid::Fr;
@@ -35,40 +38,47 @@ void ParamBlock::layoutSliders (Array<Slider*>& sliders, Rectangle<int>& bounds)
     };
 
     grid.columnGap = Grid::Px (10);
-    grid.rowGap = Grid::Px (50);
+    grid.rowGap = Grid::Px (10);
 
     grid.alignItems = Grid::AlignItems::center;
 
     grid.performLayout (bounds);
-
-    if (shouldHide)
-        setVisible (false);
-    else
-        setVisible (true);
 }
 //==============================================================================
 ParamView::ParamView(Ap_samplerAudioProcessor& p) : infoScreen_(p), processor (p)
 {
     infoScreen_.onNameClicked = [this]() {
-        this->adsrParams_.shouldHide = !this->adsrParams_.shouldHide;
-        this->filterParams_.shouldHide = !this->filterParams_.shouldHide;
+        switch (curr_group) {
+            case GroupName::adsr:
+                this->adsrParams_.setVisible(false);
+                this->filterParams_.setVisible(true);
+                curr_group = GroupName::filter;
+                infoScreen_.group_label = "filter";
+                break;
+            case GroupName::filter:
+                this->adsrParams_.setVisible(true);
+                this->filterParams_.setVisible(false);
+                curr_group = GroupName::adsr;
+                infoScreen_.group_label = "adsr";
+                break;
+            default:
+                break;
+        }
         repaint();
         resized();
-        DBG("name clicked.");
     };
     addAndMakeVisible (infoScreen_);
 
     addAndMakeVisible (adsrParams_);
-    setupSlider (adsrParams_, attackSlider_, attackLabel_, "Attack");
-    setupSlider (adsrParams_, decaySlider_, decayLabel_, "Decay");
-    setupSlider (adsrParams_, sustainSlider_, sustainLabel_, "Sustain","dB");
-    setupSlider (adsrParams_, releaseSlider_, releaseLabel_, "Release");
+    setupSlider (adsrParams_, attackSlider_,"Attack");
+    setupSlider (adsrParams_, decaySlider_,"Decay");
+    setupSlider (adsrParams_, sustainSlider_,"Sustain","dB");
+    setupSlider (adsrParams_, releaseSlider_, "Release");
 
-    addAndMakeVisible (filterParams_);
-    setupSlider (filterParams_, lowPassSlider_, lowPassLabel_, "Low Pass","Hz");
-    setupSlider (filterParams_, bandPassSlider_, bandPassLabel_, "Band Pass","Hz");
-    setupSlider (filterParams_, highPassSlider_, highPassLabel_, "High Pass","Hz");
-    filterParams_.shouldHide = true;
+    addChildComponent (filterParams_);
+    setupSlider (filterParams_, lowPassSlider_, "Low Pass","Hz");
+    setupSlider (filterParams_, bandPassSlider_, "Band Pass","Hz");
+    setupSlider (filterParams_, highPassSlider_,  "High Pass","Hz");
 
     attachSlider (attackSlider_, attackAttachment_, "ATT");
     attachSlider (decaySlider_, decayAttachment_, "DEC");
@@ -81,21 +91,6 @@ ParamView::ParamView(Ap_samplerAudioProcessor& p) : infoScreen_(p), processor (p
 
 ParamView::~ParamView()
 {
-    attackSlider_-> setLookAndFeel(nullptr);
-    decaySlider_-> setLookAndFeel(nullptr);
-    sustainSlider_-> setLookAndFeel(nullptr);
-    releaseSlider_-> setLookAndFeel(nullptr);
-    lowPassSlider_ -> setLookAndFeel(nullptr);
-    bandPassSlider_ -> setLookAndFeel(nullptr);
-    highPassSlider_ -> setLookAndFeel(nullptr);
-
-    attackLabel_->setLookAndFeel(nullptr);
-    decayLabel_->setLookAndFeel(nullptr);
-    sustainLabel_->setLookAndFeel(nullptr);
-    releaseLabel_->setLookAndFeel(nullptr);
-    lowPassLabel_ -> setLookAndFeel(nullptr);
-    bandPassLabel_ -> setLookAndFeel(nullptr);
-    highPassLabel_ -> setLookAndFeel(nullptr);
 }
 
 void ParamView::resized()
@@ -109,40 +104,13 @@ void ParamView::resized()
     adsrParams_.setBounds (bounds);
     filterParams_.setBounds (bounds);
 
-//    const auto layoutSliders = [](const auto &sliders, const auto &bounds) {
-//        Grid grid;
-//        using Track = Grid::TrackInfo;
-//        using Fr = Grid::Fr;
-//
-//        for (const auto &slider : sliders)
-//        {
-//            grid.items.add(GridItem (slider));
-//        }
-//
-//
-//        grid.templateColumns = {
-//                Track (Fr (1)),
-//                Track (Fr (1))
-//        };
-//
-//        grid.templateRows = {
-//                Track (Fr (1)),
-//                Track (Fr (1))
-//        };
-//
-//        //grid.columnGap = Grid::Px (10);
-//        //grid.rowGap = Grid::Px (50);
-//
-//        grid.performLayout (bounds);
-//    };
-
-    Array<Slider*> adsrSliders
+    Array<LabelSlider*> adsrSliders
         ({attackSlider_.get(), decaySlider_.get(), sustainSlider_.get(), releaseSlider_.get()});
-    adsrParams_.layoutSliders (adsrSliders, bounds);
+    adsrParams_.layoutSliders (adsrSliders);
 
-    Array<Slider*> filterSliders
+    Array<LabelSlider*> filterSliders
             ({lowPassSlider_.get(), bandPassSlider_.get(), highPassSlider_.get()});
-    filterParams_.layoutSliders (filterSliders, bounds);
+    filterParams_.layoutSliders (filterSliders);
 }
 
 void ParamView::paint (Graphics& g)
@@ -150,23 +118,18 @@ void ParamView::paint (Graphics& g)
     g.fillAll (PirateColors::orange1);   // clear the background
 }
 
-void ParamView::setupSlider(Component& parent, std::unique_ptr<Slider>& slider,
-                            std::unique_ptr<Label>& label, const String& name, const String& suffix)
+void ParamView::setupSlider(Component& parent, std::unique_ptr<LabelSlider>& slider,
+                            const String& name, const String& suffix)
 {
-    slider = std::make_unique<Slider> (Slider::SliderStyle::RotaryVerticalDrag, Slider::TextBoxBelow);
-    slider->setTextValueSuffix (" " + suffix);
+    slider = std::make_unique<LabelSlider>();
+    slider->slider.setTextValueSuffix (" " + suffix);
+    slider->label.setText(name, dontSendNotification);
     parent.addAndMakeVisible (slider.get());
-    label = std::make_unique<Label> ("", name);
-    parent.addAndMakeVisible (label.get());
-    label->attachToComponent (slider.get(), false);
-    label->setJustificationType (Justification::centred);
-    slider->setLookAndFeel(&pirateSliderStyle_);
-    label->setLookAndFeel (&pirateSliderStyle_);
 }
 
-void ParamView::attachSlider(std::unique_ptr<Slider> &slider,
+void ParamView::attachSlider(std::unique_ptr<LabelSlider> &label_slider,
                              std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> &attachment,
                              const String &paramID) {
-    attachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment> (processor.apvts, paramID, *slider);
+    attachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment> (processor.apvts, paramID, label_slider->slider);
 }
 

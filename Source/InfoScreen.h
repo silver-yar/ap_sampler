@@ -32,13 +32,8 @@ public:
     void drawGroupName (Graphics&);
     std::function<void()> onNameClicked = nullptr;
 
+    String group_label = "adsr";
 private:
-    enum GroupName {
-        adsr,
-        filter
-    };
-    String grpName_ [2] { "adsr_", "filter_"};
-    int groupIndex_ { 0 };
     std::unique_ptr<ToggleButton> hideButton_;
 
     Ap_samplerAudioProcessor& processor;

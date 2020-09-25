@@ -169,7 +169,9 @@ void Ap_samplerAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
 
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
+        auto* channelData = buffer.getWritePointer (channel);
         sampler_.renderNextBlock(buffer, midiMessages, 0, numSamples);
+        lowPass_[channel].processSamples(channelData, numSamples);
     }
 }
 

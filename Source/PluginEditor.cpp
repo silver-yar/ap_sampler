@@ -20,13 +20,15 @@ Ap_samplerAudioProcessorEditor::Ap_samplerAudioProcessorEditor (Ap_samplerAudioP
       interfaceView_ (p),
       paramView_ (p)
 {
-    setResizable(true, true);
-    // TODO: Set max width and height using monitor size
-    setResizeLimits(800, 400, 1600, 800);
+    auto min_width = 800;
+    auto min_height = 500;
 
     setupFlexBoxes();
     setupFlexItems();
-    setSize(800, 450);
+    setResizable(true, true);
+    // TODO: Set max width and height using monitor size
+    setResizeLimits(min_width, min_height, min_width * 2, min_height * 2);
+    setSize(min_width, min_height);
 }
 
 Ap_samplerAudioProcessorEditor::~Ap_samplerAudioProcessorEditor()
