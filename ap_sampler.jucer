@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="bmLL9k" name="ap_sampler" projectType="audioplug" pluginChannelConfigs="{1,2}"
-              pluginCharacteristicsValue="pluginWantsMidiIn" displaySplashScreen="1"
-              jucerFormatVersion="1" companyName="audio pirate">
+<JUCERPROJECT id="bmLL9k" name="ap_sampler" projectType="audioplug" pluginCharacteristicsValue="pluginWantsMidiIn"
+              displaySplashScreen="1" jucerFormatVersion="1" companyName="audio pirate">
   <MAINGROUP id="WcPIAn" name="ap_sampler">
     <GROUP id="{624DAB67-3BAF-750A-6955-EAC26B1EADCA}" name="Source">
       <FILE id="CmLlhu" name="LabelSlider.cpp" compile="1" resource="0" file="Source/LabelSlider.cpp"/>

@@ -23,7 +23,7 @@ Ap_samplerAudioProcessor::Ap_samplerAudioProcessor()
                      #endif
                        )
 #endif
-: apvts(*this, nullptr, "Parameters", createParameters())
+, apvts(*this, nullptr, "Parameters", createParameters())
 {
     apvts.state.addListener (this);
     formatManager_.registerBasicFormats();
@@ -167,11 +167,11 @@ void Ap_samplerAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
 
     sampleCount_ = isPlayed_ ? sampleCount_ += numSamples : 0;
 
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
+    sampler_.renderNextBlock (buffer, midiMessages, 0, numSamples);
+
+    for (int channel = 0; channel < totalNumInputChannels; ++channel) {
         auto* channelData = buffer.getWritePointer (channel);
-        sampler_.renderNextBlock(buffer, midiMessages, 0, numSamples);
-        lowPass_[channel].processSamples(channelData, numSamples);
+        lowPass_[channel].processSamples (channelData, numSamples);
     }
 }
 
@@ -261,8 +261,9 @@ void Ap_samplerAudioProcessor::update() {
 
     for (auto i = 0; i < sampler_.getNumSounds(); ++i)
     {
-        if (auto sound = dynamic_cast<SamplerSound*>(sampler_.getSound(i).get()))
-            sound->setEnvelopeParameters (adsrParams);
+        if (auto sound = dynamic_cast<SamplerSound*>(sampler_.getSound(i).get())) {
+            sound->setEnvelopeParameters(adsrParams);
+        }
     }
 }
 
@@ -335,7 +336,7 @@ AudioProcessorValueTreeState::ParameterLayout Ap_samplerAudioProcessor::createPa
     parameters.emplace_back (std::make_unique<AudioParameterFloat>(
             "LPF",
             "Low Pass Filter",
-            NormalisableRange<float>(20.0f, 20000.0f, 10.0f, 0.2f),
+            NormalisableRange<float>(20.0f, 22000.0f, 10.0f, 0.2f),
             20000.0f,
             "Hz",
             AudioProcessorParameter::genericParameter,
@@ -347,7 +348,7 @@ AudioProcessorValueTreeState::ParameterLayout Ap_samplerAudioProcessor::createPa
     parameters.emplace_back (std::make_unique<AudioParameterFloat>(
             "BPF",
             "Band Pass Filter",
-            NormalisableRange<float>(20.0f, 20000.0f, 10.0f, 0.2f),
+            NormalisableRange<float>(20.0f, 22000.0f, 10.0f, 0.2f),
             20000.0f,
             "Hz",
             AudioProcessorParameter::genericParameter,
@@ -359,8 +360,8 @@ AudioProcessorValueTreeState::ParameterLayout Ap_samplerAudioProcessor::createPa
     parameters.emplace_back (std::make_unique<AudioParameterFloat>(
             "HPF",
             "High Pass Filter",
-            NormalisableRange<float>(20.0f, 20000.0f, 10.0f, 0.2f),
-            20.0f,
+            NormalisableRange<float>(20.0f, 22000.0f, 10.0f, 0.2f),
+            50.0f,
             "Hz",
             AudioProcessorParameter::genericParameter,
             valueToTextFunction,
