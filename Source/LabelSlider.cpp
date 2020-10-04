@@ -33,7 +33,16 @@ LabelSlider::~LabelSlider()
 
 void LabelSlider::paint (juce::Graphics& g)
 {
-
+    switch (current_state) {
+        case SliderState::enabled:
+            setAlpha (1.0f);
+            break;
+        case SliderState::disabled:
+            setAlpha (0.3f);
+            break;
+        default:
+            break;
+    }
 }
 
 void LabelSlider::resized()
@@ -44,4 +53,32 @@ void LabelSlider::resized()
     label.setBounds (localBounds.removeFromTop (localBounds.getHeight() * label_ratio));
     slider.setBounds (localBounds);
 }
+
+void LabelSlider::setOnDoubleClick(const std::function<void()> onDoubleClick)
+{
+    slider.onDoubleClick = onDoubleClick;
+}
+
+//void LabelSlider::mouseDoubleClick(const MouseEvent &e) {
+//    auto bounds = getLocalBounds();
+//    DBG("Slider clicked.");
+//
+//    if (bounds.contains (e.getMouseDownPosition())) {
+//        DBG("Slider clicked.");
+//        switch (current_state) {
+//            case SliderState::enabled:
+//                setDisabled();
+//                repaint();
+//                DBG("disabled.");
+//                break;
+//            case SliderState::disabled:
+//                setEnabled();
+//                repaint();
+//                DBG("enabled.");
+//                break;
+//            default:
+//                break;
+//        }
+//    }
+//}
 

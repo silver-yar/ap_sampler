@@ -4,6 +4,10 @@
               displaySplashScreen="1" jucerFormatVersion="1" companyName="audio pirate">
   <MAINGROUP id="WcPIAn" name="ap_sampler">
     <GROUP id="{624DAB67-3BAF-750A-6955-EAC26B1EADCA}" name="Source">
+      <FILE id="HZxgwB" name="ShowHideSlider.cpp" compile="1" resource="0"
+            file="Source/ShowHideSlider.cpp"/>
+      <FILE id="DahqYn" name="ShowHideSlider.h" compile="0" resource="0"
+            file="Source/ShowHideSlider.h"/>
       <FILE id="CmLlhu" name="LabelSlider.cpp" compile="1" resource="0" file="Source/LabelSlider.cpp"/>
       <FILE id="fhcG1B" name="LabelSlider.h" compile="0" resource="0" file="Source/LabelSlider.h"/>
       <FILE id="bjHZYL" name="PirateStyle.cpp" compile="1" resource="0" file="Source/PirateStyle.cpp"/>

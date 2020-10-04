@@ -70,15 +70,30 @@ ParamView::ParamView(Ap_samplerAudioProcessor& p) : infoScreen_(p), processor (p
     addAndMakeVisible (infoScreen_);
 
     addAndMakeVisible (adsrParams_);
-    setupSlider (adsrParams_, attackSlider_,"Attack");
-    setupSlider (adsrParams_, decaySlider_,"Decay");
+    setupSlider (adsrParams_, attackSlider_, "Attack");
+    setupSlider (adsrParams_, decaySlider_, "Decay");
     setupSlider (adsrParams_, sustainSlider_,"Sustain","dB");
     setupSlider (adsrParams_, releaseSlider_, "Release");
 
     addChildComponent (filterParams_);
     setupSlider (filterParams_, lowPassSlider_, "Low Pass","Hz");
-    setupSlider (filterParams_, bandPassSlider_, "Band Pass","Hz");
-    setupSlider (filterParams_, highPassSlider_,  "High Pass","Hz");
+    lowPassSlider_->setOnDoubleClick([this](){
+        lowPassSlider_->setEnabled();
+        bandPassSlider_->setDisabled();
+        highPassSlider_->setDisabled();
+    });
+    setupSlider (filterParams_, bandPassSlider_, "Band Pass", false,"Hz");
+    bandPassSlider_->setOnDoubleClick([this](){
+        lowPassSlider_->setDisabled();
+        bandPassSlider_->setEnabled();
+        highPassSlider_->setDisabled();
+    });
+    setupSlider (filterParams_, highPassSlider_,  "High Pass", false,"Hz");
+    highPassSlider_->setOnDoubleClick([this](){
+        lowPassSlider_->setDisabled();
+        bandPassSlider_->setDisabled();
+        highPassSlider_->setEnabled();
+    });
 
     attachSlider (attackSlider_, attackAttachment_, "ATT");
     attachSlider (decaySlider_, decayAttachment_, "DEC");
@@ -118,13 +133,15 @@ void ParamView::paint (Graphics& g)
     g.fillAll (PirateColors::orange1);   // clear the background
 }
 
-void ParamView::setupSlider(Component& parent, std::unique_ptr<LabelSlider>& slider,
-                            const String& name, const String& suffix)
+void ParamView::setupSlider(Component& parent, std::unique_ptr<LabelSlider>& label_slider,
+                            const String& name, bool isEnabled, const String& suffix)
 {
-    slider = std::make_unique<LabelSlider>();
-    slider->slider.setTextValueSuffix (" " + suffix);
-    slider->label.setText(name, dontSendNotification);
-    parent.addAndMakeVisible (slider.get());
+    label_slider = std::make_unique<LabelSlider>();
+    label_slider->slider.setTextValueSuffix (" " + suffix);
+    label_slider->label.setText(name, dontSendNotification);
+    parent.addAndMakeVisible (label_slider.get());
+    if (!isEnabled)
+        label_slider->setDisabled();
 }
 
 void ParamView::attachSlider(std::unique_ptr<LabelSlider> &label_slider,

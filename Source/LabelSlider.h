@@ -12,11 +12,10 @@
 
 #include <JuceHeader.h>
 #include "PirateStyle.h"
+#include "ShowHideSlider.h"
 
 //=============================================================================
-
-class LabelSlider  : public juce::Component
-{
+class LabelSlider : public Component {
 public:
     LabelSlider();
     ~LabelSlider() override;
@@ -24,10 +23,32 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
+    //==============================================================================
+    // TODO: consider using juce setEnabled && override enablement changed for repaint
+    void setDisabled ()
+    {
+        current_state = SliderState::disabled;
+        repaint();
+    }
+    void setEnabled ()
+    {
+        current_state = SliderState::enabled;
+        repaint();
+    }
+    void setOnDoubleClick (const std::function<void()> onDoubleClick);
+    //void mouseDoubleClick (const MouseEvent& e) override;
+
     Label label;
-    Slider slider;
+    ShowHideSlider slider;
     PirateStyle pirateSliderStyle;
+
+    enum SliderState {
+        enabled,
+        disabled
+    };
 private:
+    SliderState current_state = SliderState::enabled;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LabelSlider)
 };
 

@@ -46,8 +46,8 @@ public:
     void resized() override;
 
     //==============================================================================
-    void setupSlider (Component& parent, std::unique_ptr<LabelSlider>& slider,
-                      const String& name, const String& suffix = "s");
+    void setupSlider (Component& parent, std::unique_ptr<LabelSlider>& label_slider,
+                      const String& name, bool isEnabled = true, const String& suffix = "s");
     void attachSlider (std::unique_ptr<LabelSlider>& label_slider, std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment>& attachment,
                        const String& paramID);
 
