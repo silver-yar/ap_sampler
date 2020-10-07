@@ -12,6 +12,7 @@
 #include "ParamView.h"
 #include "PirateColors.h"
 #include "LabelSlider.h"
+#include "PluginProcessor.h"
 
 //==============================================================================
 void ParamBlock::layoutSliders (Array<LabelSlider*>& sliders)
@@ -81,18 +82,21 @@ ParamView::ParamView(Ap_samplerAudioProcessor& p) : infoScreen_(p), processor (p
         lowPassSlider_->setEnabled();
         bandPassSlider_->setDisabled();
         highPassSlider_->setDisabled();
+        processor.setFilterType (Ap_samplerAudioProcessor::FilterType::low_pass);
     });
     setupSlider (filterParams_, bandPassSlider_, "Band Pass", false,"Hz");
     bandPassSlider_->setOnDoubleClick([this](){
         lowPassSlider_->setDisabled();
         bandPassSlider_->setEnabled();
         highPassSlider_->setDisabled();
+        processor.setFilterType (Ap_samplerAudioProcessor::FilterType::band_pass);
     });
     setupSlider (filterParams_, highPassSlider_,  "High Pass", false,"Hz");
     highPassSlider_->setOnDoubleClick([this](){
         lowPassSlider_->setDisabled();
         bandPassSlider_->setDisabled();
         highPassSlider_->setEnabled();
+        processor.setFilterType (Ap_samplerAudioProcessor::FilterType::high_pass);
     });
 
     attachSlider (attackSlider_, attackAttachment_, "ATT");

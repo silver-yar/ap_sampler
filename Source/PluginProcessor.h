@@ -57,12 +57,27 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
     //==============================================================================
+    // ValueTree
+    AudioProcessorValueTreeState apvts;
+    ADSR::Parameters adsrParams;
+
+    bool hideAdsr { false };
+    enum FilterType {
+        low_pass,
+        high_pass,
+        band_pass
+    };
+
     // Getters
     MidiKeyboardState& getKeyboardState() { return keystate_; }
     String& getFileName() { return fileName_; }
     AudioBuffer<float>& getWaveForm() { return waveform_; };
-    std::atomic<int>& getSampleCount() { return sampleCount_; };
+    std::atomic<int>& getSampleCount() { return sampleCount_; }
 
+    // Setters
+    void setFilterType (FilterType type) { filter_type = type; }
+
+    void filterSample (int channel, float* channelData, int numSamples);
     void loadFile (const String& path);
     // Passes the sample rate and buffer size to DSP
     void prepare (double sampleRate, int samplesPerBlock);
@@ -72,12 +87,6 @@ public:
     void reset() override;
     // Create parameter layout for apvts
     AudioProcessorValueTreeState::ParameterLayout createParameters();
-
-    // ValueTree
-    AudioProcessorValueTreeState apvts;
-    ADSR::Parameters adsrParams;
-
-    bool hideAdsr { false };
 
 private:
     //==============================================================================
@@ -95,6 +104,7 @@ private:
     IIRFilter lowPass_ [2];
     IIRFilter bandPass_ [2];
     IIRFilter highPass_ [2];
+    FilterType filter_type { FilterType::low_pass };
 
     // Callback for DSP parameter changes
     void valueTreePropertyChanged (ValueTree& treeWhosePropertyChanged, const Identifier& property) override

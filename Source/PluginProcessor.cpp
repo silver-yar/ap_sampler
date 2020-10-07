@@ -171,7 +171,8 @@ void Ap_samplerAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
 
     for (int channel = 0; channel < totalNumInputChannels; ++channel) {
         auto* channelData = buffer.getWritePointer (channel);
-        lowPass_[channel].processSamples (channelData, numSamples);
+        filterSample (channel, channelData, numSamples);
+        //lowPass_[channel].processSamples (channelData, numSamples);
     }
 }
 
@@ -189,15 +190,33 @@ AudioProcessorEditor* Ap_samplerAudioProcessor::createEditor()
 //==============================================================================
 void Ap_samplerAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+    // Save state information to xml -> binary to retrieve on startup
+    ValueTree copyState = apvts.copyState();
+    std::unique_ptr<XmlElement> xml = copyState.createXml();
+    copyXmlToBinary (*xml, destData);
 }
 
 void Ap_samplerAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
+    std::unique_ptr<XmlElement> xml = getXmlFromBinary (data, sizeInBytes);
+    ValueTree copyState = ValueTree::fromXml (*xml);
+    apvts.replaceState (copyState);
+}
+
+void Ap_samplerAudioProcessor::filterSample(int channel, float* channelData, int numSamples) {
+    switch (filter_type) {
+        case FilterType::low_pass:
+            lowPass_[channel].processSamples (channelData, numSamples);
+            break;
+        case FilterType::band_pass:
+            bandPass_[channel].processSamples (channelData, numSamples);
+            break;
+        case FilterType::high_pass:
+            highPass_[channel].processSamples (channelData, numSamples);
+            break;
+        default:
+            break;
+    }
 }
 
 void Ap_samplerAudioProcessor::loadFile (const String& path)
