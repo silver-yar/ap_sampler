@@ -73,11 +73,11 @@ ParamView::ParamView(Ap_samplerAudioProcessor& p) : infoScreen_(p), processor (p
     addAndMakeVisible (adsrParams_);
     setupSlider (adsrParams_, attackSlider_, "Attack");
     setupSlider (adsrParams_, decaySlider_, "Decay");
-    setupSlider (adsrParams_, sustainSlider_,"Sustain","dB");
+    setupSlider (adsrParams_, sustainSlider_,"Sustain",true,"dB");
     setupSlider (adsrParams_, releaseSlider_, "Release");
 
     addChildComponent (filterParams_);
-    setupSlider (filterParams_, lowPassSlider_, "Low Pass","Hz");
+    setupSlider (filterParams_, lowPassSlider_, "Low Pass",true,"Hz");
     lowPassSlider_->setOnDoubleClick([this](){
         lowPassSlider_->setEnabled();
         bandPassSlider_->setDisabled();

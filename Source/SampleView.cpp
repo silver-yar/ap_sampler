@@ -35,7 +35,7 @@ void SampleView::paint (Graphics& g)
     if (processor.getWaveForm().getNumSamples() > 0 && !processor.hideEnv && processor.curr_group == processor.adsr)
         drawADSR (g);
 
-    if (!processor.hideEnv && processor.curr_group == processor.filter)
+    if (processor.getWaveForm().getNumSamples() > 0 && !processor.hideEnv && processor.curr_group == processor.filter)
         drawFilter(g);
 
     PirateStyle::drawBezel (g, getWidth(), getHeight(), 16);
@@ -100,7 +100,9 @@ void SampleView::drawFileName(Graphics& g)
     //g.setFont (def_f_size);
     auto textBounds = getLocalBounds().reduced (20, 10);
     g.drawFittedText (fileName.isNotEmpty() ? fileName : "Drag a sample here to load...",
-                      textBounds, Justification::bottomRight, 1);
+                      textBounds,
+                      fileName.isNotEmpty() ? Justification::topRight : Justification::bottomRight,
+                      1);
 }
 
 void SampleView::timerCallback()
@@ -181,11 +183,42 @@ void SampleView::mouseDown(const MouseEvent &e) {
 void SampleView::drawFilter(Graphics &g) {
     auto width = getWidth();
     auto height = getHeight();
-    auto gain = height / 2;
+    auto gain = height * 0.4f;
     auto startWidth = 16;
     auto startHeight = height - startWidth;
+    auto endWidth = width - 16;
     auto shift = 16;
-    // TODO: Draw logarithmic frequency values on x axis
+
+    // Draw Freq X-Axis
+    auto textWidth = 50.0f;
+    auto m100 = mapFromLog10 (100.0f, 20.0f, 22000.0f);
+    m100 = jmap<float> (m100, startWidth, endWidth);
+    auto m1000 = mapFromLog10 (1000.0f, 20.0f, 22000.0f);
+    m1000 = jmap<float> (m1000, startWidth, endWidth);
+    auto m10000 = mapFromLog10 (10000.0f, 20.0f, 22000.0f);
+    m10000 = jmap<float> (m10000, startWidth, endWidth);
+
+    g.setColour (PirateColors::green2);
+
+    Path axis;
+    // 100
+    axis.startNewSubPath (Point<float> (m100, startHeight - 16));
+    axis.lineTo (Point<float> (m100, 16));
+    axis.closeSubPath();
+    g.strokePath (axis, PathStrokeType (1));
+
+    // 1000
+    axis.startNewSubPath (Point<float> (m1000, startHeight - 16));
+    axis.lineTo (Point<float> (m1000, 16));
+    axis.closeSubPath();
+    g.strokePath (axis, PathStrokeType (1));
+
+    // 10000
+    axis.startNewSubPath (Point<float> (m10000, startHeight - 16));
+    axis.lineTo (Point<float> (m10000, 16));
+    axis.closeSubPath();
+    g.strokePath (axis, PathStrokeType (1));
+
     // TODO: Draw filter envelope with height being gain and with mapped to slider frequency
     float freq_val;
     float freq;
@@ -193,48 +226,56 @@ void SampleView::drawFilter(Graphics &g) {
     Path p;
 
     switch (processor.getFilterType()) {
-        case Ap_samplerAudioProcessor::FilterType::low_pass:
+        case Ap_samplerAudioProcessor::FilterType::low_pass: // Low Pass
             g.setColour (Colours::red);
             freq_val = *processor.apvts.getRawParameterValue("LPF");
             // Draw Filter Envelope
-            freq = jmap<float> (freq_val, 0, 22000, startWidth, width);
+            freq = mapFromLog10 (freq_val, 20.0f, 22000.0f);
+            freq = jmap<float> (freq, startWidth, endWidth);
 
             p.startNewSubPath (start);
             p.lineTo (Point<float> (startWidth, gain));
-            p.lineTo (Point<float> (freq, gain));
-            p.lineTo (Point<float> (freq, startHeight));
+            p.lineTo (Point<float> (freq - (shift * 2.0f), gain));
+            p.quadraticTo(Point<float> (freq, gain),
+                    Point<float> (freq, startHeight));
             p.closeSubPath();
 
             g.strokePath (p, PathStrokeType (2));
             g.setColour (Colours::red.withAlpha (0.3f));
             g.fillPath (p);
             break;
-        case Ap_samplerAudioProcessor::FilterType::band_pass:
+        case Ap_samplerAudioProcessor::FilterType::band_pass: // Band Pass
             g.setColour (Colours::yellow);
             freq_val = *processor.apvts.getRawParameterValue("BPF");
             // Draw Filter Envelope
-            freq = jmap<float> (freq_val, 0, 22000, startWidth, width);
+            freq = mapFromLog10 (freq_val, 20.0f, 22000.0f);
+            freq = jmap<float> (freq, startWidth, endWidth);
 
             p.startNewSubPath (Point<float> (freq - shift, startHeight));
-            p.lineTo (Point<float> (freq - shift, gain));
-            p.lineTo (Point<float> (freq + shift, gain));
-            p.lineTo (Point<float> (freq + shift, startHeight));
+            p.quadraticTo (Point<float> (freq - shift, gain),
+                    Point<float> (freq, gain));
+            //p.lineTo (Point<float> (freq - shift, gain));
+            //p.lineTo (Point<float> (freq + shift, gain));
+            p.quadraticTo (Point<float> (freq + shift, gain),
+                    Point<float> (freq + shift, startHeight));
             p.closeSubPath();
 
             g.strokePath (p, PathStrokeType (2));
             g.setColour (Colours::yellow.withAlpha (0.3f));
             g.fillPath (p);
             break;
-        case Ap_samplerAudioProcessor::FilterType::high_pass:
+        case Ap_samplerAudioProcessor::FilterType::high_pass: // High Pass
             g.setColour (Colours::rebeccapurple);
             freq_val = *processor.apvts.getRawParameterValue("HPF");
             // Draw Filter Envelope
-            freq = jmap<float> (freq_val, 0, 22000, width, startWidth);
+            freq = mapFromLog10 (freq_val, 20.0f, 22000.0f);
+            freq = jmap<float> (freq, startWidth, endWidth);
 
-            p.startNewSubPath (Point<float> (width, startHeight));
-            p.lineTo (Point<float> (width, gain));
-            p.lineTo (Point<float> (freq, gain));
-            p.lineTo (Point<float> (freq, startHeight));
+            p.startNewSubPath (Point<float> (endWidth, startHeight));
+            p.lineTo (Point<float> (endWidth, gain));
+            p.lineTo (Point<float> (freq + (shift * 2.0f), gain));
+            p.quadraticTo(Point<float> (freq, gain),
+                          Point<float> (freq, startHeight));
             p.closeSubPath();
 
             g.strokePath (p, PathStrokeType (2));
@@ -244,4 +285,13 @@ void SampleView::drawFilter(Graphics &g) {
         default:
             break;
     }
+
+    g.setColour (PirateColors::green2);
+    g.setFont (10.0f);
+    g.drawText ("100",m100 - (textWidth / 2), startHeight - 8, textWidth,
+                5, Justification::centred, false);
+    g.drawText ("1000",m1000 - (textWidth / 2), startHeight - 8, textWidth,
+                5, Justification::centred, false);
+    g.drawText ("10000",m10000 - (textWidth / 2), startHeight - 8, textWidth,
+                5, Justification::centred, false);
 }
