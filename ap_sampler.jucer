@@ -4,24 +4,34 @@
               displaySplashScreen="1" jucerFormatVersion="1" companyName="audio pirate">
   <MAINGROUP id="WcPIAn" name="ap_sampler">
     <GROUP id="{624DAB67-3BAF-750A-6955-EAC26B1EADCA}" name="Source">
-      <FILE id="HZxgwB" name="ShowHideSlider.cpp" compile="1" resource="0"
-            file="Source/ShowHideSlider.cpp"/>
-      <FILE id="DahqYn" name="ShowHideSlider.h" compile="0" resource="0"
-            file="Source/ShowHideSlider.h"/>
-      <FILE id="CmLlhu" name="LabelSlider.cpp" compile="1" resource="0" file="Source/LabelSlider.cpp"/>
-      <FILE id="fhcG1B" name="LabelSlider.h" compile="0" resource="0" file="Source/LabelSlider.h"/>
-      <FILE id="bjHZYL" name="PirateStyle.cpp" compile="1" resource="0" file="Source/PirateStyle.cpp"/>
-      <FILE id="BqXP8A" name="PirateStyle.h" compile="0" resource="0" file="Source/PirateStyle.h"/>
-      <FILE id="gN6XfN" name="PirateColors.h" compile="0" resource="0" file="Source/PirateColors.h"/>
-      <FILE id="lOkKIi" name="InfoScreen.cpp" compile="1" resource="0" file="Source/InfoScreen.cpp"/>
-      <FILE id="BYbKvs" name="InfoScreen.h" compile="0" resource="0" file="Source/InfoScreen.h"/>
-      <FILE id="WDex5G" name="ParamView.cpp" compile="1" resource="0" file="Source/ParamView.cpp"/>
-      <FILE id="hLqFKT" name="ParamView.h" compile="0" resource="0" file="Source/ParamView.h"/>
-      <FILE id="htrPqn" name="SampleView.cpp" compile="1" resource="0" file="Source/SampleView.cpp"/>
-      <FILE id="pElaiF" name="SampleView.h" compile="0" resource="0" file="Source/SampleView.h"/>
-      <FILE id="t8jgd5" name="InterfaceView.cpp" compile="1" resource="0"
-            file="Source/InterfaceView.cpp"/>
-      <FILE id="oBHrAf" name="InterfaceView.h" compile="0" resource="0" file="Source/InterfaceView.h"/>
+      <GROUP id="{D51441C5-0DD5-A875-9C5E-BF46217605D0}" name="components">
+        <FILE id="eysZk5" name="InfoScreen.cpp" compile="1" resource="0" file="Source/components/InfoScreen.cpp"/>
+        <FILE id="u8wFIg" name="InfoScreen.h" compile="0" resource="0" file="Source/components/InfoScreen.h"/>
+        <FILE id="cERZMR" name="LabelSlider.cpp" compile="1" resource="0" file="Source/components/LabelSlider.cpp"/>
+        <FILE id="xZR796" name="LabelSlider.h" compile="0" resource="0" file="Source/components/LabelSlider.h"/>
+        <FILE id="mVyQzg" name="ShowHideSlider.cpp" compile="1" resource="0"
+              file="Source/components/ShowHideSlider.cpp"/>
+        <FILE id="rKiYGU" name="ShowHideSlider.h" compile="0" resource="0"
+              file="Source/components/ShowHideSlider.h"/>
+        <FILE id="R2n6Bg" name="SpectrumAnalyser.cpp" compile="1" resource="0"
+              file="Source/components/SpectrumAnalyser.cpp"/>
+        <FILE id="AZO3EZ" name="SpectrumAnalyser.h" compile="0" resource="0"
+              file="Source/components/SpectrumAnalyser.h"/>
+      </GROUP>
+      <GROUP id="{9681B252-B4B6-FB94-A5B0-C2B39FAF347A}" name="styling">
+        <FILE id="fHtEsJ" name="PirateColors.h" compile="0" resource="0" file="Source/styling/PirateColors.h"/>
+        <FILE id="KoLvTz" name="PirateStyle.cpp" compile="1" resource="0" file="Source/styling/PirateStyle.cpp"/>
+        <FILE id="Krteu7" name="PirateStyle.h" compile="0" resource="0" file="Source/styling/PirateStyle.h"/>
+      </GROUP>
+      <GROUP id="{DA066D98-781D-416E-8391-37CF9D2D35C2}" name="views">
+        <FILE id="mtWqpK" name="InterfaceView.cpp" compile="1" resource="0"
+              file="Source/views/InterfaceView.cpp"/>
+        <FILE id="dkWDKn" name="InterfaceView.h" compile="0" resource="0" file="Source/views/InterfaceView.h"/>
+        <FILE id="iPwvhH" name="ParamView.cpp" compile="1" resource="0" file="Source/views/ParamView.cpp"/>
+        <FILE id="iG0eTm" name="ParamView.h" compile="0" resource="0" file="Source/views/ParamView.h"/>
+        <FILE id="YlpVAt" name="SampleView.cpp" compile="1" resource="0" file="Source/views/SampleView.cpp"/>
+        <FILE id="BABN96" name="SampleView.h" compile="0" resource="0" file="Source/views/SampleView.h"/>
+      </GROUP>
       <FILE id="RzQRYZ" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="hugKRs" name="PluginProcessor.h" compile="0" resource="0"

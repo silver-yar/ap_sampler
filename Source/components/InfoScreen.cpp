@@ -9,10 +9,10 @@
 */
 
 #include <JuceHeader.h>
-#include "PluginProcessor.h"
+#include "../PluginProcessor.h"
 #include "InfoScreen.h"
-#include "PirateColors.h"
-#include "PirateStyle.h"
+#include "../styling/PirateColors.h"
+#include "../styling/PirateStyle.h"
 
 //==============================================================================
 InfoScreen::InfoScreen(Ap_samplerAudioProcessor& p) : processor (p)

@@ -11,8 +11,8 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "PirateStyle.h"
-#include "ShowHideSlider.h"
+#include "../styling/PirateStyle.h"
+#include "./ShowHideSlider.h"
 
 //=============================================================================
 class LabelSlider : public Component {

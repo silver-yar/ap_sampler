@@ -44,7 +44,7 @@ private:
     const Colour blackA122 = Colours::black.withAlpha (uint8 (122));
     const Colour blackA142 = Colours::black.withAlpha (uint8 (142));
 
-    const knobImages& getKnobImages (int diameter);
+    knobImages& getKnobImages (int diameter);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PirateStyle)
 };

@@ -1,8 +1,8 @@
 /*
   ==============================================================================
 
-    InfoScreen.h
-    Created: 10 Jun 2020 7:07:09pm
+    SampleView.h
+    Created: 1 Jun 2020 8:47:27pm
     Author:  Johnathan Handy
 
   ==============================================================================
@@ -11,32 +11,38 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "PluginProcessor.h"
+#include "../PluginProcessor.h"
 
 //==============================================================================
 /*
 */
-class InfoScreen    : public Component,
-                      public Button::Listener
+class SampleView    : public Component,
+                      public Timer
 {
 public:
-    InfoScreen(Ap_samplerAudioProcessor&);
-    ~InfoScreen();
+    SampleView(Ap_samplerAudioProcessor&);
+    ~SampleView();
 
     void paint (Graphics&) override;
     void resized() override;
 
     //==============================================================================
-    void mouseDown (const MouseEvent& e) override;
-    void buttonClicked (Button* button) override;
-    void drawGroupName (Graphics&);
-    std::function<void()> onNameClicked = nullptr;
+    void drawWaveform (Graphics&);
+    void drawFileName (Graphics&);
+    void drawADSR (Graphics&);
+    void drawFilter (Graphics&);
+    void timerCallback() override;
 
-    String group_label = "adsr";
+    void mouseDown (const MouseEvent& e) override;
+
 private:
-    std::unique_ptr<ToggleButton> hideButton_;
+
+    // Objects
+    std::vector<float> audioPoints_;
+    std::vector<float> adsrPoints_;
+    FileChooser fileChooser_ {"Choose a sample..."};
 
     Ap_samplerAudioProcessor& processor;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (InfoScreen)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SampleView)
 };

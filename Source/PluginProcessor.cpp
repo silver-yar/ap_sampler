@@ -172,7 +172,9 @@ void Ap_samplerAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
     for (int channel = 0; channel < totalNumInputChannels; ++channel) {
         auto* channelData = buffer.getWritePointer (channel);
         filterSample (channel, channelData, numSamples);
-        //lowPass_[channel].processSamples (channelData, numSamples);
+
+        for (int sample = 0; sample < numSamples; ++sample)
+            pushNextSampleIntoFifo (channelData[sample]);
     }
 }
 
@@ -203,7 +205,8 @@ void Ap_samplerAudioProcessor::setStateInformation (const void* data, int sizeIn
     apvts.replaceState (copyState);
 }
 
-void Ap_samplerAudioProcessor::filterSample(int channel, float* channelData, int numSamples) {
+void Ap_samplerAudioProcessor::filterSample(int channel, float* channelData, int numSamples)
+{
     switch (filter_type) {
         case FilterType::low_pass:
             lowPass_[channel].processSamples (channelData, numSamples);
@@ -217,6 +220,18 @@ void Ap_samplerAudioProcessor::filterSample(int channel, float* channelData, int
         default:
             break;
     }
+}
+
+void Ap_samplerAudioProcessor::pushNextSampleIntoFifo(float sample) {
+    if (fifoIndex_ == fftSize) {
+        if (!nextFFTBlockReady_) {
+            zeromem (fftData_, sizeof (fftData_));
+            memcpy (fftData_, fifo_, sizeof (fifo_));
+            nextFFTBlockReady_ = true;
+        }
+        fifoIndex_ = 0;
+    }
+    fifo_[fifoIndex_++] = sample;
 }
 
 void Ap_samplerAudioProcessor::loadFile (const String& path)

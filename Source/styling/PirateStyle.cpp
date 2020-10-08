@@ -47,7 +47,7 @@ static inline void fillEllipse (Graphics& g, const Rectangle<float>& bounds, con
     g.fillEllipse (bounds);
 }
 
-const PirateStyle::knobImages& PirateStyle::getKnobImages (int diameter)
+PirateStyle::knobImages& PirateStyle::getKnobImages (int diameter)
 {
     auto search = knobsBgs.find (diameter);
     if (search != knobsBgs.end()) return search->second;
@@ -156,7 +156,7 @@ void PirateStyle::drawRotarySlider (Graphics& g, int x, int y, int width, int he
 
     const Colour fill = slider.findColour (Slider::rotarySliderFillColourId);
 
-    const knobImages& images = getKnobImages (diameter);
+    knobImages& images = getKnobImages (diameter);
     g.drawImageAt (images.backgroundImage, x, y);
 
     if (!isSmall) // marker dot

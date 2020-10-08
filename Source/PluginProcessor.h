@@ -62,6 +62,8 @@ public:
     ADSR::Parameters adsrParams;
 
     bool hideEnv { false };
+
+    // Enums
     enum FilterType {
         low_pass,
         high_pass,
@@ -71,6 +73,12 @@ public:
         adsr,
         filter
     };
+    enum fft
+    {
+        fftOrder = 11,
+        fftSize = 1 << fftOrder,
+        scopeSize = 512
+    };
     GroupName curr_group = GroupName::adsr;
 
     // Getters
@@ -79,12 +87,16 @@ public:
     AudioBuffer<float>& getWaveForm() { return waveform_; };
     std::atomic<int>& getSampleCount() { return sampleCount_; }
     FilterType getFilterType() { return filter_type; }
+    float* getFFTData() { return fftData_; }
 
 
     // Setters
     void setFilterType (FilterType type) { filter_type = type; }
 
+    // Apply IIR filtering to samples in buffer
     void filterSample (int channel, float* channelData, int numSamples);
+    // Push samples into fifo for fft
+    void pushNextSampleIntoFifo (float sample);
     void loadFile (const String& path);
     // Passes the sample rate and buffer size to DSP
     void prepare (double sampleRate, int samplesPerBlock);
@@ -112,6 +124,13 @@ private:
     IIRFilter bandPass_ [2];
     IIRFilter highPass_ [2];
     FilterType filter_type { FilterType::low_pass };
+
+    // FFT
+    float fifo_ [fftSize];
+    float fftData_ [2 * fftSize];
+    int fifoIndex_ { 0 };
+    bool nextFFTBlockReady_ { false };
+    float scopeData_ [scopeSize];
 
     // Callback for DSP parameter changes
     void valueTreePropertyChanged (ValueTree& treeWhosePropertyChanged, const Identifier& property) override

@@ -12,9 +12,9 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
-#include "InterfaceView.h"
-#include "SampleView.h"
-#include "ParamView.h"
+#include "views/InterfaceView.h"
+#include "views/SampleView.h"
+#include "views/ParamView.h"
 
 //==============================================================================
 /**
