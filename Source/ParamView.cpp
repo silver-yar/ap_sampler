@@ -49,17 +49,17 @@ void ParamBlock::layoutSliders (Array<LabelSlider*>& sliders)
 ParamView::ParamView(Ap_samplerAudioProcessor& p) : infoScreen_(p), processor (p)
 {
     infoScreen_.onNameClicked = [this]() {
-        switch (curr_group) {
-            case GroupName::adsr:
+        switch (processor.curr_group) {
+            case Ap_samplerAudioProcessor::GroupName::adsr:
                 this->adsrParams_.setVisible(false);
                 this->filterParams_.setVisible(true);
-                curr_group = GroupName::filter;
+                processor.curr_group = Ap_samplerAudioProcessor::GroupName::filter;
                 infoScreen_.group_label = "filter";
                 break;
-            case GroupName::filter:
+            case Ap_samplerAudioProcessor::GroupName::filter:
                 this->adsrParams_.setVisible(true);
                 this->filterParams_.setVisible(false);
-                curr_group = GroupName::adsr;
+                processor.curr_group = Ap_samplerAudioProcessor::GroupName::adsr;
                 infoScreen_.group_label = "adsr";
                 break;
             default:

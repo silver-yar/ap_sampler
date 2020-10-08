@@ -32,9 +32,11 @@ void SampleView::paint (Graphics& g)
 
     drawWaveform (g);
     drawFileName (g);
-    if (processor.getWaveForm().getNumSamples() > 0 && !processor.hideAdsr)
+    if (processor.getWaveForm().getNumSamples() > 0 && !processor.hideEnv && processor.curr_group == processor.adsr)
         drawADSR (g);
 
+    if (!processor.hideEnv && processor.curr_group == processor.filter)
+        drawFilter(g);
 
     PirateStyle::drawBezel (g, getWidth(), getHeight(), 16);
 }
@@ -174,4 +176,72 @@ void SampleView::mouseDown(const MouseEvent &e) {
 //        auto path = fileChooser_.getResult().getFullPathName();
 //        processor.loadFile (path);
 //    }
+}
+
+void SampleView::drawFilter(Graphics &g) {
+    auto width = getWidth();
+    auto height = getHeight();
+    auto gain = height / 2;
+    auto startWidth = 16;
+    auto startHeight = height - startWidth;
+    auto shift = 16;
+    // TODO: Draw logarithmic frequency values on x axis
+    // TODO: Draw filter envelope with height being gain and with mapped to slider frequency
+    float freq_val;
+    float freq;
+    auto start = Point<float> (startWidth, startHeight);
+    Path p;
+
+    switch (processor.getFilterType()) {
+        case Ap_samplerAudioProcessor::FilterType::low_pass:
+            g.setColour (Colours::red);
+            freq_val = *processor.apvts.getRawParameterValue("LPF");
+            // Draw Filter Envelope
+            freq = jmap<float> (freq_val, 0, 22000, startWidth, width);
+
+            p.startNewSubPath (start);
+            p.lineTo (Point<float> (startWidth, gain));
+            p.lineTo (Point<float> (freq, gain));
+            p.lineTo (Point<float> (freq, startHeight));
+            p.closeSubPath();
+
+            g.strokePath (p, PathStrokeType (2));
+            g.setColour (Colours::red.withAlpha (0.3f));
+            g.fillPath (p);
+            break;
+        case Ap_samplerAudioProcessor::FilterType::band_pass:
+            g.setColour (Colours::yellow);
+            freq_val = *processor.apvts.getRawParameterValue("BPF");
+            // Draw Filter Envelope
+            freq = jmap<float> (freq_val, 0, 22000, startWidth, width);
+
+            p.startNewSubPath (Point<float> (freq - shift, startHeight));
+            p.lineTo (Point<float> (freq - shift, gain));
+            p.lineTo (Point<float> (freq + shift, gain));
+            p.lineTo (Point<float> (freq + shift, startHeight));
+            p.closeSubPath();
+
+            g.strokePath (p, PathStrokeType (2));
+            g.setColour (Colours::yellow.withAlpha (0.3f));
+            g.fillPath (p);
+            break;
+        case Ap_samplerAudioProcessor::FilterType::high_pass:
+            g.setColour (Colours::rebeccapurple);
+            freq_val = *processor.apvts.getRawParameterValue("HPF");
+            // Draw Filter Envelope
+            freq = jmap<float> (freq_val, 0, 22000, width, startWidth);
+
+            p.startNewSubPath (Point<float> (width, startHeight));
+            p.lineTo (Point<float> (width, gain));
+            p.lineTo (Point<float> (freq, gain));
+            p.lineTo (Point<float> (freq, startHeight));
+            p.closeSubPath();
+
+            g.strokePath (p, PathStrokeType (2));
+            g.setColour (Colours::rebeccapurple.withAlpha (0.3f));
+            g.fillPath (p);
+            break;
+        default:
+            break;
+    }
 }

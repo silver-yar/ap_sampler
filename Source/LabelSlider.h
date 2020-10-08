@@ -35,7 +35,7 @@ public:
         current_state = SliderState::enabled;
         repaint();
     }
-    void setOnDoubleClick (const std::function<void()> onDoubleClick);
+    void setOnDoubleClick (const std::function<void()>& onDoubleClick);
     //void mouseDoubleClick (const MouseEvent& e) override;
 
     Label label;

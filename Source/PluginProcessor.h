@@ -61,18 +61,25 @@ public:
     AudioProcessorValueTreeState apvts;
     ADSR::Parameters adsrParams;
 
-    bool hideAdsr { false };
+    bool hideEnv { false };
     enum FilterType {
         low_pass,
         high_pass,
         band_pass
     };
+    enum GroupName {
+        adsr,
+        filter
+    };
+    GroupName curr_group = GroupName::adsr;
 
     // Getters
     MidiKeyboardState& getKeyboardState() { return keystate_; }
     String& getFileName() { return fileName_; }
     AudioBuffer<float>& getWaveForm() { return waveform_; };
     std::atomic<int>& getSampleCount() { return sampleCount_; }
+    FilterType getFilterType() { return filter_type; }
+
 
     // Setters
     void setFilterType (FilterType type) { filter_type = type; }

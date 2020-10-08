@@ -67,6 +67,6 @@ void InfoScreen::mouseDown(const MouseEvent &e) {
 
 void InfoScreen::buttonClicked(Button *button) {
     if (button == hideButton_.get()) {
-        processor.hideAdsr = hideButton_ -> getToggleState();
+        processor.hideEnv = hideButton_ -> getToggleState();
     }
 }

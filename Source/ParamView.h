@@ -51,12 +51,6 @@ public:
     void attachSlider (std::unique_ptr<LabelSlider>& label_slider, std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment>& attachment,
                        const String& paramID);
 
-    enum GroupName {
-        adsr,
-        filter
-    };
-    GroupName curr_group = GroupName::adsr;
-
 private:
     // Components
     InfoScreen infoScreen_;
