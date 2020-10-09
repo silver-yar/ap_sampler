@@ -5,4 +5,4 @@ A simple vst3 sampler plugin made w/ JUCE
 
 ![Sampler Image](Screenshots/envelope.png "Envelope")
 
-![Sampler Image](Screenshots/highpass.png "High Pass")
+![Sampler Image](Screenshots/lowpass.png "Low Pass")
