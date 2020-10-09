@@ -12,6 +12,7 @@
 
 #include <JuceHeader.h>
 #include "../PluginProcessor.h"
+#include "../components/SpectrumAnalyser.h"
 
 //==============================================================================
 /*
@@ -36,13 +37,13 @@ public:
     void mouseDown (const MouseEvent& e) override;
 
 private:
+    Ap_samplerAudioProcessor& processor;
 
     // Objects
+    SpectrumAnalyser spectrum_;
     std::vector<float> audioPoints_;
     std::vector<float> adsrPoints_;
     FileChooser fileChooser_ {"Choose a sample..."};
-
-    Ap_samplerAudioProcessor& processor;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SampleView)
 };

@@ -10,17 +10,14 @@
 
 #include <JuceHeader.h>
 #include "SpectrumAnalyser.h"
-#include "../PluginProcessor.h"
+#include "../styling/PirateColors.h"
 
 //==============================================================================
 SpectrumAnalyser::SpectrumAnalyser(Ap_samplerAudioProcessor& p) : processor (p),
                                                                   forwardFFT_ (processor.fftOrder),
-                                                                  window_ (processor.fftSize, windowType_),
-                                                                  scopeData_ (scopeData_[processor.scopeSize])
+                                                                  window_ (processor.fftSize,
+                                                                           dsp::WindowingFunction<float>::hann)
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
-
 }
 
 SpectrumAnalyser::~SpectrumAnalyser()
@@ -29,22 +26,11 @@ SpectrumAnalyser::~SpectrumAnalyser()
 
 void SpectrumAnalyser::paint (juce::Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
-
-       You should replace everything in this method with your own
-       drawing code..
-    */
-
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
-
-    g.setColour (juce::Colours::grey);
-    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-
-    g.setColour (juce::Colours::white);
-    g.setFont (14.0f);
-    g.drawText ("SpectrumAnalyser", getLocalBounds(),
-                juce::Justification::centred, true);   // draw some placeholder text
+   if (processor.isFFTBlockReady()) {
+       drawNextFrameOfSpectrum();
+       processor.setFFTBlockReady (false);
+       drawFrame (g);
+   }
 }
 
 void SpectrumAnalyser::resized()
@@ -65,15 +51,35 @@ void SpectrumAnalyser::drawNextFrameOfSpectrum()
     auto mindB = -100.0f;
     auto maxdB = 0.0f;
 
-    for (int i = 0; i < processor.scopeSize; ++i)
+    for (int i = 0; i < scopeSize; ++i)
     {
-        auto skewedProportionX = 1.0f - std::exp (std::log (1.0f - (float) i / (float) processor.scopeSize) * 0.2f);
-        auto fftDataIndex = juce::jlimit (0, processorfftSize / 2, (int) (skewedProportionX * (float) fftSize * 0.5f));
-        auto level = juce::jmap (juce::jlimit (mindB, maxdB, juce::Decibels::gainToDecibels (fftData[fftDataIndex])
-                                                             - juce::Decibels::gainToDecibels ((float) fftSize)),
+        auto skewedProportionX = 1.0f - std::exp (std::log (1.0f - (float) i / (float) scopeSize) * 0.2f);
+        auto fftDataIndex = jlimit (0, processor.fftSize / 2,
+                                          (int) (skewedProportionX * (float) processor.fftSize * 0.5f));
+        auto level = jmap (jlimit (mindB, maxdB,
+                                               juce::Decibels::gainToDecibels (fftData[fftDataIndex])
+                                                             - juce::Decibels::gainToDecibels ((float) processor.fftSize)),
                                  mindB, maxdB, 0.0f, 1.0f);
 
-        processor.scopeData[i] = level;
+        scopeData_[i] = level;
     }
 
+}
+
+void SpectrumAnalyser::drawFrame(Graphics& g)
+{
+    auto lineThickness = 2.0f;
+    g.setColour (PirateColors::green2);
+    for (int i = 1; i < scopeSize; ++i)
+    {
+        auto width  = getLocalBounds().getWidth();
+        auto height = getLocalBounds().getHeight();
+
+        g.drawLine ({ (float) juce::jmap (i - 1, 0, scopeSize - 1, 0, width),
+                      juce::jmap (scopeData_[i - 1], 0.0f, 1.0f, (float) height, 0.0f),
+                      (float) juce::jmap (i,     0, scopeSize - 1, 0, width),
+                      juce::jmap (scopeData_[i],     0.0f, 1.0f, (float) height, 0.0f) },
+                        lineThickness
+                    );
+    }
 }

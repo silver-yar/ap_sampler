@@ -25,12 +25,14 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
     void drawNextFrameOfSpectrum();
+    void drawFrame (Graphics&);
 //    enum
 //    {
 //        fftOrder = 11,
 //        fftSize = 1 << fftOrder,
 //        scopeSize = 512
 //    };
+    static const int scopeSize = 512;
 
 private:
     Ap_samplerAudioProcessor& processor;
@@ -38,6 +40,7 @@ private:
     dsp::FFT forwardFFT_;
     dsp::WindowingFunction<float> window_;
     dsp::WindowingFunction<float>::WindowingMethod windowType_ = dsp::WindowingFunction<float>::hann;
+    float scopeData_ [scopeSize];
 //    float fifo_ [fftSize];
 //    float fftData_ [2 * fftSize];
 //    int fifoIndex_ { 0 };

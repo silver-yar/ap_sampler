@@ -76,8 +76,7 @@ public:
     enum fft
     {
         fftOrder = 11,
-        fftSize = 1 << fftOrder,
-        scopeSize = 512
+        fftSize = 1 << fftOrder
     };
     GroupName curr_group = GroupName::adsr;
 
@@ -88,10 +87,11 @@ public:
     std::atomic<int>& getSampleCount() { return sampleCount_; }
     FilterType getFilterType() { return filter_type; }
     float* getFFTData() { return fftData_; }
-
+    bool isFFTBlockReady() { return nextFFTBlockReady_; }
 
     // Setters
     void setFilterType (FilterType type) { filter_type = type; }
+    void setFFTBlockReady(bool isReady) { nextFFTBlockReady_ = isReady; }
 
     // Apply IIR filtering to samples in buffer
     void filterSample (int channel, float* channelData, int numSamples);
@@ -130,7 +130,6 @@ private:
     float fftData_ [2 * fftSize];
     int fifoIndex_ { 0 };
     bool nextFFTBlockReady_ { false };
-    float scopeData_ [scopeSize];
 
     // Callback for DSP parameter changes
     void valueTreePropertyChanged (ValueTree& treeWhosePropertyChanged, const Identifier& property) override

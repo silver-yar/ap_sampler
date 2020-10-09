@@ -15,8 +15,9 @@
 #include "../styling/PirateColors.h"
 
 //==============================================================================
-SampleView::SampleView(Ap_samplerAudioProcessor& p) : processor (p)
+SampleView::SampleView(Ap_samplerAudioProcessor& p) : processor (p), spectrum_ (p)
 {
+    addChildComponent (spectrum_);
     startTimerHz(60);
 }
 
@@ -30,21 +31,28 @@ void SampleView::paint (Graphics& g)
     g.fillAll (PirateColors::green1);
     g.setFont (14.0f);
 
-    drawWaveform (g);
     drawFileName (g);
-    if (processor.getWaveForm().getNumSamples() > 0 && !processor.hideEnv && processor.curr_group == processor.adsr)
-        drawADSR (g);
 
-    if (processor.getWaveForm().getNumSamples() > 0 && !processor.hideEnv && processor.curr_group == processor.filter)
+    if (processor.getWaveForm().getNumSamples() > 0 && !processor.hideEnv && processor.curr_group == processor.adsr) {
+        spectrum_.setVisible (false);
+        drawWaveform (g);
+        drawADSR (g);
+    }
+    else if (processor.getWaveForm().getNumSamples() > 0 && !processor.hideEnv && processor.curr_group == processor.filter) {
+        spectrum_.setVisible (true);
         drawFilter(g);
+    }
+    else {
+        drawWaveform (g);
+    }
 
     PirateStyle::drawBezel (g, getWidth(), getHeight(), 16);
 }
 
 void SampleView::resized()
 {
-    // This method is where you should set the bounds of any child
-    // components that your component contains..
+    auto localBounds = getLocalBounds();
+    spectrum_.setBounds (localBounds);
 }
 
 void SampleView::drawWaveform(Graphics& g)
