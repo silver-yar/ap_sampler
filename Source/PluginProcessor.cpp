@@ -23,7 +23,7 @@ Ap_samplerAudioProcessor::Ap_samplerAudioProcessor()
                      #endif
                        )
 #endif
-: apvts(*this, nullptr, "Parameters", createParameters())
+, apvts(*this, nullptr, "Parameters", createParameters())
 {
     apvts.state.addListener (this);
     formatManager_.registerBasicFormats();

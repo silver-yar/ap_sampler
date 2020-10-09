@@ -259,13 +259,13 @@ void SampleView::drawFilter(Graphics &g) {
             freq = mapFromLog10 (freq_val, 20.0f, 22000.0f);
             freq = jmap<float> (freq, startWidth, endWidth);
 
-            p.startNewSubPath (Point<float> (freq - shift, startHeight));
-            p.quadraticTo (Point<float> (freq - shift, gain),
+            p.startNewSubPath (Point<float> (freq - (3 * shift), startHeight));
+            p.quadraticTo (Point<float> (freq - (3 * shift), gain),
                     Point<float> (freq, gain));
             //p.lineTo (Point<float> (freq - shift, gain));
             //p.lineTo (Point<float> (freq + shift, gain));
-            p.quadraticTo (Point<float> (freq + shift, gain),
-                    Point<float> (freq + shift, startHeight));
+            p.quadraticTo (Point<float> (freq + (3 * shift), gain),
+                    Point<float> (freq + (3 * shift), startHeight));
             p.closeSubPath();
 
             g.strokePath (p, PathStrokeType (2));

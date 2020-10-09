@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="bmLL9k" name="ap_sampler" projectType="audioplug" pluginCharacteristicsValue="pluginWantsMidiIn"
-              displaySplashScreen="1" jucerFormatVersion="1" companyName="audio pirate"
-              pluginChannelConfigs="{2,2}">
+              displaySplashScreen="1" jucerFormatVersion="1" companyName="audio pirate">
   <MAINGROUP id="WcPIAn" name="ap_sampler">
     <GROUP id="{624DAB67-3BAF-750A-6955-EAC26B1EADCA}" name="Source">
       <GROUP id="{D51441C5-0DD5-A875-9C5E-BF46217605D0}" name="components">
