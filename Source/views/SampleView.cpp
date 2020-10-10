@@ -17,7 +17,7 @@
 //==============================================================================
 SampleView::SampleView(Ap_samplerAudioProcessor& p) : processor (p), spectrum_ (p)
 {
-    addChildComponent (spectrum_);
+    addChildComponent (spectrum_, -100);
     startTimerHz(60);
 }
 
@@ -52,7 +52,7 @@ void SampleView::paint (Graphics& g)
 void SampleView::resized()
 {
     auto localBounds = getLocalBounds();
-    spectrum_.setBounds (localBounds);
+    spectrum_.setBounds (0,16, localBounds.getWidth(), localBounds.getHeight() - 16);
 }
 
 void SampleView::drawWaveform(Graphics& g)
@@ -125,7 +125,6 @@ void SampleView::drawADSR(Graphics& g) {
     auto height = getHeight();
     auto startWidth = 16;
     auto startHeight = height - startWidth;
-    auto envHeight = height / 2 - (height * 0.2f);
     auto firstStop = width / 3;
     auto secondStop = (width * 2) / 3 ;
 
@@ -140,6 +139,8 @@ void SampleView::drawADSR(Graphics& g) {
     Path p;
 
     auto start = Point<float> (startWidth, startHeight);
+    auto envHeight = jmap<float> (*processor.apvts.getRawParameterValue ("VOL"),
+                                  -40.0f, 40.0f, startHeight, 16.0f);
     auto attack = jmap<float> (adsrPoints_[0], 0.0f, 5.0f, startWidth, firstStop);
     auto decay = jmap<float> (adsrPoints_[1], 0.0f, 5.0f, startWidth, firstStop);
     auto sustain = jmap<float> (adsrPoints_[2], -60.0f, 0.0f, startHeight, envHeight);
@@ -191,7 +192,6 @@ void SampleView::mouseDown(const MouseEvent &e) {
 void SampleView::drawFilter(Graphics &g) {
     auto width = getWidth();
     auto height = getHeight();
-    auto gain = height * 0.4f;
     auto startWidth = 16;
     auto startHeight = height - startWidth;
     auto endWidth = width - 16;
@@ -230,6 +230,8 @@ void SampleView::drawFilter(Graphics &g) {
     // TODO: Draw filter envelope with height being gain and with mapped to slider frequency
     float freq_val;
     float freq;
+    float gain = jmap<float> (*processor.apvts.getRawParameterValue("VOL"),
+                              -40.0f, 40.0f, startHeight, 16);
     auto start = Point<float> (startWidth, startHeight);
     Path p;
 

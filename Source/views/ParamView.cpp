@@ -98,6 +98,7 @@ ParamView::ParamView(Ap_samplerAudioProcessor& p) : infoScreen_(p), processor (p
         highPassSlider_->setEnabled();
         processor.setFilterType (Ap_samplerAudioProcessor::FilterType::high_pass);
     });
+    setupSlider (filterParams_, gainSlider_, "Gain", true, "dB");
 
     attachSlider (attackSlider_, attackAttachment_, "ATT");
     attachSlider (decaySlider_, decayAttachment_, "DEC");
@@ -106,6 +107,7 @@ ParamView::ParamView(Ap_samplerAudioProcessor& p) : infoScreen_(p), processor (p
     attachSlider (lowPassSlider_, lowPassAttachment_, "LPF");
     attachSlider (bandPassSlider_, bandPassAttachment_, "BPF");
     attachSlider (highPassSlider_, highPassAttachment_, "HPF");
+    attachSlider (gainSlider_, gainAttachment_, "VOL");
 }
 
 ParamView::~ParamView()
@@ -128,7 +130,7 @@ void ParamView::resized()
     adsrParams_.layoutSliders (adsrSliders);
 
     Array<LabelSlider*> filterSliders
-            ({lowPassSlider_.get(), bandPassSlider_.get(), highPassSlider_.get()});
+            ({lowPassSlider_.get(), bandPassSlider_.get(), highPassSlider_.get(), gainSlider_.get()});
     filterParams_.layoutSliders (filterSliders);
 }
 

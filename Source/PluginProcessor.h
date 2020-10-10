@@ -125,6 +125,9 @@ private:
     IIRFilter highPass_ [2];
     FilterType filter_type { FilterType::low_pass };
 
+    // Gain Param
+    LinearSmoothedValue<float> gain_ [2] { 0.0f };
+
     // FFT
     float fifo_ [fftSize];
     float fftData_ [2 * fftSize];

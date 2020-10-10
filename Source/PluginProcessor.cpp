@@ -154,7 +154,7 @@ void Ap_samplerAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
         buffer.clear (i, 0, buffer.getNumSamples());
 
     MidiMessage m;
-    MidiBuffer::Iterator it { midiMessages };
+    MidiBuffer::Iterator  it { midiMessages };
     int sample;
 
     while (it.getNextEvent (m, sample))
@@ -172,6 +172,7 @@ void Ap_samplerAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
     for (int channel = 0; channel < totalNumInputChannels; ++channel) {
         auto* channelData = buffer.getWritePointer (channel);
         filterSample (channel, channelData, numSamples);
+        gain_[channel].applyGain (channelData, numSamples);
 
         for (int sample = 0; sample < numSamples; ++sample)
             pushNextSampleIntoFifo (channelData[sample]);
@@ -286,11 +287,16 @@ void Ap_samplerAudioProcessor::update() {
     auto lowFreq = apvts.getRawParameterValue ("LPF") -> load();
     auto bandFreq = apvts.getRawParameterValue ("BPF") -> load();
     auto highFreq = apvts.getRawParameterValue ("HPF") -> load();
+    auto volume = apvts.getRawParameterValue ("VOL") -> load();
 
     for (int channel = 0; channel < numChannels; ++channel) {
-        lowPass_[channel].setCoefficients (IIRCoefficients::makeLowPass (getSampleRate(), lowFreq));
-        bandPass_[channel].setCoefficients (IIRCoefficients::makeBandPass (getSampleRate(), bandFreq));
-        highPass_[channel].setCoefficients (IIRCoefficients::makeHighPass (getSampleRate(), highFreq));
+        lowPass_[channel].setCoefficients(
+                IIRCoefficients::makeLowPass (getSampleRate(), lowFreq));
+        bandPass_[channel].setCoefficients (
+                IIRCoefficients::makeBandPass (getSampleRate(), bandFreq));
+        highPass_[channel].setCoefficients (
+                IIRCoefficients::makeHighPass (getSampleRate(), highFreq));
+        gain_[channel].setTargetValue(Decibels::decibelsToGain(volume));
     }
 
     for (auto i = 0; i < sampler_.getNumSounds(); ++i)
@@ -308,6 +314,7 @@ void Ap_samplerAudioProcessor::reset() {
         lowPass_[channel].reset();
         bandPass_[channel].reset();
         highPass_[channel].reset();
+        gain_[channel].reset(getSampleRate(), 0.050);
     }
 }
 
@@ -397,6 +404,18 @@ AudioProcessorValueTreeState::ParameterLayout Ap_samplerAudioProcessor::createPa
             NormalisableRange<float>(20.0f, 22000.0f, 10.0f, 0.2f),
             50.0f,
             "Hz",
+            AudioProcessorParameter::genericParameter,
+            valueToTextFunction,
+            textToValueFunction
+    ));
+
+    // **Gain Parameter** - in dB
+    parameters.emplace_back (std::make_unique<AudioParameterFloat>(
+            "VOL",
+            "Volume",
+            NormalisableRange<float>(-40.0f, 40.0f, 0.01f),
+            0.0f,
+            "dB",
             AudioProcessorParameter::genericParameter,
             valueToTextFunction,
             textToValueFunction

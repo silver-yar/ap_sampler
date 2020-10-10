@@ -58,10 +58,10 @@ private:
     ParamBlock filterParams_;
 
     std::unique_ptr<LabelSlider> attackSlider_, decaySlider_, sustainSlider_, releaseSlider_,
-                                lowPassSlider_, bandPassSlider_, highPassSlider_;
+                                lowPassSlider_, bandPassSlider_, highPassSlider_, gainSlider_;
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> attackAttachment_, decayAttachment_,
                                 sustainAttachment_, releaseAttachment_, lowPassAttachment_, bandPassAttachment_,
-                                highPassAttachment_;
+                                highPassAttachment_, gainAttachment_;
 
     Ap_samplerAudioProcessor& processor;
 
