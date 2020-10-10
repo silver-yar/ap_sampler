@@ -5,6 +5,8 @@
   <MAINGROUP id="WcPIAn" name="ap_sampler">
     <GROUP id="{624DAB67-3BAF-750A-6955-EAC26B1EADCA}" name="Source">
       <GROUP id="{D51441C5-0DD5-A875-9C5E-BF46217605D0}" name="components">
+        <FILE id="jWx93i" name="APButton.cpp" compile="1" resource="0" file="Source/components/APButton.cpp"/>
+        <FILE id="y79QT3" name="APButton.h" compile="0" resource="0" file="Source/components/APButton.h"/>
         <FILE id="eysZk5" name="InfoScreen.cpp" compile="1" resource="0" file="Source/components/InfoScreen.cpp"/>
         <FILE id="u8wFIg" name="InfoScreen.h" compile="0" resource="0" file="Source/components/InfoScreen.h"/>
         <FILE id="cERZMR" name="LabelSlider.cpp" compile="1" resource="0" file="Source/components/LabelSlider.cpp"/>

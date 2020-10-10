@@ -15,13 +15,16 @@
 #include "../styling/PirateStyle.h"
 
 //==============================================================================
-InfoScreen::InfoScreen(Ap_samplerAudioProcessor& p) : processor (p)
+InfoScreen::InfoScreen(Ap_samplerAudioProcessor& p) : hideButton_("Hide"), processor (p)
 {
-    hideButton_ = std::make_unique<ToggleButton> ("Hide");
-    hideButton_ -> setColour (ToggleButton::textColourId, PirateColors::green2);
-    hideButton_ -> setColour (ToggleButton::tickColourId, PirateColors::green2);
-    addAndMakeVisible (hideButton_.get());
-    hideButton_ -> addListener (this);
+    //hideButton_ = std::make_unique<APButton> ("Hide");
+    hideButton_.setColour (ToggleButton::textColourId, PirateColors::green2);
+    hideButton_.setColour (ToggleButton::tickColourId, PirateColors::green2);
+    addAndMakeVisible (hideButton_);
+    hideButton_.onClick = [this]() {
+        hideButton_.toggleButtonState();
+        processor.hideEnv = !processor.hideEnv;
+    };
 }
 
 InfoScreen::~InfoScreen()
@@ -43,9 +46,9 @@ void InfoScreen::resized()
 {
     auto bounds = getLocalBounds();
     bounds.removeFromLeft (getWidth() * 2 / 3);
-    bounds.reduce (0, 20);
+    bounds.reduce (10, 25);
 
-    hideButton_ -> setBounds(bounds);
+    hideButton_.setBounds(bounds);
 
 }
 
@@ -63,10 +66,4 @@ void InfoScreen::mouseDown(const MouseEvent &e) {
     if (bounds.contains (e.getMouseDownPosition()) && onNameClicked != nullptr)
         onNameClicked();
 
-}
-
-void InfoScreen::buttonClicked(Button *button) {
-    if (button == hideButton_.get()) {
-        processor.hideEnv = hideButton_ -> getToggleState();
-    }
 }

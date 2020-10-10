@@ -31,6 +31,7 @@ public:
     void drawWaveform (Graphics&);
     void drawFileName (Graphics&);
     void drawADSR (Graphics&);
+    void drawAxis (Graphics&);
     void drawFilter (Graphics&);
     void timerCallback() override;
 

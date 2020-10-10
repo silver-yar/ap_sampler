@@ -12,12 +12,12 @@
 
 #include <JuceHeader.h>
 #include "../PluginProcessor.h"
+#include "APButton.h"
 
 //==============================================================================
 /*
 */
-class InfoScreen    : public Component,
-                      public Button::Listener
+class InfoScreen    : public Component
 {
 public:
     InfoScreen(Ap_samplerAudioProcessor&);
@@ -28,13 +28,12 @@ public:
 
     //==============================================================================
     void mouseDown (const MouseEvent& e) override;
-    void buttonClicked (Button* button) override;
     void drawGroupName (Graphics&);
     std::function<void()> onNameClicked = nullptr;
 
     String group_label = "adsr";
 private:
-    std::unique_ptr<ToggleButton> hideButton_;
+    APButton hideButton_;
 
     Ap_samplerAudioProcessor& processor;
 

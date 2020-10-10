@@ -33,18 +33,28 @@ void SampleView::paint (Graphics& g)
 
     drawFileName (g);
 
-    if (processor.getWaveForm().getNumSamples() > 0 && !processor.hideEnv && processor.curr_group == processor.adsr) {
-        spectrum_.setVisible (false);
+    if (processor.getWaveForm().getNumSamples() > 0 && processor.curr_group == processor.adsr) {
+        if (!processor.hideEnv) {
+            spectrum_.setVisible (false);
+            drawWaveform (g);
+            drawADSR (g);
+        } else {
+            spectrum_.setVisible (false);
+            drawWaveform(g);
+        }
+    }
+    else if (processor.getWaveForm().getNumSamples() > 0 && processor.curr_group == processor.filter) {
+        if (!processor.hideEnv) {
+            drawFilter (g);
+            drawAxis (g);
+            spectrum_.setVisible (true);
+        } else {
+            drawAxis (g);
+            spectrum_.setVisible (true);
+        }
+    }
+    else if (processor.getWaveForm().getNumSamples() <= 0)
         drawWaveform (g);
-        drawADSR (g);
-    }
-    else if (processor.getWaveForm().getNumSamples() > 0 && !processor.hideEnv && processor.curr_group == processor.filter) {
-        spectrum_.setVisible (true);
-        drawFilter(g);
-    }
-    else {
-        drawWaveform (g);
-    }
 
     PirateStyle::drawBezel (g, getWidth(), getHeight(), 16);
 }
@@ -189,13 +199,12 @@ void SampleView::mouseDown(const MouseEvent &e) {
 //    }
 }
 
-void SampleView::drawFilter(Graphics &g) {
+void SampleView::drawAxis (Graphics &g) {
     auto width = getWidth();
     auto height = getHeight();
     auto startWidth = 16;
     auto startHeight = height - startWidth;
     auto endWidth = width - 16;
-    auto shift = 16;
 
     // Draw Freq X-Axis
     auto textWidth = 50.0f;
@@ -226,6 +235,24 @@ void SampleView::drawFilter(Graphics &g) {
     axis.lineTo (Point<float> (m10000, 16));
     axis.closeSubPath();
     g.strokePath (axis, PathStrokeType (1));
+
+    g.setColour (PirateColors::green2);
+    g.setFont (10.0f);
+    g.drawText ("100",m100 - (textWidth / 2), startHeight - 8, textWidth,
+                5, Justification::centred, false);
+    g.drawText ("1000",m1000 - (textWidth / 2), startHeight - 8, textWidth,
+                5, Justification::centred, false);
+    g.drawText ("10000",m10000 - (textWidth / 2), startHeight - 8, textWidth,
+                5, Justification::centred, false);
+}
+
+void SampleView::drawFilter(Graphics &g) {
+    auto width = getWidth();
+    auto height = getHeight();
+    auto startWidth = 16;
+    auto startHeight = height - startWidth;
+    auto endWidth = width - 16;
+    auto shift = 16;
 
     // TODO: Draw filter envelope with height being gain and with mapped to slider frequency
     float freq_val;
@@ -295,13 +322,4 @@ void SampleView::drawFilter(Graphics &g) {
         default:
             break;
     }
-
-    g.setColour (PirateColors::green2);
-    g.setFont (10.0f);
-    g.drawText ("100",m100 - (textWidth / 2), startHeight - 8, textWidth,
-                5, Justification::centred, false);
-    g.drawText ("1000",m1000 - (textWidth / 2), startHeight - 8, textWidth,
-                5, Justification::centred, false);
-    g.drawText ("10000",m10000 - (textWidth / 2), startHeight - 8, textWidth,
-                5, Justification::centred, false);
 }
