@@ -15,6 +15,7 @@
 #include "views/InterfaceView.h"
 #include "views/SampleView.h"
 #include "views/ParamView.h"
+#include "components/ScrollingBanner.h"
 
 //==============================================================================
 /**
@@ -46,6 +47,7 @@ private:
     Ap_samplerAudioProcessor& processor;
 
     // Components
+    ScrollingBanner banner_;
     SampleView sampleView_;
     InterfaceView interfaceView_;
     ParamView paramView_;

@@ -33,14 +33,16 @@ void APButton::paintButton(Graphics &g, bool shouldDrawButtonAsHighlighted, bool
         if (shouldDrawButtonAsHighlighted) {
             g.fillAll (PirateColors::green1);
             g.setColour (PirateColors::green2);
-            g.drawRect (getLocalBounds());
+            g.drawRect (getLocalBounds(), 1);
         }
         if (shouldDrawButtonAsDown){
             g.fillAll (PirateColors::green2);
             g.setColour (PirateColors::green1);
         }
+
+        setButtonText ("Show");
     } else {
-        g.fillAll (PirateColors::green1);
+        g.fillAll (Colours::transparentWhite);
         g.setColour (PirateColors::green2);
 
         if (shouldDrawButtonAsHighlighted) {
@@ -52,9 +54,10 @@ void APButton::paintButton(Graphics &g, bool shouldDrawButtonAsHighlighted, bool
             g.setColour (PirateColors::green2);
             g.drawRect (getLocalBounds());
         }
+        setButtonText ("Hide");
     }
 
 
-    g.drawText (getName(), getLocalBounds(),
+    g.drawText (getButtonText(), getLocalBounds(),
                 juce::Justification::centred, true);
 }

@@ -22,6 +22,7 @@ public:
                            float rotaryEndAngle, Slider&) override;
     void drawLabel (Graphics&, Label&) override;
     static void drawBezel (Graphics& g, float width, float height, float lineThickness);
+    static void drawGlare (Graphics&, int width, int height, int boundarySize);
 
 private:
     struct knobImages
@@ -47,4 +48,32 @@ private:
     knobImages& getKnobImages (int diameter);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PirateStyle)
+};
+
+class Bezel : public Component
+{
+public:
+    explicit Bezel (float lineThickness) : lineThickness_ (lineThickness)
+    {
+        setInterceptsMouseClicks(false, false);
+    };
+    ~Bezel() {};
+
+    void paint (Graphics&) override;
+private:
+    float lineThickness_;
+};
+
+class Glare : public Component
+{
+public:
+    explicit Glare (float boundarySize) : boundarySize_ (boundarySize)
+    {
+        setInterceptsMouseClicks (false, false);
+    };
+    ~Glare() {};
+
+    void paint (Graphics&) override;
+private:
+    float boundarySize_;
 };

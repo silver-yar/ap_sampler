@@ -88,6 +88,7 @@ public:
     FilterType getFilterType() { return filter_type; }
     float* getFFTData() { return fftData_; }
     bool isFFTBlockReady() { return nextFFTBlockReady_; }
+    float getCurrSampleRate() { return getSampleRate(); }
 
     // Setters
     void setFilterType (FilterType type) { filter_type = type; }

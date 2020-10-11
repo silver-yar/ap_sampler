@@ -10,14 +10,14 @@
 
 #include <JuceHeader.h>
 #include "SampleView.h"
-#include "../PluginProcessor.h"
-#include "../styling/PirateStyle.h"
 #include "../styling/PirateColors.h"
 
 //==============================================================================
-SampleView::SampleView(Ap_samplerAudioProcessor& p) : processor (p), spectrum_ (p)
+SampleView::SampleView(Ap_samplerAudioProcessor& p) : processor (p), spectrum_ (p), bezel_ (16), glare_ (8)
 {
-    addChildComponent (spectrum_, -100);
+    addChildComponent (spectrum_, -10);
+    addAndMakeVisible (bezel_);
+    addAndMakeVisible (glare_);
     startTimerHz(60);
 }
 
@@ -34,6 +34,10 @@ void SampleView::paint (Graphics& g)
     drawFileName (g);
 
     if (processor.getWaveForm().getNumSamples() > 0 && processor.curr_group == processor.adsr) {
+        g.setColour (PirateColors::green2);
+        g.drawText(String(processor.getSampleRate()) + " Hz", getLocalBounds().reduced (10),
+                   Justification::centredTop, false);
+
         if (!processor.hideEnv) {
             spectrum_.setVisible (false);
             drawWaveform (g);
@@ -44,6 +48,10 @@ void SampleView::paint (Graphics& g)
         }
     }
     else if (processor.getWaveForm().getNumSamples() > 0 && processor.curr_group == processor.filter) {
+        g.setColour (PirateColors::green2);
+        g.drawText(String(processor.getSampleRate()) + " Hz", getLocalBounds().reduced (10),
+                   Justification::centredTop, false);
+
         if (!processor.hideEnv) {
             drawFilter (g);
             drawAxis (g);
@@ -56,13 +64,17 @@ void SampleView::paint (Graphics& g)
     else if (processor.getWaveForm().getNumSamples() <= 0)
         drawWaveform (g);
 
-    PirateStyle::drawBezel (g, getWidth(), getHeight(), 16);
+    //PirateStyle::drawGlare (g, getWidth(), getHeight(), 8);
+
+    //PirateStyle::drawBezel (g, getWidth(), getHeight(), 16);
 }
 
 void SampleView::resized()
 {
     auto localBounds = getLocalBounds();
     spectrum_.setBounds (0,16, localBounds.getWidth(), localBounds.getHeight() - 16);
+    bezel_.setBounds (localBounds);
+    glare_.setBounds (localBounds);
 }
 
 void SampleView::drawWaveform(Graphics& g)
@@ -220,19 +232,19 @@ void SampleView::drawAxis (Graphics &g) {
     Path axis;
     // 100
     axis.startNewSubPath (Point<float> (m100, startHeight - 16));
-    axis.lineTo (Point<float> (m100, 16));
+    axis.lineTo (Point<float> (m100, 32));
     axis.closeSubPath();
     g.strokePath (axis, PathStrokeType (1));
 
     // 1000
     axis.startNewSubPath (Point<float> (m1000, startHeight - 16));
-    axis.lineTo (Point<float> (m1000, 16));
+    axis.lineTo (Point<float> (m1000, 32));
     axis.closeSubPath();
     g.strokePath (axis, PathStrokeType (1));
 
     // 10000
     axis.startNewSubPath (Point<float> (m10000, startHeight - 16));
-    axis.lineTo (Point<float> (m10000, 16));
+    axis.lineTo (Point<float> (m10000, 32));
     axis.closeSubPath();
     g.strokePath (axis, PathStrokeType (1));
 

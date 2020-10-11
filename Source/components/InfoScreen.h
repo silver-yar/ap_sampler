@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 #include "../PluginProcessor.h"
 #include "APButton.h"
+#include "../styling/PirateStyle.h"
 
 //==============================================================================
 /*
@@ -34,6 +35,8 @@ public:
     String group_label = "adsr";
 private:
     APButton hideButton_;
+    Bezel bezel_;
+    Glare glare_;
 
     Ap_samplerAudioProcessor& processor;
 

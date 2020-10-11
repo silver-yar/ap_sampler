@@ -75,9 +75,9 @@ void SpectrumAnalyser::drawFrame(Graphics& g)
         auto width  = getLocalBounds().getWidth();
         auto height = getLocalBounds().getHeight();
 
-        g.drawLine ({ (float) juce::jmap (i - 1, 0, scopeSize - 1, 16, width - 16),
+        g.drawLine ({ (float) juce::jmap (i - 1, 0, scopeSize - 1, 8, width - 8),
                       juce::jmap (scopeData_[i - 1], 0.0f, 1.0f, (float) height, 0.0f),
-                      (float) juce::jmap (i,     0, scopeSize - 1, 16, width - 16),
+                      (float) juce::jmap (i,     0, scopeSize - 1, 8, width - 8),
                       juce::jmap (scopeData_[i],     0.0f, 1.0f, (float) height, 0.0f) },
                         lineThickness
                     );

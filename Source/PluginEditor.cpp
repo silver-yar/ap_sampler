@@ -25,7 +25,8 @@ Ap_samplerAudioProcessorEditor::Ap_samplerAudioProcessorEditor (Ap_samplerAudioP
 
     setupFlexBoxes();
     setupFlexItems();
-    setResizable(true, true);
+    setResizable (true, true);
+    addAndMakeVisible (banner_);
     // TODO: Set max width and height using monitor size
     setResizeLimits(min_width, min_height, min_width * 2, min_height * 2);
     setSize(min_width, min_height);
@@ -39,6 +40,10 @@ Ap_samplerAudioProcessorEditor::~Ap_samplerAudioProcessorEditor()
 
 void Ap_samplerAudioProcessorEditor::resized() {
     oFlexBox_.performLayout (getFlexBounds().reduced(15).toNearestInt());
+    auto topBounds = Rectangle<int> (0,0,getWidth(), getHeight() * 0.15f);
+    topBounds.removeFromRight (getWidth() / 2);
+    topBounds.reduce (20,20);
+    banner_.setBounds (topBounds);
 }
 
 void Ap_samplerAudioProcessorEditor::paint (Graphics& g)

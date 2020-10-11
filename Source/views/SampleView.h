@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 #include "../PluginProcessor.h"
 #include "../components/SpectrumAnalyser.h"
+#include "../styling/PirateStyle.h"
 
 //==============================================================================
 /*
@@ -42,6 +43,9 @@ private:
 
     // Objects
     SpectrumAnalyser spectrum_;
+    Bezel bezel_;
+    Glare glare_;
+
     std::vector<float> audioPoints_;
     std::vector<float> adsrPoints_;
     FileChooser fileChooser_ {"Choose a sample..."};

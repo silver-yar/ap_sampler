@@ -12,10 +12,9 @@
 #include "../PluginProcessor.h"
 #include "InfoScreen.h"
 #include "../styling/PirateColors.h"
-#include "../styling/PirateStyle.h"
 
 //==============================================================================
-InfoScreen::InfoScreen(Ap_samplerAudioProcessor& p) : hideButton_("Hide"), processor (p)
+InfoScreen::InfoScreen(Ap_samplerAudioProcessor& p) : hideButton_("Hide"), bezel_(8), glare_(4), processor (p)
 {
     //hideButton_ = std::make_unique<APButton> ("Hide");
     hideButton_.setColour (ToggleButton::textColourId, PirateColors::green2);
@@ -25,6 +24,8 @@ InfoScreen::InfoScreen(Ap_samplerAudioProcessor& p) : hideButton_("Hide"), proce
         hideButton_.toggleButtonState();
         processor.hideEnv = !processor.hideEnv;
     };
+    addAndMakeVisible (bezel_);
+    addAndMakeVisible (glare_, 1);
 }
 
 InfoScreen::~InfoScreen()
@@ -37,9 +38,6 @@ void InfoScreen::paint (Graphics& g)
 
     // Draw Group Name
     drawGroupName (g);
-
-    // Draw Bezel
-    PirateStyle::drawBezel (g, getWidth(), getHeight(), 8);
 }
 
 void InfoScreen::resized()
@@ -49,6 +47,8 @@ void InfoScreen::resized()
     bounds.reduce (10, 25);
 
     hideButton_.setBounds(bounds);
+    bezel_.setBounds (getLocalBounds());
+    glare_.setBounds (getLocalBounds());
 
 }
 

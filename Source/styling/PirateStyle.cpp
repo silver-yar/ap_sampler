@@ -264,3 +264,71 @@ void PirateStyle::drawBezel(Graphics& g, float width, float height, float lineTh
     g.setColour(PirateColors::green1.brighter(0.6f));
     g.fillPath(p);
 }
+
+void PirateStyle::drawGlare(Graphics &g, int width, int height, int boundarySize)
+{
+    Path p;
+    p.startNewSubPath(Point<float> (boundarySize,boundarySize));
+    p.lineTo (Point<float> (width - boundarySize, boundarySize));
+    p.lineTo (Point<float> (width - boundarySize, height - boundarySize));
+    p.lineTo (Point<float> (boundarySize, height - boundarySize));
+    p.closeSubPath();
+
+    //g.setColour (Colours::white.withAlpha (0.1f));
+    g.setGradientFill (ColourGradient (Colours::white.withAlpha (0.2f),
+                                       Point<float> (width / 2, boundarySize),
+                                       Colours::transparentWhite,
+                                       Point<float> (width / 2, height / 2),
+                                       false)
+    );
+    g.fillPath (p);
+}
+
+void Bezel::paint(Graphics &g)
+{
+    // Draw Bezel
+    g.setColour(PirateColors::green1.brighter(0.6f));
+    g.drawLine(0,0,0, getHeight(), lineThickness_);
+    g.drawLine(getWidth(), getHeight(),0, getHeight(), lineThickness_);
+    g.drawLine(getWidth(),0,getWidth(), getHeight(), lineThickness_);
+    g.setColour(PirateColors::green1.darker(0.6f));
+    g.drawLine(0,0,getWidth(),0, lineThickness_);
+
+    auto half = lineThickness_ / 2;
+
+    // Left Corner
+    Path p;
+    p.startNewSubPath(0, 0);
+    p.lineTo(0, half);
+    p.lineTo(half, half);
+    p.closeSubPath();
+    g.setColour(PirateColors::green1.brighter(0.6f));
+    g.fillPath(p);
+
+    // Right Corner
+    p.startNewSubPath(getWidth(), 0);
+    p.lineTo(getWidth(), half);
+    p.lineTo(getWidth() - half, half);
+    p.closeSubPath();
+    g.setColour(PirateColors::green1.brighter(0.6f));
+    g.fillPath(p);
+}
+
+void Glare::paint(Graphics &g)
+{
+    Path p;
+    p.startNewSubPath(Point<float> (boundarySize_,boundarySize_));
+    p.lineTo (Point<float> (getWidth() - boundarySize_, boundarySize_));
+    p.lineTo (Point<float> (getWidth() - boundarySize_, getHeight() - boundarySize_));
+    p.lineTo (Point<float> (boundarySize_, getHeight() - boundarySize_));
+    p.closeSubPath();
+
+    //g.setColour (Colours::white.withAlpha (0.1f));
+    g.setGradientFill (ColourGradient (Colours::white.withAlpha (0.2f),
+                                       Point<float> (getWidth() / 2, boundarySize_),
+                                       Colours::transparentWhite,
+                                       Point<float> (getWidth() / 2, getHeight() / 2),
+                                       false)
+    );
+    g.fillPath (p);
+}

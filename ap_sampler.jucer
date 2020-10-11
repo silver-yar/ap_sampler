@@ -11,6 +11,10 @@
         <FILE id="u8wFIg" name="InfoScreen.h" compile="0" resource="0" file="Source/components/InfoScreen.h"/>
         <FILE id="cERZMR" name="LabelSlider.cpp" compile="1" resource="0" file="Source/components/LabelSlider.cpp"/>
         <FILE id="xZR796" name="LabelSlider.h" compile="0" resource="0" file="Source/components/LabelSlider.h"/>
+        <FILE id="QVI685" name="ScrollingBanner.cpp" compile="1" resource="0"
+              file="Source/components/ScrollingBanner.cpp"/>
+        <FILE id="Ax7JSs" name="ScrollingBanner.h" compile="0" resource="0"
+              file="Source/components/ScrollingBanner.h"/>
         <FILE id="mVyQzg" name="ShowHideSlider.cpp" compile="1" resource="0"
               file="Source/components/ShowHideSlider.cpp"/>
         <FILE id="rKiYGU" name="ShowHideSlider.h" compile="0" resource="0"
