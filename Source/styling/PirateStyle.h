@@ -12,10 +12,51 @@
 
 #include <JuceHeader.h>
 
+struct Fonts
+{
+    enum Poppins {
+        light,
+        medium,
+        regular,
+        bold
+    };
+
+    static void setCustomFont (Poppins font_style, std::unique_ptr<Font>& myFont)
+    {
+        switch (font_style) {
+            case light:
+                myFont = std::make_unique<Font> (
+                        Typeface::createSystemTypefaceFor(BinaryData::PoppinsLight_ttf,
+                                                          BinaryData::PoppinsLight_ttfSize));
+                break;
+            case medium:
+                myFont = std::make_unique<Font> (
+                        Typeface::createSystemTypefaceFor(BinaryData::PoppinsMedium_ttf,
+                                                          BinaryData::PoppinsMedium_ttfSize));
+                break;
+            case regular:
+                myFont = std::make_unique<Font> (
+                        Typeface::createSystemTypefaceFor(BinaryData::PoppinsRegular_ttf,
+                                                          BinaryData::PoppinsRegular_ttfSize));
+                break;
+            case bold:
+                myFont = std::make_unique<Font> (
+                        Typeface::createSystemTypefaceFor(BinaryData::PoppinsBold_ttf,
+                                                          BinaryData::PoppinsBold_ttfSize));
+                break;
+            default:
+                break;
+        }
+    }
+};
+
 class PirateStyle : public LookAndFeel_V4
 {
 public:
-    PirateStyle() = default;
+    PirateStyle() {
+        Fonts::setCustomFont (Fonts::light, myFont_);
+    };
+    ~PirateStyle() {};
 
     void drawRotarySlider (Graphics&, int x, int y, int width, int height,
                            float sliderPosProportional, float rotaryStartAngle,
@@ -46,6 +87,8 @@ private:
     const Colour blackA142 = Colours::black.withAlpha (uint8 (142));
 
     knobImages& getKnobImages (int diameter);
+
+    std::unique_ptr<Font> myFont_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PirateStyle)
 };

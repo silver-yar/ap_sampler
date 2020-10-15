@@ -19,7 +19,8 @@
 /*
 */
 class SampleView    : public Component,
-                      public Timer
+                      public Timer,
+                      public ChangeListener
 {
 public:
     SampleView(Ap_samplerAudioProcessor&);
@@ -37,9 +38,12 @@ public:
     void timerCallback() override;
 
     void mouseDown (const MouseEvent& e) override;
+    void changeListenerCallback (ChangeBroadcaster *source) override;
 
 private:
     Ap_samplerAudioProcessor& processor;
+
+    std::function<void(Graphics&)> toDraw_ = [this](Graphics& g) { drawWaveform(g); };
 
     // Objects
     SpectrumAnalyser spectrum_;
@@ -49,6 +53,7 @@ private:
     std::vector<float> audioPoints_;
     std::vector<float> adsrPoints_;
     FileChooser fileChooser_ {"Choose a sample..."};
+    std::unique_ptr<Font> myFont_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SampleView)
 };

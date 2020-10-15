@@ -25,6 +25,16 @@
               file="Source/components/SpectrumAnalyser.h"/>
       </GROUP>
       <GROUP id="{9681B252-B4B6-FB94-A5B0-C2B39FAF347A}" name="styling">
+        <GROUP id="{A1369B45-FFDC-2CCE-56A9-9DE766D49A70}" name="fonts">
+          <FILE id="wyPia6" name="Poppins-Bold.ttf" compile="0" resource="1"
+                file="Source/styling/fonts/Poppins-Bold.ttf"/>
+          <FILE id="Aokz5h" name="Poppins-Light.ttf" compile="0" resource="1"
+                file="Source/styling/fonts/Poppins-Light.ttf"/>
+          <FILE id="VhdD1X" name="Poppins-Medium.ttf" compile="0" resource="1"
+                file="Source/styling/fonts/Poppins-Medium.ttf"/>
+          <FILE id="Fsukg8" name="Poppins-Regular.ttf" compile="0" resource="1"
+                file="Source/styling/fonts/Poppins-Regular.ttf"/>
+        </GROUP>
         <FILE id="fHtEsJ" name="PirateColors.h" compile="0" resource="0" file="Source/styling/PirateColors.h"/>
         <FILE id="KoLvTz" name="PirateStyle.cpp" compile="1" resource="0" file="Source/styling/PirateStyle.cpp"/>
         <FILE id="Krteu7" name="PirateStyle.h" compile="0" resource="0" file="Source/styling/PirateStyle.h"/>

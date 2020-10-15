@@ -32,11 +32,12 @@ public:
     void drawGroupName (Graphics&);
     std::function<void()> onNameClicked = nullptr;
 
-    String group_label = "adsr";
+    String group_label = "adsr_";
 private:
     APButton hideButton_;
     Bezel bezel_;
     Glare glare_;
+    std::unique_ptr<Font> myFont_;
 
     Ap_samplerAudioProcessor& processor;
 

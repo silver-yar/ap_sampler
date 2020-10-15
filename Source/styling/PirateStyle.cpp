@@ -222,9 +222,9 @@ void PirateStyle::drawRotarySlider (Graphics& g, int x, int y, int width, int he
 
 void PirateStyle::drawLabel(Graphics& g, Label& label)
 {
-    //auto bounds = Rectangle<int>(20, 10);
-    //auto bounds = Rectangle<int>(0, 0, label.getWidth(), label.getHeight());
     auto bounds = label.getLocalBounds();
+    g.setFont(*myFont_);
+    g.setFont (18.0f);
     g.setColour(PirateColors::green1);
     g.fillRect(bounds);
     g.setColour(PirateColors::green2);

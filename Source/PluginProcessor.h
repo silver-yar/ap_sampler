@@ -71,7 +71,8 @@ public:
     };
     enum GroupName {
         adsr,
-        filter
+        filter,
+        misc
     };
     enum fft
     {
@@ -98,6 +99,9 @@ public:
     void filterSample (int channel, float* channelData, int numSamples);
     // Push samples into fifo for fft
     void pushNextSampleIntoFifo (float sample);
+    // Bit Reduction
+    float bitReduce (float sample, int nBits);
+    // Loads file into sampler
     void loadFile (const String& path);
     // Passes the sample rate and buffer size to DSP
     void prepare (double sampleRate, int samplesPerBlock);
@@ -128,6 +132,9 @@ private:
 
     // Gain Param
     LinearSmoothedValue<float> gain_ [2] { 0.0f };
+
+    // Bit Rate
+    float bitRate_ { 16.0f };
 
     // FFT
     float fifo_ [fftSize];

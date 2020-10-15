@@ -10,16 +10,20 @@
 
 #include <JuceHeader.h>
 #include "LabelSlider.h"
+#include "../styling/PirateStyle.h"
 
 //=============================================================================
 LabelSlider::LabelSlider()
 {
+    Fonts::setCustomFont (Fonts::light, myFont_);
+
     slider.setSliderStyle (Slider::SliderStyle::RotaryVerticalDrag);
     slider.setTextBoxStyle (Slider::TextBoxBelow, true,
                              slider.getTextBoxWidth(), slider.getTextBoxHeight());
     slider.setLookAndFeel(&pirateSliderStyle);
     addAndMakeVisible (slider);
 
+    label.setFont (*myFont_);
     label.setJustificationType (Justification::centred);
     label.setLookAndFeel (&pirateSliderStyle);
     addAndMakeVisible (label);

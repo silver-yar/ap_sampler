@@ -48,6 +48,7 @@ public:
     };
 private:
     SliderState current_state = SliderState::enabled;
+    std::unique_ptr<Font> myFont_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LabelSlider)
 };

@@ -11,20 +11,22 @@
 #include <JuceHeader.h>
 #include "APButton.h"
 #include "../styling/PirateColors.h"
+#include "../styling/PirateStyle.h"
 
 //==============================================================================
 APButton::APButton(const String &buttonName) : Button (buttonName)
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
-
+    Fonts::setCustomFont (Fonts::light, myFont_);
 }
 
 APButton::~APButton()
 {
 }
 
-void APButton::paintButton(Graphics &g, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) {
+void APButton::paintButton(Graphics &g, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown)
+{
+    g.setFont (*myFont_);
+    g.setFont (18.0f);
 
     if (state_) {
         g.fillAll (PirateColors::green2);

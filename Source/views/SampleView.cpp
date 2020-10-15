@@ -15,6 +15,7 @@
 //==============================================================================
 SampleView::SampleView(Ap_samplerAudioProcessor& p) : processor (p), spectrum_ (p), bezel_ (16), glare_ (8)
 {
+    Fonts::setCustomFont(Fonts::light, myFont_);
     addChildComponent (spectrum_, -10);
     addAndMakeVisible (bezel_);
     addAndMakeVisible (glare_);
@@ -29,44 +30,11 @@ SampleView::~SampleView()
 void SampleView::paint (Graphics& g)
 {
     g.fillAll (PirateColors::green1);
-    g.setFont (14.0f);
+    g.setFont (*myFont_);
+    g.setFont (18.0f);
 
     drawFileName (g);
-
-    if (processor.getWaveForm().getNumSamples() > 0 && processor.curr_group == processor.adsr) {
-        g.setColour (PirateColors::green2);
-        g.drawText(String(processor.getSampleRate()) + " Hz", getLocalBounds().reduced (10),
-                   Justification::centredTop, false);
-
-        if (!processor.hideEnv) {
-            spectrum_.setVisible (false);
-            drawWaveform (g);
-            drawADSR (g);
-        } else {
-            spectrum_.setVisible (false);
-            drawWaveform(g);
-        }
-    }
-    else if (processor.getWaveForm().getNumSamples() > 0 && processor.curr_group == processor.filter) {
-        g.setColour (PirateColors::green2);
-        g.drawText(String(processor.getSampleRate()) + " Hz", getLocalBounds().reduced (10),
-                   Justification::centredTop, false);
-
-        if (!processor.hideEnv) {
-            drawFilter (g);
-            drawAxis (g);
-            spectrum_.setVisible (true);
-        } else {
-            drawAxis (g);
-            spectrum_.setVisible (true);
-        }
-    }
-    else if (processor.getWaveForm().getNumSamples() <= 0)
-        drawWaveform (g);
-
-    //PirateStyle::drawGlare (g, getWidth(), getHeight(), 8);
-
-    //PirateStyle::drawBezel (g, getWidth(), getHeight(), 16);
+    toDraw_ (g);
 }
 
 void SampleView::resized()
@@ -125,13 +93,13 @@ void SampleView::drawWaveform(Graphics& g)
 void SampleView::drawFileName(Graphics& g)
 {
     // Draw File Name
-    auto fileName = processor.getFileName();
+    auto sampleRate = String(processor.getSampleRate()) + " Hz";
     g.setColour (PirateColors::green2);
     //g.setFont (def_f_size);
     auto textBounds = getLocalBounds().reduced (20, 10);
-    g.drawFittedText (fileName.isNotEmpty() ? fileName : "Drag a sample here to load...",
+    g.drawFittedText (processor.getFileName().isNotEmpty() ? sampleRate : "Drag a sample here to load...",
                       textBounds,
-                      fileName.isNotEmpty() ? Justification::topRight : Justification::bottomRight,
+                      processor.getFileName().isNotEmpty() ? Justification::topRight : Justification::bottomRight,
                       1);
 }
 
@@ -334,4 +302,27 @@ void SampleView::drawFilter(Graphics &g) {
         default:
             break;
     }
+}
+
+void SampleView::changeListenerCallback (ChangeBroadcaster *source)
+{
+    using Group = Ap_samplerAudioProcessor::GroupName;
+    toDraw_ = [this](Graphics& g) {
+        switch (processor.curr_group) {
+            case Group::adsr: case Group::misc:
+                drawWaveform (g);
+                if (!processor.hideEnv)
+                    drawADSR (g);
+                spectrum_.setVisible (false);
+                break;
+            case Group::filter:
+                if (!processor.hideEnv)
+                    drawFilter(g);
+                drawAxis(g);
+                spectrum_.setVisible (true);
+                break;
+            default:
+                break;
+        }
+    };
 }

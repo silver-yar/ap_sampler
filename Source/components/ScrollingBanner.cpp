@@ -13,9 +13,11 @@
 #include "../styling/PirateColors.h"
 
 //==============================================================================
-ScrollingBanner::ScrollingBanner() : bezel_ (8), glare_(4)
+ScrollingBanner::ScrollingBanner(Ap_samplerAudioProcessor& p) : processor (p), bezel_ (8), glare_(4)
 {
-    scrollText_.setText ("audio pirate");
+    Fonts::setCustomFont (Fonts::light, myFont_);
+    scrollText_.setFont (*myFont_, true);
+    scrollText_.setText (bannerMessages_[0]);
     scrollText_.setColour (PirateColors::green2);
     scrollText_.setJustification (Justification::centred);
     scrollText_.setFontHeight (24.0f);
@@ -51,11 +53,18 @@ void ScrollingBanner::resized()
 void ScrollingBanner::timerCallback()
 {
     x_ += 2;
-    if (x_ < getWidth())
-        repaint();
-    else {
-        scrollText_.setText (bannerMessages_[randomInt_.nextInt(3)]);
+    if (x_ > getWidth()) {
+        if (index_ > (bannerMessages_.size() - 1))
+            index_ = 0;
+        scrollText_.setText (bannerMessages_[index_]);
         x_ = -textWidth_;
-        repaint();
+        index_++;
     }
+    repaint();
+}
+
+void ScrollingBanner::changeListenerCallback (ChangeBroadcaster *source)
+{
+    bannerMessages_[0] = processor.getFileName();
+    index_ = 0;
 }

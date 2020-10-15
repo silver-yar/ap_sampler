@@ -12,11 +12,12 @@
 #include "../PluginProcessor.h"
 #include "InfoScreen.h"
 #include "../styling/PirateColors.h"
+#include "../styling/PirateStyle.h"
 
 //==============================================================================
 InfoScreen::InfoScreen(Ap_samplerAudioProcessor& p) : hideButton_("Hide"), bezel_(8), glare_(4), processor (p)
 {
-    //hideButton_ = std::make_unique<APButton> ("Hide");
+    Fonts::setCustomFont(Fonts::medium, myFont_);
     hideButton_.setColour (ToggleButton::textColourId, PirateColors::green2);
     hideButton_.setColour (ToggleButton::tickColourId, PirateColors::green2);
     addAndMakeVisible (hideButton_);
@@ -34,6 +35,7 @@ InfoScreen::~InfoScreen()
 
 void InfoScreen::paint (Graphics& g)
 {
+    g.setFont (*myFont_);
     g.fillAll (PirateColors::green1);   // clear the background
 
     // Draw Group Name
@@ -54,7 +56,7 @@ void InfoScreen::resized()
 
 void InfoScreen::drawGroupName(Graphics& g) {
     g.setColour (PirateColors::green2);
-    g.setFont (20.0f);
+    g.setFont (32.0f);
     g.drawText (group_label, getLocalBounds().reduced(20),
                 Justification::centredLeft, true);   // draw some placeholder text
 }

@@ -53,14 +53,23 @@ ParamView::ParamView(Ap_samplerAudioProcessor& p) : infoScreen_(p), processor (p
             case Ap_samplerAudioProcessor::GroupName::adsr:
                 this->adsrParams_.setVisible(false);
                 this->filterParams_.setVisible(true);
+                this->miscParams_.setVisible (false);
                 processor.curr_group = Ap_samplerAudioProcessor::GroupName::filter;
-                infoScreen_.group_label = "filter";
+                infoScreen_.group_label = "filter_";
                 break;
             case Ap_samplerAudioProcessor::GroupName::filter:
+                this->adsrParams_.setVisible(false);
+                this->filterParams_.setVisible(false);
+                this->miscParams_.setVisible(true);
+                processor.curr_group = Ap_samplerAudioProcessor::GroupName::misc;
+                infoScreen_.group_label = "misc_";
+                break;
+            case Ap_samplerAudioProcessor::GroupName::misc:
                 this->adsrParams_.setVisible(true);
                 this->filterParams_.setVisible(false);
+                this->miscParams_.setVisible(false);
                 processor.curr_group = Ap_samplerAudioProcessor::GroupName::adsr;
-                infoScreen_.group_label = "adsr";
+                infoScreen_.group_label = "adsr_";
                 break;
             default:
                 break;
@@ -70,12 +79,18 @@ ParamView::ParamView(Ap_samplerAudioProcessor& p) : infoScreen_(p), processor (p
     };
     addAndMakeVisible (infoScreen_);
 
+    // adsrParams
     addAndMakeVisible (adsrParams_);
     setupSlider (adsrParams_, attackSlider_, "Attack");
     setupSlider (adsrParams_, decaySlider_, "Decay");
     setupSlider (adsrParams_, sustainSlider_,"Sustain",true,"dB");
     setupSlider (adsrParams_, releaseSlider_, "Release");
+    attachSlider (attackSlider_, attackAttachment_, "ATT");
+    attachSlider (decaySlider_, decayAttachment_, "DEC");
+    attachSlider (sustainSlider_, sustainAttachment_, "SUS");
+    attachSlider (releaseSlider_, releaseAttachment_, "REL");
 
+    // Filter Params
     addChildComponent (filterParams_);
     setupSlider (filterParams_, lowPassSlider_, "Low Pass",true,"Hz");
     lowPassSlider_->setOnDoubleClick([this](){
@@ -99,15 +114,17 @@ ParamView::ParamView(Ap_samplerAudioProcessor& p) : infoScreen_(p), processor (p
         processor.setFilterType (Ap_samplerAudioProcessor::FilterType::high_pass);
     });
     setupSlider (filterParams_, gainSlider_, "Gain", true, "dB");
-
-    attachSlider (attackSlider_, attackAttachment_, "ATT");
-    attachSlider (decaySlider_, decayAttachment_, "DEC");
-    attachSlider (sustainSlider_, sustainAttachment_, "SUS");
-    attachSlider (releaseSlider_, releaseAttachment_, "REL");
     attachSlider (lowPassSlider_, lowPassAttachment_, "LPF");
     attachSlider (bandPassSlider_, bandPassAttachment_, "BPF");
     attachSlider (highPassSlider_, highPassAttachment_, "HPF");
     attachSlider (gainSlider_, gainAttachment_, "VOL");
+
+    // miscParams
+    addChildComponent (miscParams_);
+    setupSlider (miscParams_, sampleRateSlider_, "Sample Rate", true, "Hz");
+    setupSlider (miscParams_, bitRateSlider_, "Bit Rate", true, "bits");
+    attachSlider (sampleRateSlider_, sarAttachment_, "SAR");
+    attachSlider (bitRateSlider_, brAttachment_, "BIT");
 }
 
 ParamView::~ParamView()
@@ -124,6 +141,7 @@ void ParamView::resized()
     infoScreen_.setBounds (rectTop);
     adsrParams_.setBounds (bounds);
     filterParams_.setBounds (bounds);
+    miscParams_.setBounds (bounds);
 
     Array<LabelSlider*> adsrSliders
         ({attackSlider_.get(), decaySlider_.get(), sustainSlider_.get(), releaseSlider_.get()});
@@ -132,6 +150,10 @@ void ParamView::resized()
     Array<LabelSlider*> filterSliders
             ({lowPassSlider_.get(), bandPassSlider_.get(), highPassSlider_.get(), gainSlider_.get()});
     filterParams_.layoutSliders (filterSliders);
+
+    Array<LabelSlider*> miscSliders
+            ({sampleRateSlider_.get(), bitRateSlider_.get()});
+    miscParams_.layoutSliders (miscSliders);
 }
 
 void ParamView::paint (Graphics& g)

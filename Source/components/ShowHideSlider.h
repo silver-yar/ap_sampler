@@ -28,6 +28,5 @@ public:
     std::function<void()> onDoubleClick = nullptr;
 
 private:
-    //LabelSlider::SliderState& state_;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ShowHideSlider)
 };

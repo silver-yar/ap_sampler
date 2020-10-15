@@ -16,12 +16,16 @@
 Ap_samplerAudioProcessorEditor::Ap_samplerAudioProcessorEditor (Ap_samplerAudioProcessor& p)
     : AudioProcessorEditor (&p),
       processor (p),
+      banner_ (p),
       sampleView_ (p),
       interfaceView_ (p),
       paramView_ (p)
 {
     auto min_width = 800;
     auto min_height = 500;
+
+    broadcaster_.addChangeListener (&banner_);
+    broadcaster_.addChangeListener (&sampleView_);
 
     setupFlexBoxes();
     setupFlexItems();
@@ -111,6 +115,7 @@ void Ap_samplerAudioProcessorEditor::filesDropped (const StringArray& files, int
         if (isInterestedInFileDrag(file))
         {
             processor.loadFile(file);
+            broadcaster_.sendChangeMessage();
         }
     }
 }

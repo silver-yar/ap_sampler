@@ -174,8 +174,12 @@ void Ap_samplerAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
         filterSample (channel, channelData, numSamples);
         gain_[channel].applyGain (channelData, numSamples);
 
-        for (int sample = 0; sample < numSamples; ++sample)
-            pushNextSampleIntoFifo (channelData[sample]);
+        for (int sample = 0; sample < numSamples; ++sample) {
+            auto dist = bitReduce (channelData[sample], bitRate_);
+
+            channelData[sample] = dist;
+            pushNextSampleIntoFifo(channelData[sample]);
+        }
     }
 }
 
@@ -235,6 +239,25 @@ void Ap_samplerAudioProcessor::pushNextSampleIntoFifo(float sample) {
     fifo_[fifoIndex_++] = sample;
 }
 
+float Ap_samplerAudioProcessor::bitReduce (float sample, int nBits)
+{
+    // Determine the desired number of possible amplitude values
+    auto ampValues = pow(2, nBits);
+    // Shrink the full-scale signal (-1 to 1, peak-to-peak)
+    // to fit within a range of 0 to 1
+    auto halfScale = 0.5 * sample + 0.5;
+    // Scale the signal to fit within the range of the possible values
+    auto scaleInput = ampValues * halfScale;
+    // Round the signal to the nearest integers
+    auto roundInput = roundToIntAccurate(scaleInput);
+    // Invert the scaling to fit the original range
+    auto prepOut = roundInput / ampValues;
+    // Fit in full-scale range
+    auto out = 2 * prepOut - 1;
+
+    return out;
+}
+
 void Ap_samplerAudioProcessor::loadFile (const String& path)
 {
     sampler_.clearSounds();
@@ -289,6 +312,9 @@ void Ap_samplerAudioProcessor::update() {
     auto highFreq = apvts.getRawParameterValue ("HPF") -> load();
     auto volume = apvts.getRawParameterValue ("VOL") -> load();
 
+    sampler_.setCurrentPlaybackSampleRate (apvts.getRawParameterValue ("SAR") -> load());
+    bitRate_ = apvts.getRawParameterValue ("BIT") -> load();;
+
     for (int channel = 0; channel < numChannels; ++channel) {
         lowPass_[channel].setCoefficients(
                 IIRCoefficients::makeLowPass (getSampleRate(), lowFreq));
@@ -341,7 +367,7 @@ AudioProcessorValueTreeState::ParameterLayout Ap_samplerAudioProcessor::createPa
     parameters.emplace_back (std::make_unique<AudioParameterFloat>(
             "DEC",
             "Decay",
-            NormalisableRange<float>(0.0f, 5.0f, 0.01f),
+            NormalisableRange<float>(1.0f, 5.0f, 0.01f),
             2.0f,
             "s",
             AudioProcessorParameter::genericParameter,
@@ -416,6 +442,30 @@ AudioProcessorValueTreeState::ParameterLayout Ap_samplerAudioProcessor::createPa
             NormalisableRange<float>(-40.0f, 40.0f, 0.01f),
             0.0f,
             "dB",
+            AudioProcessorParameter::genericParameter,
+            valueToTextFunction,
+            textToValueFunction
+    ));
+
+    // **Sample Rate Parameter** - in Hz
+    parameters.emplace_back (std::make_unique<AudioParameterFloat>(
+            "SAR",
+            "Sample Rate",
+            NormalisableRange<float>(0.0f, 88200.0f, 1.0f),
+            44100,
+            "dB",
+            AudioProcessorParameter::genericParameter,
+            valueToTextFunction,
+            textToValueFunction
+    ));
+
+    // **Bit Rate Parameter**
+    parameters.emplace_back (std::make_unique<AudioParameterFloat>(
+            "BIT",
+            "Bit Rate",
+            NormalisableRange<float>(1.0f, 16.0f, 1.0f),
+            16.0f,
+            "Bits",
             AudioProcessorParameter::genericParameter,
             valueToTextFunction,
             textToValueFunction

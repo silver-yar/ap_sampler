@@ -56,12 +56,14 @@ private:
     InfoScreen infoScreen_;
     ParamBlock adsrParams_;
     ParamBlock filterParams_;
+    ParamBlock miscParams_;
 
     std::unique_ptr<LabelSlider> attackSlider_, decaySlider_, sustainSlider_, releaseSlider_,
-                                lowPassSlider_, bandPassSlider_, highPassSlider_, gainSlider_;
+                                lowPassSlider_, bandPassSlider_, highPassSlider_, gainSlider_,
+                                sampleRateSlider_, bitRateSlider_;
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> attackAttachment_, decayAttachment_,
                                 sustainAttachment_, releaseAttachment_, lowPassAttachment_, bandPassAttachment_,
-                                highPassAttachment_, gainAttachment_;
+                                highPassAttachment_, gainAttachment_, sarAttachment_, brAttachment_;
 
     Ap_samplerAudioProcessor& processor;
 

@@ -10,10 +10,12 @@
 
 #include <JuceHeader.h>
 #include "ShowHideSlider.h"
+#include "../styling/PirateStyle.h"
 
 //==============================================================================
 ShowHideSlider::ShowHideSlider()
 {
+    setTextBoxIsEditable (true);
 }
 
 ShowHideSlider::~ShowHideSlider()

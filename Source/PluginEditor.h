@@ -45,6 +45,7 @@ public:
 private:
     // Objects
     Ap_samplerAudioProcessor& processor;
+    ChangeBroadcaster broadcaster_;
 
     // Components
     ScrollingBanner banner_;
