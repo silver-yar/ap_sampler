@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 #include "../PluginProcessor.h"
 #include "APButton.h"
+#include "AnimatedArrow.h"
 #include "../styling/PirateStyle.h"
 
 //==============================================================================
@@ -35,6 +36,7 @@ public:
     String group_label = "adsr_";
 private:
     APButton hideButton_;
+    AnimatedArrow nextGroupArrow_;
     Bezel bezel_;
     Glare glare_;
     std::unique_ptr<Font> myFont_;

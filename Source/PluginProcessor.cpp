@@ -10,6 +10,7 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "TrimSampler.h"
 
 //==============================================================================
 Ap_samplerAudioProcessor::Ap_samplerAudioProcessor()
@@ -17,25 +18,27 @@ Ap_samplerAudioProcessor::Ap_samplerAudioProcessor()
      : AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
                       #if ! JucePlugin_IsSynth
-                       .withInput  ("Input",  AudioChannelSet::stereo(), true)
+                       .withInput  ("Input",
+                                    getTotalNumInputChannels() > 1 ?
+                                    AudioChannelSet::stereo() : AudioChannelSet::mono(),
+                                    true)
                       #endif
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
                        )
 #endif
-, apvts(*this, nullptr, "Parameters", createParameters())
+, apvts (*this, nullptr, "Parameters", createParameters())
 {
     apvts.state.addListener (this);
     formatManager_.registerBasicFormats();
     for (int i = 0; i < numVoices_; i++)
     {
-        sampler_.addVoice(new SamplerVoice());
+        sampler_.addVoice(new TrimSamplerVoice());
     }
 }
 
 Ap_samplerAudioProcessor::~Ap_samplerAudioProcessor()
-{
-}
+= default;
 
 //==============================================================================
 const String Ap_samplerAudioProcessor::getName() const
@@ -148,20 +151,15 @@ void Ap_samplerAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuf
     auto totalNumOutputChannels = getTotalNumOutputChannels();
     auto numSamples = buffer.getNumSamples();
 
-    keystate_.processNextMidiBuffer(midiMessages, 0, numSamples, true);
+    keyState_.processNextMidiBuffer(midiMessages, 0, numSamples, true);
 
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    MidiMessage m;
-    MidiBuffer::Iterator  it { midiMessages };
-    int sample;
-
-    while (it.getNextEvent (m, sample))
-    {
-        if (m.isNoteOn())
+    for (auto messageData = midiMessages.begin(); messageData != midiMessages.end(); ++messageData) {
+        if ((*messageData).getMessage().isNoteOn())
             isPlayed_ = true;
-        else if (m.isNoteOff())
+        else if ((*messageData).getMessage().isNoteOff())
             isPlayed_ = false;
     }
 
@@ -274,7 +272,7 @@ void Ap_samplerAudioProcessor::loadFile (const String& path)
         BigInteger range;
         range.setRange(0,128,true);
 
-        sampler_.addSound(new SamplerSound(
+        sampler_.addSound(new TrimSamplerSound(
                 "Sample",
                 *formatReader,
                 range,
@@ -313,7 +311,13 @@ void Ap_samplerAudioProcessor::update() {
     auto volume = apvts.getRawParameterValue ("VOL") -> load();
 
     sampler_.setCurrentPlaybackSampleRate (apvts.getRawParameterValue ("SAR") -> load());
-    bitRate_ = apvts.getRawParameterValue ("BIT") -> load();;
+    bitRate_ = apvts.getRawParameterValue ("BIT") -> load();
+    for (int i = 0; i < numVoices_; i++) {
+        dynamic_cast<TrimSamplerVoice*>(sampler_.getVoice(i))->setTrimStart(
+                apvts.getRawParameterValue ("TST") -> load());
+        dynamic_cast<TrimSamplerVoice*>(sampler_.getVoice(i))->setTrimEnd(
+                apvts.getRawParameterValue ("TED") -> load());
+    }
 
     for (int channel = 0; channel < numChannels; ++channel) {
         lowPass_[channel].setCoefficients(
@@ -327,7 +331,7 @@ void Ap_samplerAudioProcessor::update() {
 
     for (auto i = 0; i < sampler_.getNumSounds(); ++i)
     {
-        if (auto sound = dynamic_cast<SamplerSound*>(sampler_.getSound(i).get())) {
+        if (auto sound = dynamic_cast<TrimSamplerSound*>(sampler_.getSound(i).get())) {
             sound->setEnvelopeParameters(adsrParams);
         }
     }
@@ -466,6 +470,30 @@ AudioProcessorValueTreeState::ParameterLayout Ap_samplerAudioProcessor::createPa
             NormalisableRange<float>(1.0f, 16.0f, 1.0f),
             16.0f,
             "Bits",
+            AudioProcessorParameter::genericParameter,
+            valueToTextFunction,
+            textToValueFunction
+    ));
+
+    // **Trim Start Parameter**
+    parameters.emplace_back (std::make_unique<AudioParameterFloat>(
+            "TST",
+            "Trim Start",
+            NormalisableRange<float>(0.0f, 1.0f, 0.001f),
+            0.0f,
+            "%",
+            AudioProcessorParameter::genericParameter,
+            valueToTextFunction,
+            textToValueFunction
+    ));
+
+    // **Trim End Parameter**
+    parameters.emplace_back (std::make_unique<AudioParameterFloat>(
+            "TED",
+            "Trim End",
+            NormalisableRange<float>(0.0f, 1.0f, 0.001f),
+            1.0f,
+            "%",
             AudioProcessorParameter::genericParameter,
             valueToTextFunction,
             textToValueFunction

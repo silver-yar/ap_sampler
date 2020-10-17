@@ -18,7 +18,8 @@ struct Fonts
         light,
         medium,
         regular,
-        bold
+        bold,
+        retro
     };
 
     static void setCustomFont (Poppins font_style, std::unique_ptr<Font>& myFont)
@@ -44,6 +45,10 @@ struct Fonts
                         Typeface::createSystemTypefaceFor(BinaryData::PoppinsBold_ttf,
                                                           BinaryData::PoppinsBold_ttfSize));
                 break;
+            case retro:
+                myFont = std::make_unique<Font> (
+                        Typeface::createSystemTypefaceFor(BinaryData::ConnectionIiiRj3W_otf,
+                                                          BinaryData::ConnectionIiiRj3W_otfSize));
             default:
                 break;
         }

@@ -60,10 +60,11 @@ private:
 
     std::unique_ptr<LabelSlider> attackSlider_, decaySlider_, sustainSlider_, releaseSlider_,
                                 lowPassSlider_, bandPassSlider_, highPassSlider_, gainSlider_,
-                                sampleRateSlider_, bitRateSlider_;
+                                sampleRateSlider_, bitRateSlider_, trimStartSlider_, trimEndSlider_;
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> attackAttachment_, decayAttachment_,
                                 sustainAttachment_, releaseAttachment_, lowPassAttachment_, bandPassAttachment_,
-                                highPassAttachment_, gainAttachment_, sarAttachment_, brAttachment_;
+                                highPassAttachment_, gainAttachment_, sarAttachment_, brAttachment_,
+                                trimStartAttachment_, trimEndAttachment_;
 
     Ap_samplerAudioProcessor& processor;
 

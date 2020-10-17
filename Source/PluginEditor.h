@@ -43,6 +43,30 @@ public:
     void filesDropped (const StringArray& files, int x, int y) override;
 
 private:
+    class SettingsButton : public Component {
+    public:
+        SettingsButton() {};
+        ~SettingsButton() {};
+
+        void paint (Graphics& g) override {
+            auto bounds = getLocalBounds();
+            auto top = bounds.removeFromTop(bounds.getHeight() * 0.15f);
+
+            g.fillAll (Colours::grey);
+            g.setColour (Colours::grey.darker(0.3f));
+            g.fillRect (top);
+        };
+        void resized() override
+        {
+
+        };
+        void mouseDown (const MouseEvent& e) override
+        {
+
+        };
+    private:
+
+    };
     // Objects
     Ap_samplerAudioProcessor& processor;
     ChangeBroadcaster broadcaster_;
@@ -52,6 +76,7 @@ private:
     SampleView sampleView_;
     InterfaceView interfaceView_;
     ParamView paramView_;
+    SettingsButton settingsButton_;
 
     // Styling
     FlexBox iFlexBox_, oFlexBox_; // Inner and outer flex boxes (respectively)

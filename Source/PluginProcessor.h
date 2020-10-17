@@ -21,7 +21,7 @@ class Ap_samplerAudioProcessor  : public AudioProcessor,
 public:
     //==============================================================================
     Ap_samplerAudioProcessor();
-    ~Ap_samplerAudioProcessor();
+    ~Ap_samplerAudioProcessor() override;
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -82,14 +82,13 @@ public:
     GroupName curr_group = GroupName::adsr;
 
     // Getters
-    MidiKeyboardState& getKeyboardState() { return keystate_; }
+    MidiKeyboardState& getKeyboardState() { return keyState_; }
     String& getFileName() { return fileName_; }
     AudioBuffer<float>& getWaveForm() { return waveform_; };
     std::atomic<int>& getSampleCount() { return sampleCount_; }
     FilterType getFilterType() { return filter_type; }
     float* getFFTData() { return fftData_; }
-    bool isFFTBlockReady() { return nextFFTBlockReady_; }
-    float getCurrSampleRate() { return getSampleRate(); }
+    bool isFFTBlockReady() const { return nextFFTBlockReady_; }
 
     // Setters
     void setFilterType (FilterType type) { filter_type = type; }
@@ -122,7 +121,7 @@ private:
     AudioBuffer<float> waveform_;
     AudioFormatManager formatManager_;
     String fileName_ { "" };
-    MidiKeyboardState keystate_;
+    MidiKeyboardState keyState_;
 
     // Filter Params
     IIRFilter lowPass_ [2];

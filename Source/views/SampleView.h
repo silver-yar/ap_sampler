@@ -35,6 +35,7 @@ public:
     void drawADSR (Graphics&);
     void drawAxis (Graphics&);
     void drawFilter (Graphics&);
+    void drawTrim (Graphics&);
     void timerCallback() override;
 
     void mouseDown (const MouseEvent& e) override;

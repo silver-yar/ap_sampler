@@ -47,6 +47,7 @@ void SampleView::resized()
 
 void SampleView::drawWaveform(Graphics& g)
 {
+    auto rBounds = getLocalBounds().reduced(4);
     auto waveform = processor.getWaveForm();
 
     if (waveform.getNumSamples() > 0)
@@ -55,7 +56,7 @@ void SampleView::drawWaveform(Graphics& g)
         Path p;
         audioPoints_.clear();
 
-        auto ratio = waveform.getNumSamples() / getWidth();
+        auto ratio = waveform.getNumSamples() / rBounds.getWidth();
         auto buffer = waveform.getReadPointer (0);
 
         //scale audio file to window on x axis
@@ -78,7 +79,7 @@ void SampleView::drawWaveform(Graphics& g)
 
         // Playhead
         auto playHeadPosition = jmap<int> (processor.getSampleCount(), 0,
-                                           waveform.getNumSamples(), 0, getWidth());
+                                           waveform.getNumSamples(), 8, rBounds.getWidth());
         g.setColour (Colour(0xffffc000));
         g.drawLine (playHeadPosition, 0, playHeadPosition, getHeight(), 4.0f);
         g.setColour (Colour(0xffffc000).withAlpha(0.2f));
@@ -86,7 +87,7 @@ void SampleView::drawWaveform(Graphics& g)
 
     } else {
         g.setColour (PirateColors::green2);
-        g.drawLine (0, getHeight() / 2, getWidth(), getHeight() / 2);
+        g.drawLine (0, getHeight() / 2, rBounds.getWidth(), getHeight() / 2);
     }
 }
 
@@ -304,6 +305,24 @@ void SampleView::drawFilter(Graphics &g) {
     }
 }
 
+void SampleView::drawTrim(Graphics &g)
+{
+    auto rBounds = getLocalBounds().reduced(4);
+    float tStart = jmap<float> (*processor.apvts.getRawParameterValue ("TST"), 0.0f, 1.0f,
+                          8.0f, rBounds.getWidth());
+    float tEnd = jmap<float> (*processor.apvts.getRawParameterValue ("TED"), 0.0f, 1.0f,
+                              rBounds.getWidth(), 0.0f);
+
+    g.setColour (Colours::black.withAlpha (0.4f));
+    g.fillRect (Rectangle<float> (0.0f, 0.0f, tStart, getHeight())); // tStart
+    g.fillRect (Rectangle<float> (rBounds.getWidth(), 0.0f, -tEnd, getHeight())); // tEnd
+    g.setColour (PirateColors::blue1);
+    g.drawLine(tStart,0.0f, tStart, getHeight(), 2.0f);
+
+    g.setColour (PirateColors::blue2);
+    g.drawLine (rBounds.getWidth() - tEnd,0.0f,rBounds.getWidth() - tEnd, getHeight(), 2.0f);
+}
+
 void SampleView::changeListenerCallback (ChangeBroadcaster *source)
 {
     using Group = Ap_samplerAudioProcessor::GroupName;
@@ -311,6 +330,7 @@ void SampleView::changeListenerCallback (ChangeBroadcaster *source)
         switch (processor.curr_group) {
             case Group::adsr: case Group::misc:
                 drawWaveform (g);
+                drawTrim (g);
                 if (!processor.hideEnv)
                     drawADSR (g);
                 spectrum_.setVisible (false);

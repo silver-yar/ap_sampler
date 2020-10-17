@@ -223,15 +223,14 @@ void PirateStyle::drawRotarySlider (Graphics& g, int x, int y, int width, int he
 void PirateStyle::drawLabel(Graphics& g, Label& label)
 {
     auto bounds = label.getLocalBounds();
-    g.setFont(*myFont_);
-    g.setFont (18.0f);
     g.setColour(PirateColors::green1);
     g.fillRect(bounds);
     g.setColour(PirateColors::green2);
     g.drawRect (bounds);
     drawBezel(g, label.getWidth(), label.getHeight(), 4);
     g.setColour(PirateColors::green2);
-    g.setFont(14.0f);
+    g.setFont(*myFont_);
+    g.setFont(18.0f);
     label.setJustificationType (Justification::centred);
     g.drawText(label.getText(), bounds, Justification::centred, true);
 }

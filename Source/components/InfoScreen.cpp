@@ -12,7 +12,6 @@
 #include "../PluginProcessor.h"
 #include "InfoScreen.h"
 #include "../styling/PirateColors.h"
-#include "../styling/PirateStyle.h"
 
 //==============================================================================
 InfoScreen::InfoScreen(Ap_samplerAudioProcessor& p) : hideButton_("Hide"), bezel_(8), glare_(4), processor (p)
@@ -21,6 +20,7 @@ InfoScreen::InfoScreen(Ap_samplerAudioProcessor& p) : hideButton_("Hide"), bezel
     hideButton_.setColour (ToggleButton::textColourId, PirateColors::green2);
     hideButton_.setColour (ToggleButton::tickColourId, PirateColors::green2);
     addAndMakeVisible (hideButton_);
+    addAndMakeVisible (nextGroupArrow_);
     hideButton_.onClick = [this]() {
         hideButton_.toggleButtonState();
         processor.hideEnv = !processor.hideEnv;
@@ -45,10 +45,14 @@ void InfoScreen::paint (Graphics& g)
 void InfoScreen::resized()
 {
     auto bounds = getLocalBounds();
-    bounds.removeFromLeft (getWidth() * 2 / 3);
+    auto arrowBounds = bounds.removeFromLeft (getWidth() * 2 / 3);
     bounds.reduce (10, 25);
+    arrowBounds.removeFromTop (getHeight() * 1 / 3);
+    arrowBounds.removeFromBottom(getHeight() * 1 / 3);
+    arrowBounds.removeFromLeft(getWidth() * 1 / 2.25);
 
     hideButton_.setBounds(bounds);
+    nextGroupArrow_.setBounds (arrowBounds);
     bezel_.setBounds (getLocalBounds());
     glare_.setBounds (getLocalBounds());
 

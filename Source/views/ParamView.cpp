@@ -123,8 +123,12 @@ ParamView::ParamView(Ap_samplerAudioProcessor& p) : infoScreen_(p), processor (p
     addChildComponent (miscParams_);
     setupSlider (miscParams_, sampleRateSlider_, "Sample Rate", true, "Hz");
     setupSlider (miscParams_, bitRateSlider_, "Bit Rate", true, "bits");
+    setupSlider (miscParams_, trimStartSlider_, "Trim Start", true, "-");
+    setupSlider (miscParams_, trimEndSlider_, "Trim End", true, "-");
     attachSlider (sampleRateSlider_, sarAttachment_, "SAR");
     attachSlider (bitRateSlider_, brAttachment_, "BIT");
+    attachSlider (trimStartSlider_, trimStartAttachment_, "TST");
+    attachSlider (trimEndSlider_, trimEndAttachment_, "TED");
 }
 
 ParamView::~ParamView()
@@ -152,7 +156,7 @@ void ParamView::resized()
     filterParams_.layoutSliders (filterSliders);
 
     Array<LabelSlider*> miscSliders
-            ({sampleRateSlider_.get(), bitRateSlider_.get()});
+            ({sampleRateSlider_.get(), bitRateSlider_.get(), trimStartSlider_.get(), trimEndSlider_.get()});
     miscParams_.layoutSliders (miscSliders);
 }
 

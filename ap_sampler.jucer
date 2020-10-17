@@ -5,6 +5,9 @@
   <MAINGROUP id="WcPIAn" name="ap_sampler">
     <GROUP id="{624DAB67-3BAF-750A-6955-EAC26B1EADCA}" name="Source">
       <GROUP id="{D51441C5-0DD5-A875-9C5E-BF46217605D0}" name="components">
+        <FILE id="AC6enX" name="AnimatedArrow.cpp" compile="1" resource="0"
+              file="Source/components/AnimatedArrow.cpp"/>
+        <FILE id="iE2DU7" name="AnimatedArrow.h" compile="0" resource="0" file="Source/components/AnimatedArrow.h"/>
         <FILE id="jWx93i" name="APButton.cpp" compile="1" resource="0" file="Source/components/APButton.cpp"/>
         <FILE id="y79QT3" name="APButton.h" compile="0" resource="0" file="Source/components/APButton.h"/>
         <FILE id="eysZk5" name="InfoScreen.cpp" compile="1" resource="0" file="Source/components/InfoScreen.cpp"/>
@@ -26,6 +29,8 @@
       </GROUP>
       <GROUP id="{9681B252-B4B6-FB94-A5B0-C2B39FAF347A}" name="styling">
         <GROUP id="{A1369B45-FFDC-2CCE-56A9-9DE766D49A70}" name="fonts">
+          <FILE id="rHyQ9i" name="ConnectionIii-Rj3W.otf" compile="0" resource="1"
+                file="Source/styling/fonts/ConnectionIii-Rj3W.otf"/>
           <FILE id="wyPia6" name="Poppins-Bold.ttf" compile="0" resource="1"
                 file="Source/styling/fonts/Poppins-Bold.ttf"/>
           <FILE id="Aokz5h" name="Poppins-Light.ttf" compile="0" resource="1"
@@ -48,6 +53,8 @@
         <FILE id="YlpVAt" name="SampleView.cpp" compile="1" resource="0" file="Source/views/SampleView.cpp"/>
         <FILE id="BABN96" name="SampleView.h" compile="0" resource="0" file="Source/views/SampleView.h"/>
       </GROUP>
+      <FILE id="kPtOPv" name="TrimSampler.cpp" compile="1" resource="0" file="Source/TrimSampler.cpp"/>
+      <FILE id="HKIOMI" name="TrimSampler.h" compile="0" resource="0" file="Source/TrimSampler.h"/>
       <FILE id="RzQRYZ" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="hugKRs" name="PluginProcessor.h" compile="0" resource="0"

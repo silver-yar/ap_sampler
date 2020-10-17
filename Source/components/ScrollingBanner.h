@@ -38,7 +38,7 @@ private:
 
     int index_ = 0;
     int x_, y_ = 0;
-    int textWidth_ = 150;
+    int textWidth_ = 250;
     String filename_ { "loading..."};
     std::vector<String> bannerMessages_ {filename_, "audio_pirate", "ap_sampler"};
     DrawableText scrollText_;
