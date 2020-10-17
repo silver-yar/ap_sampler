@@ -46,6 +46,7 @@ Ap_samplerAudioProcessorEditor::~Ap_samplerAudioProcessorEditor()
 void Ap_samplerAudioProcessorEditor::resized() {
     oFlexBox_.performLayout (getFlexBounds().reduced(15).toNearestInt());
     auto topBounds = Rectangle<int> (0,0,getWidth(), getHeight() * 0.15f);
+    topBounds.removeFromRight (getWidth() / 2);
     topBounds.reduce (20,20);
     banner_.setBounds (topBounds);
 }
