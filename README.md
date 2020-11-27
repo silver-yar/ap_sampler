@@ -6,6 +6,3 @@ ADSR envelope
 
 ![Sampler Image](Screenshots/filter.png "filter")
 Double-click to change filter type
-
-![Sampler Image](Screenshots/hide.png "show/hide envelope")
-Show / Hide adsr and filter envelopes
