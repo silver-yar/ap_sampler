@@ -466,7 +466,7 @@ AudioProcessorValueTreeState::ParameterLayout Ap_samplerAudioProcessor::createPa
     // **Bit Rate Parameter**
     parameters.emplace_back (std::make_unique<AudioParameterFloat>(
             "BIT",
-            "Bit Rate",
+            "Bit Depth",
             NormalisableRange<float>(1.0f, 16.0f, 1.0f),
             16.0f,
             "Bits",
