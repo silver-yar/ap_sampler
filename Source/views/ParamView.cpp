@@ -122,7 +122,7 @@ ParamView::ParamView(Ap_samplerAudioProcessor& p) : infoScreen_(p), processor (p
     // miscParams
     addChildComponent (miscParams_);
     setupSlider (miscParams_, sampleRateSlider_, "Sample Rate", true, "Hz");
-    setupSlider (miscParams_, bitRateSlider_, "Bit Rate", true, "bits");
+    setupSlider (miscParams_, bitRateSlider_, "Bit Depth", true, "bits");
     setupSlider (miscParams_, trimStartSlider_, "Trim Start", true, "-");
     setupSlider (miscParams_, trimEndSlider_, "Trim End", true, "-");
     attachSlider (sampleRateSlider_, sarAttachment_, "SAR");
